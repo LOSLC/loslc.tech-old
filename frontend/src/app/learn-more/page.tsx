@@ -165,14 +165,14 @@ export default function LearnMore() {
               </p>
             </div>
             <div className="relative">
-              <Card className="border-2 border-primary/20 overflow-hidden">
+              <Card className="p-0 m-0 border-2 border-primary/20 overflow-hidden">
                 <CardContent className="p-0">
                   <Image
                     src="/lmevent.png"
                     alt="LOSL-C community gathering"
                     width={600}
                     height={400}
-                    className="w-full h-auto object-cover"
+                    className="w-full h-auto object-cover rounded-sm"
                   />
                   <div className="p-6 bg-gradient-to-t from-background/95 to-transparent">
                     <p className="text-center text-muted-foreground">
