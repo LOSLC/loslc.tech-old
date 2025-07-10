@@ -13,7 +13,7 @@ export default function Home() {
   const aboutSectionRef = useRef<HTMLDivElement | null>(null);
 
   return (
-    <div className="bg-background h-screen">
+    <div className="bg-background min-h-[940px] h-screen">
       <div className="h-full">
         <Hero nextPageRef={aboutSectionRef} />
       </div>
