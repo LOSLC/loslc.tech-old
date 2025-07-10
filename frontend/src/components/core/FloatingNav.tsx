@@ -14,6 +14,7 @@ import {
   MessageCircle,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import ThemeSwitcher from "./miscellaneous/ThemeSwitcher";
 
 export default function FloatingNav() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -106,7 +107,7 @@ export default function FloatingNav() {
             })}
 
             {/* CTA Button */}
-            <div className="ml-1 pl-1 border-l border-white/20">
+            <div className="flex ml-1 pl-1 border-l border-white/20">
               <Link href="https://link.loslc.tech/discord" target="_blank">
                 <Button
                   size="sm"
@@ -128,6 +129,7 @@ export default function FloatingNav() {
                   </span>
                 </Button>
               </Link>
+              <ThemeSwitcher />
             </div>
           </div>
         </div>
@@ -141,7 +143,7 @@ export default function FloatingNav() {
           pathname === "/"
             ? isVisible
               ? "top-4 right-4 opacity-100"
-              : "top-4 right-4 opacity-50"
+              : "top-4 right-4 opacity-100"
             : "top-4 right-4 opacity-100"
         }
       `}
@@ -171,10 +173,13 @@ export default function FloatingNav() {
             backdrop-blur-xl bg-white/10 dark:bg-black/10
             border border-white/20 dark:border-white/10
             rounded-2xl shadow-2xl shadow-black/10
-            p-3 space-y-1
-            animate-in slide-in-from-top-5 fade-in duration-200
+            p-3 space-y-1 flex flex-col
+            animate-in gap-2 slide-in-from-top-5 fade-in duration-200
           "
           >
+            <div>
+              <ThemeSwitcher />
+            </div>
             {navItems.map((item) => {
               const Icon = item.icon;
               return (
