@@ -9,8 +9,6 @@ import {
   Target,
   Shield,
   FileText,
-  Menu,
-  X,
   MessageCircle,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -18,14 +16,21 @@ import ThemeSwitcher from "./miscellaneous/ThemeSwitcher";
 
 export default function FloatingNav() {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const [isAtBottom, setIsAtBottom] = useState(false);
   const pathname = usePathname();
 
   useEffect(() => {
     const handleScroll = () => {
       const scrollY = window.scrollY;
+      const windowHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
+      
       setIsScrolled(scrollY > 50);
+      
+      // Check if user is at the bottom of the page (within 100px)
+      const isNearBottom = scrollY + windowHeight >= documentHeight - 100;
+      setIsAtBottom(isNearBottom);
 
       // Show nav after scrolling a bit to avoid overlap with hero content
       if (pathname === "/") {
@@ -53,6 +58,11 @@ export default function FloatingNav() {
   ];
 
   const isActive = (href: string) => pathname === href;
+
+  const getCurrentPageName = () => {
+    const currentItem = navItems.find(item => item.href === pathname);
+    return currentItem ? currentItem.label : 'Home';
+  };
 
   return (
     <>
@@ -138,112 +148,91 @@ export default function FloatingNav() {
       {/* Mobile Navigation */}
       <nav
         className={`
-        fixed z-50 md:hidden transition-all duration-500 ease-in-out
-        top-4 right-4 opacity-100
-        ${
-          pathname === "/"
-            ? isVisible
-              ? "opacity-100"
-              : "opacity-100"
-            : "opacity-100"
-        }
+        fixed left-1/2 -translate-x-1/2 z-50 
+        transition-all duration-500 ease-in-out md:hidden
+        ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none"}
+        ${isAtBottom ? "top-4" : isScrolled ? "bottom-4" : "bottom-6"}
       `}
       >
-        <Button
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          className="
-            w-12 h-12 rounded-full backdrop-blur-xl border border-primary
-            bg-white/10 dark:bg-black/10
-            dark:border-white/10
-            shadow-2xl shadow-black/5
-            hover:scale-105 transition-all duration-200
-          "
+        <div
+          className={`
+          px-2 py-1.5 rounded-full backdrop-blur-xl
+          bg-white/10 dark:bg-black/10
+          border border-primary/40
+          shadow-2xl shadow-black/5
+          transition-all duration-300
+          ${isScrolled ? "scale-95 px-1.5 py-1" : "scale-100"}
+        `}
         >
-          {isMobileMenuOpen ? (
-            <X className="w-5 h-5 stroke-foreground" />
-          ) : (
-            <Menu className="w-5 h-5 stroke-foreground" />
-          )}
-        </Button>
-
-        {/* Mobile Menu */}
-        {isMobileMenuOpen && (
-          <div
-            className="
-            absolute top-16 right-0 w-56 sm:w-64
-            max-h-[80vh] overflow-y-auto
-            backdrop-blur-xl bg-white/10 dark:bg-black/10
-            border border-white/20 dark:border-white/10
-            rounded-2xl shadow-2xl shadow-black/10
-            p-3 flex flex-col gap-2
-            animate-in slide-in-from-top-5 fade-in duration-200
-            origin-top-right
-            min-w-0 max-w-[calc(100vw-2rem)]
-          "
-          >
-            <div>
-              <ThemeSwitcher />
-            </div>
+          <div className="flex items-center space-x-0.5 sm:space-x-1">
             {navItems.map((item) => {
               const Icon = item.icon;
+              const isCurrentPage = isActive(item.href);
               return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
+                <Link key={item.href} href={item.href}>
                   <Button
                     variant="ghost"
+                    size="sm"
                     className={`
-                      w-full justify-start px-3 py-2.5 rounded-xl text-sm font-medium
+                      rounded-full text-xs font-medium
                       backdrop-blur-sm transition-all duration-200
-                      hover:scale-[1.02] hover:shadow-md
+                      hover:scale-105 hover:shadow-lg
+                      ${isScrolled 
+                        ? "px-1 py-0.5 min-w-[28px] h-7" 
+                        : "px-1.5 py-1 min-w-[32px] h-8"
+                      }
                       ${
-                        isActive(item.href)
-                          ? "bg-primary/20 text-primary border border-primary/30"
-                          : "bg-white/5 hover:bg-white/10 text-foreground/80 hover:text-foreground"
+                        isCurrentPage
+                          ? "bg-primary/20 text-primary border border-primary/30 shadow-lg shadow-primary/20"
+                          : "bg-white/5 hover:bg-white/10 text-foreground/80 hover:text-foreground border border-transparent"
                       }
                     `}
                   >
-                    <Icon className="w-4 h-4 mr-3" />
-                    {item.label}
+                    <Icon
+                      className={`${isScrolled ? "w-3 h-3" : "w-3.5 h-3.5"} ${isCurrentPage ? "mr-1" : ""}`}
+                    />
+                    <span className={`${isCurrentPage ? "inline" : "hidden"} text-xs whitespace-nowrap`}>
+                      {item.label}
+                    </span>
                   </Button>
                 </Link>
               );
             })}
 
-            {/* Mobile CTA */}
-            <div className="pt-2 mt-2 border-t border-white/20">
-              <Link
-                href="https://discord.gg/losl-c"
-                target="_blank"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
+            {/* Mobile CTA Button */}
+            <div className="flex ml-0.5 pl-0.5 border-l border-white/20">
+              <Link href="https://link.loslc.tech/discord" target="_blank">
                 <Button
-                  className="
-                  w-full px-3 py-2.5 rounded-xl text-sm font-medium
-                  bg-gradient-to-r from-primary to-secondary
-                  hover:from-primary/90 hover:to-secondary/90
-                  text-white border-0 shadow-lg shadow-primary/30
-                  hover:scale-[1.02] transition-all duration-200
-                "
+                  size="sm"
+                  className={`
+                    rounded-full font-medium
+                    bg-gradient-to-r from-primary to-secondary
+                    hover:from-primary/90 hover:to-secondary/90
+                    text-white border-0 shadow-lg shadow-primary/30
+                    hover:scale-105 transition-all duration-200
+                    backdrop-blur-sm
+                    ${isScrolled 
+                      ? "px-1 py-0.5 min-w-[28px] h-7" 
+                      : "px-1.5 py-1 min-w-[32px] h-8"
+                    }
+                  `}
                 >
-                  <MessageCircle className="w-4 h-4 mr-3" />
-                  Join Discord
+                  <MessageCircle
+                    className={`${isScrolled ? "w-3 h-3" : "w-3.5 h-3.5"}`}
+                  />
+                  <span className="hidden sm:inline ml-1 text-xs">
+                    Join
+                  </span>
                 </Button>
               </Link>
+              <div className="ml-0.5">
+                <ThemeSwitcher />
+              </div>
             </div>
           </div>
-        )}
+        </div>
       </nav>
 
-      {/* Mobile menu backdrop */}
-      {isMobileMenuOpen && (
-        <div
-          className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40 md:hidden"
-          onClick={() => setIsMobileMenuOpen(false)}
-        />
-      )}
     </>
   );
 }
