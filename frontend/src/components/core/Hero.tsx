@@ -19,7 +19,7 @@ interface HeroProps {
 
 export default function Hero({ nextPageRef }: HeroProps) {
   return (
-    <div className="relative flex flex-col h-full w-full justify-center items-center overflow-hidden bg-gradient-to-br from-background via-background to-muted/30">
+    <div className="relative flex flex-col h-full w-full justify-between items-center overflow-hidden bg-gradient-to-br from-background via-background to-muted/30">
       {/* Background decorative elements */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute top-20 left-20 w-32 h-32 rounded-full bg-primary motion-preset-spin motion-duration-[20s]"></div>
@@ -30,9 +30,8 @@ export default function Hero({ nextPageRef }: HeroProps) {
         <div className="absolute top-1/3 right-64 text-5xl opacity-10 font-mono">{`</>`}</div>
       </div>
 
-      {/* Illustrations positioned strategically and responsively */}
+      {/* Illustrations */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {/* Creativity illustration - positioned top right, hidden on smallest screens */}
         <div className="absolute -top-4 -right-4 md:top-10 md:-right-10 lg:top-20 lg:-right-5 w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 opacity-50 md:opacity-70 hidden xs:block transform -rotate-12">
           <Image
             src="/illustrations/creativity.svg"
@@ -42,7 +41,6 @@ export default function Hero({ nextPageRef }: HeroProps) {
           />
         </div>
 
-        {/* Ideas illustration - positioned bottom left, hidden on small screens */}
         <div className="absolute -bottom-10 -left-10 md:-bottom-5 md:-left-5 w-40 h-40 md:w-48 md:h-48 opacity-50 md:opacity-70 hidden sm:block transform rotate-12">
           <Image
             src="/illustrations/ideas.svg"
@@ -52,7 +50,6 @@ export default function Hero({ nextPageRef }: HeroProps) {
           />
         </div>
 
-        {/* Aha illustration - smaller and shown on bottom right on larger screens */}
         <div className="absolute bottom-20 -right-10 w-32 h-32 md:w-40 md:h-40 opacity-50 md:opacity-70 hidden md:block transform -rotate-6">
           <Image
             src="/illustrations/aha.svg"
@@ -63,20 +60,17 @@ export default function Hero({ nextPageRef }: HeroProps) {
         </div>
       </div>
 
-      {/* Main content container with improved padding for small screens */}
-      <div className="relative z-10 p-4 sm:p-6 flex flex-col w-full md:w-10/12 lg:w-8/12 text-center">
-        {/* Tech community badge - made responsive */}
+      <div className="relative mt-10 z-10 p-4 sm:p-6 flex flex-col w-full md:w-10/12 lg:w-8/12 text-center">
         <div className="mb-4 sm:mb-6 cursor-default">
           <span className="inline-flex items-center gap-1 sm:gap-1.5 px-3 sm:px-4 py-1 sm:py-1.5 rounded-full bg-primary/10 text-primary text-xs sm:text-sm font-medium border border-primary/20">
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
             </span>
-            Linux, Open-Source & Cybersecurity Community
+            Linux & Open-Source Lovers Community
           </span>
         </div>
 
-        {/* Logo section - reduced size and spacing on mobile */}
         <div className="flex justify-center mb-6 sm:mb-8 relative">
           <div className="absolute -inset-6 sm:-inset-8 opacity-20">
             {[...Array(9)].map((_, i) => (
@@ -121,7 +115,6 @@ export default function Hero({ nextPageRef }: HeroProps) {
           </div>
         </div>
 
-        {/* Heading with better text wrapping and responsive font sizes */}
         <div className="motion-preset-slide-up motion-delay-300 cursor-default">
           <h1 className="text-foreground text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight relative block mb-2 sm:mb-4 leading-tight">
             Code Your <span className="text-primary">Future</span>
@@ -136,15 +129,14 @@ export default function Hero({ nextPageRef }: HeroProps) {
           </h1>
         </div>
 
-        {/* Subheadline with better font size control */}
         <div className="motion-preset-slide-up motion-delay-400 mb-6 sm:mb-8">
           <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed px-2">
-            Empowering young African developers through mentorship, cybersecurity training, 
-            open-source projects, and a supportive tech community.
+            Empowering young African developers through mentorship,
+            cybersecurity training, open-source projects, and a supportive tech
+            community.
           </p>
         </div>
 
-        {/* Key features - stack vertically on smallest screens */}
         <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-3 mb-6 sm:mb-8 motion-preset-slide-up motion-delay-500">
           {[
             {
@@ -170,7 +162,6 @@ export default function Hero({ nextPageRef }: HeroProps) {
           ))}
         </div>
 
-        {/* CTA buttons with better sizing for small screens */}
         <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center motion-preset-slide-up motion-delay-600">
           <Link href={"https://link.loslc.tech/be-speaker"}>
             <Button
@@ -193,7 +184,6 @@ export default function Hero({ nextPageRef }: HeroProps) {
           </Link>
         </div>
 
-        {/* Trust indicators - stack vertically on smallest screens */}
         <div className="flex flex-wrap justify-center gap-x-4 sm:gap-x-8 gap-y-2 sm:gap-y-4 mt-6 sm:mt-10 text-muted-foreground text-xs sm:text-sm motion-preset-slide-up motion-delay-700">
           <div className="flex items-center gap-1 sm:gap-2 select-none">
             <Users className="w-3 h-3 sm:w-4 sm:h-4" />
@@ -210,12 +200,11 @@ export default function Hero({ nextPageRef }: HeroProps) {
         </div>
       </div>
 
-      {/* Scroll button - better positioning and sizing */}
       <Button
         onClick={() => {
           nextPageRef?.current?.scrollIntoView({ behavior: "smooth" });
         }}
-        className="w-7 h-7 z-20 shadow-lg motion-preset-oscillate motion-duration-2000 hover:scale-110 transition-all duration-200"
+        className="w-7 h-7 mb-3 z-20 shadow-lg motion-preset-oscillate motion-duration-2000 hover:scale-110 transition-all duration-200"
         aria-label="Scroll down"
       >
         <MoveDown className="w-4 h-4 sm:w-6 sm:h-6" />
