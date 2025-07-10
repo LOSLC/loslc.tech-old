@@ -13,9 +13,10 @@ export default function CallToAction() {
               Ready to Join Our Community?
             </h2>
             <p className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto">
-              Whether you&apos;re a seasoned Linux expert, cybersecurity enthusiast, or just starting your
-              open-source journey, there&apos;s a place for you in our
-              community. Let&apos;s build a secure technological future together!
+              Whether you&apos;re a seasoned Linux expert, cybersecurity
+              enthusiast, or just starting your open-source journey,
+              there&apos;s a place for you in our community. Let&apos;s build a
+              secure technological future together!
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
@@ -48,7 +49,7 @@ export default function CallToAction() {
               </Link>
 
               <Link
-                href={"https://github.com/LOSLC"}
+                href={"https://link.loslc.tech/be-speaker"}
                 className={`${buttonVariants({ variant: "outline", size: "lg" })} group px-6 py-4 hover:scale-105 transition-all duration-200`}
               >
                 <Mic className="mr-2 h-5 w-5" />
