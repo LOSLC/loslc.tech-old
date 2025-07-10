@@ -4,6 +4,7 @@ import FloatingNav from "@/components/core/FloatingNav";
 import { ThemeProvider } from "@/components/core/providers/ThemeProvider";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://loslc.tech"),
   title: "LOSL-C - Linux, Open-Source & Cybersecurity Community",
   description: `We're a thriving community of Linux, Open-Source, and Cybersecurity enthusiasts based in Togo (Africa).
      Our goal is to promote technological advancement across the continent through Open-Source software,

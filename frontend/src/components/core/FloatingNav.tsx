@@ -139,12 +139,13 @@ export default function FloatingNav() {
       <nav
         className={`
         fixed z-50 md:hidden transition-all duration-500 ease-in-out
+        top-4 right-4 opacity-100
         ${
           pathname === "/"
             ? isVisible
-              ? "top-4 right-4 opacity-100"
-              : "top-4 right-4 opacity-100"
-            : "top-4 right-4 opacity-100"
+              ? "opacity-100"
+              : "opacity-100"
+            : "opacity-100"
         }
       `}
       >
@@ -174,8 +175,10 @@ export default function FloatingNav() {
             backdrop-blur-xl bg-white/10 dark:bg-black/10
             border border-white/20 dark:border-white/10
             rounded-2xl shadow-2xl shadow-black/10
-            p-3 space-y-1 flex flex-col
-            animate-in gap-2 slide-in-from-top-5 fade-in duration-200
+            p-3 flex flex-col gap-2
+            animate-in slide-in-from-top-5 fade-in duration-200
+            origin-top-right
+            min-w-0 max-w-[calc(100vw-2rem)]
           "
           >
             <div>
