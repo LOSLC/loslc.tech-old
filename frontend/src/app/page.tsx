@@ -14,7 +14,7 @@ export default function Home() {
 
   return (
     <div className="bg-background min-h-[940px] h-screen">
-      <div className="h-full">
+      <div>
         <Hero nextPageRef={aboutSectionRef} />
       </div>
       <AboutSection ref={aboutSectionRef} />
