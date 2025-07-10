@@ -170,6 +170,7 @@ export default function FloatingNav() {
           <div
             className="
             absolute top-16 right-0 w-56 sm:w-64
+            max-h-[80vh] overflow-y-auto
             backdrop-blur-xl bg-white/10 dark:bg-black/10
             border border-white/20 dark:border-white/10
             rounded-2xl shadow-2xl shadow-black/10
