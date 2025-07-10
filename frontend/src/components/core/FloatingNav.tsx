@@ -59,11 +59,6 @@ export default function FloatingNav() {
 
   const isActive = (href: string) => pathname === href;
 
-  const getCurrentPageName = () => {
-    const currentItem = navItems.find(item => item.href === pathname);
-    return currentItem ? currentItem.label : 'Home';
-  };
-
   return (
     <>
       {/* Desktop Navigation */}
