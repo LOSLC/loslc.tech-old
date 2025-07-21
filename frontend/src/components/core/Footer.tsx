@@ -6,6 +6,7 @@ import {
   MessageCircle,
   Mail,
   Heart,
+  MapPin,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -89,6 +90,7 @@ export default function Footer() {
             <nav className="flex flex-col space-y-2">
               {quickLinks.map((link, index) => (
                 <a
+                  target="_blank"
                   key={index}
                   href={link.href}
                   className="text-muted-foreground hover:text-primary transition-colors duration-200"
@@ -118,7 +120,7 @@ export default function Footer() {
                 </Link>
               </div>
               <div className="flex items-center space-x-3 text-muted-foreground">
-                <span className="text-primary">📍</span>
+                <MapPin className="w-5 h-5 text-primary" />
                 <span className="cursor-default">Lomé, Togo</span>
               </div>
             </div>
