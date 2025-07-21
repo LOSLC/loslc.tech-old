@@ -1,5 +1,6 @@
 "use client";
 
+import Footer from "@/components/core/Footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -379,6 +380,7 @@ export default function LearnMore() {
           </Card>
         </div>
       </section>
+      <Footer />
     </div>
   );
 }

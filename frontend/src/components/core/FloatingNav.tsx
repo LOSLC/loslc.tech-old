@@ -25,9 +25,9 @@ export default function FloatingNav() {
       const scrollY = window.scrollY;
       const windowHeight = window.innerHeight;
       const documentHeight = document.documentElement.scrollHeight;
-      
+
       setIsScrolled(scrollY > 50);
-      
+
       // Check if user is at the bottom of the page (within 100px)
       const isNearBottom = scrollY + windowHeight >= documentHeight - 100;
       setIsAtBottom(isNearBottom);
@@ -93,10 +93,9 @@ export default function FloatingNav() {
                       backdrop-blur-sm transition-all duration-200
                       hover:scale-105 hover:shadow-lg
                       ${isScrolled ? "px-2 py-1 text-xs" : "px-3 py-1.5 text-sm"}
-                      ${
-                        isActive(item.href)
-                          ? "bg-primary/20 text-primary border border-primary/30 shadow-lg shadow-primary/20"
-                          : "bg-white/5 hover:bg-white/10 text-foreground/80 hover:text-foreground border border-transparent"
+                      ${isActive(item.href)
+                        ? "bg-primary/20 text-primary border border-primary/30 shadow-lg shadow-primary/20"
+                        : "bg-white/5 hover:bg-white/10 text-foreground/80 hover:text-foreground border border-transparent"
                       }
                     `}
                   >
@@ -116,8 +115,7 @@ export default function FloatingNav() {
               <Link href="https://link.loslc.tech/discord" target="_blank">
                 <Button
                   size="sm"
-                  className={`
-                    rounded-full font-medium
+                  className={`rounded-full font-medium
                     bg-gradient-to-r from-primary to-secondary
                     hover:from-primary/90 hover:to-secondary/90
                     text-white border-0 shadow-lg shadow-primary/30
@@ -172,14 +170,13 @@ export default function FloatingNav() {
                       rounded-full text-xs font-medium
                       backdrop-blur-sm transition-all duration-200
                       hover:scale-105 hover:shadow-lg
-                      ${isScrolled 
-                        ? "px-1 py-0.5 min-w-[28px] h-7" 
+                      ${isScrolled
+                        ? "px-1 py-0.5 min-w-[28px] h-7"
                         : "px-1.5 py-1 min-w-[32px] h-8"
                       }
-                      ${
-                        isCurrentPage
-                          ? "bg-primary/20 text-primary border border-primary/30 shadow-lg shadow-primary/20"
-                          : "bg-white/5 hover:bg-white/10 text-foreground/80 hover:text-foreground border border-transparent"
+                      ${isCurrentPage
+                        ? "bg-primary/20 text-primary border border-primary/30 shadow-lg shadow-primary/20"
+                        : "bg-white/5 hover:bg-white/10 text-foreground/80 hover:text-foreground border border-transparent"
                       }
                     `}
                   >
@@ -206,8 +203,8 @@ export default function FloatingNav() {
                     text-white border-0 shadow-lg shadow-primary/30
                     hover:scale-105 transition-all duration-200
                     backdrop-blur-sm
-                    ${isScrolled 
-                      ? "px-1 py-0.5 min-w-[28px] h-7" 
+                    ${isScrolled
+                      ? "px-1 py-0.5 min-w-[28px] h-7"
                       : "px-1.5 py-1 min-w-[32px] h-8"
                     }
                   `}
