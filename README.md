@@ -323,19 +323,6 @@ export interface PaginatedResponse<T> {
 }
 ```
 
-#### **Validation & Security**
-DTOs enable proper input validation:
-
-```typescript
-// Example with validation
-export interface CreateUserRequest {
-  email: string;        // Must be valid email
-  password: string;     // Min 8 chars, complexity rules
-  fullname: string;     // Required, max 255 chars
-  role?: string;        // Optional, enum validation
-}
-```
-
 ### 🔄 Development Commands
 
 #### Backend Development
@@ -476,17 +463,6 @@ The application uses a comprehensive database schema with:
 - **Secure Password Handling** - Bcrypt hashing
 - **Session Expiration** - Configurable session timeouts
 
-### Permission System
-
-```typescript
-// Example permission check
-const canEditPost = await checkPermission(user, {
-  resource: "posts",
-  resourceId: "123",
-  action: "edit"
-});
-```
-
 ## 🐳 Docker Configuration
 
 ### Services
@@ -546,23 +522,6 @@ DATABASE_URL=postgresql://username:password@localhost:5432/database
 NEXT_PUBLIC_API_URL=http://localhost:8000/api/v1
 ```
 
-## 📚 API Documentation
-
-### Base URL
-
-- Development: `http://localhost:8000/api/v1`
-- Production: `https://api.loslc.tech/api/v1`
-
-### Available Endpoints
-
-```
-GET    /api/v1/hello-world     # Test endpoint
-POST   /api/v1/auth/login      # User authentication
-POST   /api/v1/auth/register   # User registration
-GET    /api/v1/users/profile   # User profile
-...
-```
-
 ## 🎨 Frontend Components
 
 ### Core Components
@@ -587,20 +546,12 @@ GET    /api/v1/users/profile   # User profile
 ```bash
 # Backend
 cd backend
-bun run build
 bun run start
 
 # Frontend
 cd frontend
 bun run build
 bun run start
-```
-
-### Docker Production
-
-```bash
-# Build and start production containers
-docker-compose -f docker-compose.prod.yml up -d
 ```
 
 ## 📊 Technology Stack
@@ -621,7 +572,6 @@ docker-compose -f docker-compose.prod.yml up -d
 ### DevOps
 - **Containerization**: Docker & Docker Compose
 - **Database**: PostgreSQL
-- **Reverse Proxy**: Nginx (production)
 
 ## 🤝 Contributing
 
@@ -697,4 +647,4 @@ For support and questions:
 
 ---
 
-**Built with ❤️ by the LOSLC Team**
+**Built with ❤️ by the LOSLC Dev Team**
