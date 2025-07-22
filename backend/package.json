@@ -1,7 +1,15 @@
 {
   "name": "loslc-backend",
-  "module": "src/index.ts",
+  "module": "src/main.ts",
   "type": "module",
+  "scripts": {
+    "start": "bun run src/main.ts",
+    "dev": "bun run --watch src/main.ts",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:push": "drizzle-kit push",
+    "db:studio": "drizzle-kit studio"
+  },
   "devDependencies": {
     "@types/bun": "latest",
     "@types/pg": "^8.15.4",
@@ -12,8 +20,15 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
+    "@electric-sql/pglite": "^0.3.5",
+    "@types/dotenv": "^8.2.3",
+    "@types/express": "^5.0.3",
+    "date-fns": "^4.1.0",
     "dotenv": "^17.2.0",
     "drizzle-orm": "^0.44.3",
-    "pg": "^8.16.3"
+    "express": "^5.1.0",
+    "pg": "^8.16.3",
+    "postgres": "^3.4.7",
+    "uuid": "^11.1.0"
   }
 }
