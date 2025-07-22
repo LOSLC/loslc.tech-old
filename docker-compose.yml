@@ -12,6 +12,11 @@ services:
       - "${BACKEND_PORT}:8000"
     environment:
       - DATABASE_URL=${DATABASE_URL}
+      - FRONTEND_PORT=${FRONTEND_PORT}
+      - BACKEND_PORT=${BACKEND_PORT}
+      - PG_USER=${PG_USER}
+      - PG_PASSWORD=${PG_PASSWORD}
+      - PG_DB=${PG_DB}
     depends_on:
       - db
 
