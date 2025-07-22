@@ -1,14 +1,16 @@
+import { randId } from "@/core/utils/crypto";
 import {
   boolean,
   pgTable,
   timestamp,
-  uuid,
   varchar,
 } from "drizzle-orm/pg-core";
-import { randId } from "@/core/utils/crypto";
 
-const userTable = pgTable("users", {
-  id: uuid("id").primaryKey().notNull().defaultRandom(),
+export const usersTable = pgTable("users", {
+  id: varchar("id")
+    .primaryKey()
+    .notNull()
+    .$defaultFn(() => randId(20)),
   fullname: varchar("fullname", { length: 255 }).notNull(),
   username: varchar("username", { length: 255 }).notNull().unique(),
   email: varchar("email", { length: 255 }).notNull().unique(),
@@ -18,10 +20,6 @@ const userTable = pgTable("users", {
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });
 
-const loginSessionsTable = pgTable("login_sessions", {
-  id: varchar("id")
-    .primaryKey()
-    .notNull()
-    .$defaultFn(() => randId(50)),
-  userId: uuid("user_id").references()
-});
+
+export type User = typeof usersTable.$inferSelect;
+export type NewUser = typeof usersTable.$inferInsert;
