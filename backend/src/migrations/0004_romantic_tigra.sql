@@ -1,0 +1,1 @@
+ALTER TABLE "permissions" DROP CONSTRAINT "permissions_name_unique";

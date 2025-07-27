@@ -8,6 +8,55 @@
       "when": 1753142169178,
       "tag": "0000_unusual_the_santerians",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1753530775887,
+      "tag": "0001_whole_talisman",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1753543146163,
+      "tag": "0002_flaky_spot",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1753543538102,
+      "tag": "0003_wild_hydra",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1753544212198,
+      "tag": "0004_romantic_tigra",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1753572899311,
+      "tag": "0005_nappy_roxanne_simpson",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1753573085960,
+      "tag": "0006_petite_spectrum",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1753573707114,
+      "tag": "0007_narrow_miss_america",
+      "breakpoints": true
     }
   ]
 }
