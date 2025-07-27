@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import FloatingNav from "@/components/core/FloatingNav";
 import { ThemeProvider } from "@/components/core/providers/ThemeProvider";
+import { AuthProvider } from "@/hooks/useAuth";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://loslc.tech"),
@@ -59,8 +60,10 @@ export default function RootLayout({
     <html lang="en">
       <body className="bg-background text-foreground">
         <ThemeProvider attribute={"class"} defaultTheme="dark" enableSystem>
-          <FloatingNav />
-          {children}
+          <AuthProvider>
+            <FloatingNav />
+            {children}
+          </AuthProvider>
         </ThemeProvider>
       </body>
     </html>
