@@ -12,7 +12,7 @@ export const rolesTable = pgTable("roles", {
     .$defaultFn(() => randId(20))
     .primaryKey()
     .notNull(),
-  name: varchar("name").unique(),
+  name: varchar("name"),
   description: varchar("description", { length: 255 }),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
@@ -22,7 +22,7 @@ export const permissionsTable = pgTable("permissions", {
     .$defaultFn(() => randId(20))
     .primaryKey()
     .notNull(),
-  name: varchar("name").unique(),
+  name: varchar("name"),
   resource: varchar("resource").notNull(),
   resourceId: varchar("resource_id"),
   action: varchar("actions").notNull(),
@@ -32,19 +32,19 @@ export const permissionsTable = pgTable("permissions", {
 
 export const usersRolesTable = pgTable("users_roles", {
   userId: varchar("user_id")
-    .references((): AnyPgColumn => usersTable.id)
+    .references((): AnyPgColumn => usersTable.id, { onDelete: "cascade" })
     .notNull(),
   roleId: varchar("role_id")
-    .references((): AnyPgColumn => rolesTable.id)
+    .references((): AnyPgColumn => rolesTable.id, { onDelete: "cascade" })
     .notNull(),
 });
 
 export const rolesPermissionsTable = pgTable("roles_permissions", {
   roleId: varchar("role_id")
-    .references((): AnyPgColumn => rolesTable.id)
+    .references((): AnyPgColumn => rolesTable.id, { onDelete: "cascade" })
     .notNull(),
   permissionId: varchar("permission_id")
-    .references((): AnyPgColumn => permissionsTable.id)
+    .references((): AnyPgColumn => permissionsTable.id, { onDelete: "cascade" })
     .notNull(),
 });
 

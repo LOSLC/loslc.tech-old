@@ -5,24 +5,57 @@ import {
   type Role,
 } from "../db/schema/security";
 import { and, eq } from "drizzle-orm";
+import { db } from "../db/db";
+import { safeQuery } from "@/api/v1/middleware/drizzle";
 
-type BypassRoleName = "admin" | "superadmin"
+export type Resource =
+  | "blogPost"
+  | "user"
+  | "blogPostComment"
+  | "blogPostTag"
+  | "blogPostCategory"
+  | "adminAction";
+
+type BypassRoleName = "admin" | "superadmin";
+
+export type Action = "rw" | "r";
+
+export const bypassRoleNames: Record<BypassRoleName, string> = {
+  admin: "admin",
+  superadmin: "superadmin",
+};
+
+export const ActionTypes: Record<Action, string> = {
+  rw: "rw",
+  r: "r",
+};
+
+export const ResourceTypes: Record<Resource, string> = {
+  blogPost: "blogPost",
+  user: "user",
+  blogPostComment: "blogPostComment",
+  blogPostTag: "blogPostTag",
+  adminAction: "adminAction",
+  blogPostCategory: "blogPostCategory",
+};
 
 export interface PermissionCheck {
-  resource: string;
+  resource: Resource;
   resourceId?: string;
-  action: string;
+  action: Action;
 }
 
-export class PermissionChecker<DBType extends PostgresJsDatabase> {
+export type DBType<T> = T extends PostgresJsDatabase<infer Schema>
+  ? Schema
+  : never;
+
+export class PermissionChecker {
   constructor(
-    private db: DBType,
     private roles: Role[],
     private checks: PermissionCheck[],
     private bypassRoleNames: BypassRoleName[] = [],
     private either = false,
   ) {
-    this.db = db;
     this.roles = roles;
     this.bypassRoleNames = bypassRoleNames;
     this.checks = checks;
@@ -37,27 +70,19 @@ export class PermissionChecker<DBType extends PostgresJsDatabase> {
       }
 
       for (const check of this.checks) {
-        const permissionsQuery = this.db
+        const permissionsQuery = db
           .select({ p: permissionsTable })
           .from(permissionsTable)
           .innerJoin(rolesPermissionsTable, eq(permissionsTable.id, role.id));
+        const conditions = [
+          eq(permissionsTable.resource, check.resource),
+          eq(permissionsTable.action, check.action),
+        ];
         if (check.resourceId) {
-          const result = await permissionsQuery.where(
-            and(
-              eq(permissionsTable.resource, check.resource),
-              eq(permissionsTable.action, check.action),
-              eq(permissionsTable.resourceId, check.resourceId),
-            ),
-          );
-          if (result.length > 0) {
-            successfullChecks.push(true);
-          }
+          conditions.push(eq(permissionsTable.resourceId, check.resourceId));
         }
-        const result = await permissionsQuery.where(
-          and(
-            eq(permissionsTable.resource, check.resource),
-            eq(permissionsTable.action, check.action),
-          ),
+        const result = await safeQuery(() =>
+          permissionsQuery.where(and(...conditions)),
         );
         if (result.length > 0) {
           successfullChecks.push(true);
