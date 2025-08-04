@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import FloatingNav from "@/components/core/FloatingNav";
 import { ThemeProvider } from "@/components/core/providers/ThemeProvider";
 import ProgressProvider from "@/components/core/providers/ProgressProvider";
+import { Providers } from "@/lib/providers";
+import { AuthProvider } from "@/lib/providers/auth-provider";
+import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://loslc.tech"),
@@ -59,12 +61,16 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="bg-background text-foreground">
-        <ProgressProvider>
-          <ThemeProvider attribute={"class"} defaultTheme="dark" enableSystem>
-            <FloatingNav />
-            {children}
-          </ThemeProvider>
-        </ProgressProvider>
+        <Providers>
+          <ProgressProvider>
+            <ThemeProvider attribute={"class"} defaultTheme="dark" enableSystem>
+              <AuthProvider>
+                {children}
+                <Toaster />
+              </AuthProvider>
+            </ThemeProvider>
+          </ProgressProvider>
+        </Providers>
       </body>
     </html>
   );
