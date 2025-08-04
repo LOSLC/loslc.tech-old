@@ -13,8 +13,10 @@ export default function ThemeSwitcher() {
         console.log("Theme changed to: ", theme);
       }}
       variant="ghost"
+      size="sm"
+      className="w-10 h-10 p-0 hover:bg-transparent transition-colors duration-200"
     >
-      {theme === "dark" ? <Stars /> : theme === "light" ? <Sun /> : <Laptop />}
+      {theme === "dark" ? <Stars className="w-5 h-5 text-foreground/80" /> : theme === "light" ? <Sun className="w-5 h-5 text-foreground/80" /> : <Laptop className="w-5 h-5 text-foreground/80" />}
     </Button>
   );
 }

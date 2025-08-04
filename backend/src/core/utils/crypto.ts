@@ -1,7 +1,9 @@
-import { randomBytes } from "node:crypto";
+import * as bcrypt from "bcrypt";
 
-export function randId(length = 50): string {
-  return randomBytes((length * 3) / 4)
-    .toString("base64url")
-    .slice(0, length);
+export async function hashString(str: string, l = 10): Promise<string> {
+  return await bcrypt.hash(str, l);
+}
+
+export async function compareHash(str: string, hash: string): Promise<boolean> {
+  return await bcrypt.compare(str, hash);
 }
