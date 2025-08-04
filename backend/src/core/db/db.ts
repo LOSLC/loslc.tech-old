@@ -1,12 +1,7 @@
-import { drizzle } from "drizzle-orm/postgres-js";
-import * as users from "@/core/db/schema/user";
-import * as auth from "@/core/db/schema/auth";
-import * as security from "@/core/db/schema/security";
+import { drizzle } from "drizzle-orm/node-postgres";
+import * as schema from "./schema";
+import { getEnv } from "../env";
 
-export const db = drizzle(process.env.DATABASE_URL as string, {
-  schema: {
-    ...users,
-    ...auth,
-    ...security,
-  },
+export const db = drizzle(getEnv("DATABASE_URL") || "", {
+  schema: { ...schema },
 });
