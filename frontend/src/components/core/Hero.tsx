@@ -1,4 +1,5 @@
 import { RefObject } from "react";
+import { useTranslation } from "react-i18next";
 import { Button } from "../ui/button";
 import {
   MoveDown,
@@ -18,6 +19,8 @@ interface HeroProps {
 }
 
 export default function Hero({ nextPageRef }: HeroProps) {
+  const { t } = useTranslation();
+  
   return (
     <div className="relative flex flex-col h-full w-full justify-between items-center overflow-hidden bg-gradient-to-br from-background via-background to-muted/30">
       {/* Background decorative elements */}
@@ -67,7 +70,7 @@ export default function Hero({ nextPageRef }: HeroProps) {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
             </span>
-            Linux & Open-Source Lovers Community
+            {t('hero.badgeText')}
           </span>
         </div>
 
@@ -117,13 +120,13 @@ export default function Hero({ nextPageRef }: HeroProps) {
 
         <div className="motion-preset-slide-up motion-delay-300 cursor-default">
           <h1 className="text-foreground text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight relative block mb-2 sm:mb-4 leading-tight">
-            Code Your <span className="text-primary">Future</span>
+            {t('hero.title')} <span className="text-primary">{t('hero.titleHighlight')}</span>
             <span className="whitespace-nowrap">
               {" "}
-              in
+              {t('hero.titleSuffix')}
               <span className="relative ml-2 inline-block">
                 <span className="absolute -inset-1 bg-secondary/20 rounded blur-sm"></span>
-                <span className="relative text-secondary">Africa</span>
+                <span className="relative text-secondary">{t('hero.titleLocation')}</span>
               </span>
             </span>
           </h1>
@@ -131,9 +134,7 @@ export default function Hero({ nextPageRef }: HeroProps) {
 
         <div className="motion-preset-slide-up motion-delay-400 mb-6 sm:mb-8">
           <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed px-2">
-            Empowering young African developers through mentorship,
-            cybersecurity training, open-source projects, and a supportive tech
-            community.
+            {t('hero.subtitle')}
           </p>
         </div>
 
@@ -141,15 +142,15 @@ export default function Hero({ nextPageRef }: HeroProps) {
           {[
             {
               icon: <Code className="w-4 h-4 sm:w-5 sm:h-5" />,
-              text: "Open Source Projects",
+              text: t('hero.features.openSource'),
             },
             {
               icon: <Shield className="w-4 h-4 sm:w-5 sm:h-5" />,
-              text: "Cybersecurity Training",
+              text: t('hero.features.cybersecurity'),
             },
             {
               icon: <Users className="w-4 h-4 sm:w-5 sm:h-5" />,
-              text: "Mentorship Programs",
+              text: t('hero.features.mentorship'),
             },
           ].map((feature, i) => (
             <div
@@ -163,12 +164,12 @@ export default function Hero({ nextPageRef }: HeroProps) {
         </div>
 
         <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center motion-preset-slide-up motion-delay-600">
-          <Link href={"https://link.loslc.tech/be-speaker"}>
+          <Link href={"/auth/register"}>
             <Button
               size="default"
               className="px-4 sm:px-8 py-2 sm:py-6 text-sm sm:text-lg font-medium hover:scale-105 transition-all duration-200 group bg-primary hover:bg-primary/90 shadow-lg shadow-primary/20 w-full sm:w-auto"
             >
-              Start Your Journey
+              {t('hero.cta.primary')}
               <ArrowRight className="ml-1 sm:ml-2 w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />
             </Button>
           </Link>
@@ -178,7 +179,7 @@ export default function Hero({ nextPageRef }: HeroProps) {
               size="default"
               className="px-4 sm:px-8 py-2 sm:py-6 text-sm sm:text-lg font-medium hover:scale-105 transition-all duration-200 group border-2 w-full sm:w-auto"
             >
-              Join Discord
+              {t('hero.cta.secondary')}
               <MessageSquare className="ml-1 sm:ml-2 w-4 h-4 sm:w-5 sm:h-5 group-hover:scale-110 transition-transform" />
             </Button>
           </Link>
@@ -187,15 +188,15 @@ export default function Hero({ nextPageRef }: HeroProps) {
         <div className="flex flex-wrap justify-center gap-x-4 sm:gap-x-8 gap-y-2 sm:gap-y-4 mt-6 sm:mt-10 text-muted-foreground text-xs sm:text-sm motion-preset-slide-up motion-delay-700">
           <div className="flex items-center gap-1 sm:gap-2 select-none">
             <Users className="w-3 h-3 sm:w-4 sm:h-4" />
-            <span className="cursor-default">600+ Members</span>
+            <span className="cursor-default">{t('hero.stats.members')}</span>
           </div>
           <div className="flex items-center gap-1 sm:gap-2">
             <Code className="w-3 h-3 sm:w-4 sm:h-4" />
-            <span className="cursor-default">3+ Projects</span>
+            <span className="cursor-default">{t('hero.stats.projects')}</span>
           </div>
           <div className="flex items-center gap-1 sm:gap-2">
             <Globe className="w-3 h-3 sm:w-4 sm:h-4" />
-            <span className="cursor-default">5+ Countries</span>
+            <span className="cursor-default">{t('hero.stats.countries')}</span>
           </div>
         </div>
       </div>

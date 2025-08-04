@@ -1,12 +1,27 @@
-import express from "express";
-import { router as v1Router } from "./api/v1/router";
+import { NestFactory } from "@nestjs/core";
+import { AppModule } from "./app.module";
+import * as cookieParser from "cookie-parser";
+import { ValidationPipe } from "@nestjs/common";
+import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
+import { getEnv } from "./core/env";
 
-const app = express();
+async function bootstrap() {
+  const app = await NestFactory.create(AppModule);
 
-const PORT = process.env.BACKEND_PORT || 8000;
-app.use(express.json());
-app.use("/api/v1", v1Router);
+  app.use(cookieParser());
+  app.useGlobalPipes(new ValidationPipe());
 
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
-});
+  if (getEnv("DEBUG") === "True") {
+    const swaggerConfig = new DocumentBuilder()
+      .setTitle("loslc.tech API")
+      .setDescription("API documentation for loslc.tech")
+      .setVersion("1.0")
+      .build();
+
+    const swaggerDocument = SwaggerModule.createDocument(app, swaggerConfig);
+    SwaggerModule.setup("docs", app, swaggerDocument);
+  }
+
+  await app.listen(process.env.PORT ?? 8000);
+}
+bootstrap();
