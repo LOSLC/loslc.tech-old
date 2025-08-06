@@ -256,7 +256,7 @@ export class FilesController {
     @User() user: UserType,
     @Query("name") name?: string,
     @Query("protected") isProtected?: boolean,
-  ): Promise<Message> {
+  ) {
     return this.filesService.uploadFile({
       file,
       name: name || null,
@@ -322,7 +322,11 @@ export class FilesController {
     @User() user: UserType,
     @Query("protected") isProtected?: boolean,
   ): Promise<Message> {
-    return this.filesService.uploadFiles({ files, user, protected: isProtected });
+    return this.filesService.uploadFiles({
+      files,
+      user,
+      protected: isProtected,
+    });
   }
 
   @Delete(":id")
