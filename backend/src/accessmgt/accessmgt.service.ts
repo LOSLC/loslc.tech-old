@@ -1,7 +1,6 @@
 import { checkConditions } from "@/common/checkers/utils";
 import { db } from "@/core/db/db";
 import * as objsAreEqual from "fast-deep-equal";
-import { Queue } from "queue-typescript";
 import {
   permissionsTable,
   RolePermissionLink,
@@ -32,9 +31,135 @@ import {
   ResourceType,
   PermissionCheck,
 } from "./accessmgt.types";
+import { toUserDTO } from "@/users/users.dto";
 
 @Injectable()
 export class AccessmgtService {
+  async getAllRoles({
+    all,
+    limit,
+    offset,
+  }: { all?: boolean; limit?: number; offset?: number } = {}): Promise<
+    RoleDTO[]
+  > {
+    const rolesQuery = db.select().from(rolesTable);
+    if (all) {
+      const result = await rolesQuery;
+      return result;
+    }
+    const result = await rolesQuery.limit(limit ?? 10).offset(offset ?? 0);
+    return result;
+  }
+
+  async getAllPermissions({
+    all,
+    limit,
+    offset,
+  }: { all?: boolean; limit?: number; offset?: number } = {}): Promise<
+    PermissionDTO[]
+  > {
+    const permissionsQuery = db.select().from(permissionsTable);
+    if (all) {
+      const result = await permissionsQuery;
+      return result;
+    }
+    const result = await permissionsQuery
+      .limit(limit ?? 10)
+      .offset(offset ?? 0);
+    return result;
+  }
+
+  async getRolesUsers({
+    roleId,
+    limit,
+    all,
+    offset,
+  }: {
+    roleId: string;
+    limit?: number;
+    all?: boolean;
+    offset?: number;
+  }) {
+    const [role] = await db
+      .select()
+      .from(rolesTable)
+      .where(eq(rolesTable.id, roleId))
+      .limit(1);
+    checkConditions({
+      conditions: [!!role],
+      statusCode: HttpStatus.NOT_FOUND,
+      message: "Role not found",
+    });
+
+    const usersQuery = db
+      .select({ usersTable })
+      .from(usersTable)
+      .innerJoin(
+        userRolesTable,
+        and(
+          eq(userRolesTable.roleId, roleId),
+          eq(userRolesTable.userId, usersTable.id),
+        ),
+      );
+    const result = (
+      all
+        ? await usersQuery
+        : await usersQuery.limit(limit ?? 10).offset(offset ?? 0)
+    ).map((u) => toUserDTO(u.usersTable));
+    return result;
+  }
+
+  async getPermissionsUsers({
+    permissionId,
+    limit,
+    all,
+    offset,
+  }: {
+    permissionId: string;
+    limit?: number;
+    all?: boolean;
+    offset?: number;
+  }) {
+    const [permission] = await db
+      .select()
+      .from(permissionsTable)
+      .where(eq(permissionsTable.id, permissionId))
+      .limit(1);
+    checkConditions({
+      conditions: [!!permission],
+      statusCode: HttpStatus.NOT_FOUND,
+      message: "Permission not found",
+    });
+
+    const usersQuery = db
+      .select({ usersTable })
+      .from(usersTable)
+      .innerJoin(
+        userRolesTable,
+        and(
+          eq(userRolesTable.userId, usersTable.id),
+          eq(userRolesTable.roleId, rolesTable.id),
+        ),
+      )
+      .innerJoin(
+        rolesTable,
+        eq(rolesTable.id, userRolesTable.roleId),
+      )
+      .innerJoin(
+        rolePermissionsTable,
+        and(
+          eq(rolePermissionsTable.permissionId, permissionId),
+          eq(rolePermissionsTable.roleId, rolesTable.id),
+        ),
+      );
+    const result = (
+      all
+        ? await usersQuery
+        : await usersQuery.limit(limit ?? 10).offset(offset ?? 0)
+    ).map((u) => toUserDTO(u.usersTable));
+    return result;
+  }
+
   async getUserRoles({
     userId,
     limit = 10,
@@ -448,8 +573,7 @@ export class AccessmgtService {
 
     return userRoles.some(
       (role) =>
-        role.name &&
-        (role.name === 'admin' || role.name === 'superadmin'),
+        role.name && (role.name === "admin" || role.name === "superadmin"),
     );
   }
 }

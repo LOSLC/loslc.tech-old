@@ -242,6 +242,12 @@ export class AuthService {
         lastUpdated: new Date(),
       })
       .where(eq(usersTable.id, user.id));
+
+    await db
+      .update(accountVerificationSessionsTable)
+      .set({ expired: true })
+      .where(eq(accountVerificationSessionsTable.id, session.id));
+
     const response: Message = {
       message: "Account verified successfully",
     };
@@ -285,6 +291,7 @@ export class AuthService {
       statusCode: HttpStatus.FORBIDDEN,
       either: false,
     });
+
     const [authSession] = await db
       .insert(authSessionsTable)
       .values({
@@ -303,9 +310,11 @@ export class AuthService {
         (Number.parseInt(getEnv("AUTH_SESSION_EXPIRATION_DAYS")) || 24),
     });
 
-    await db.update(otpSessionsTable).set({
-      expired: true,
-    });
+    await db
+      .update(otpSessionsTable)
+      .set({ expired: true })
+      .where(eq(otpSessionsTable.id, otpSessionIdCookie));
+
     const response: Message = {
       message: "Authentication successful",
     };
@@ -413,6 +422,7 @@ export class AuthService {
     };
     return response;
   }
+
   async resetPassword(data: PasswordResetDTO) {
     const { token, newPassword, confirmNewPassword, sessionId } = data;
     checkConditions({
@@ -461,6 +471,12 @@ export class AuthService {
         lastUpdated: new Date(),
       })
       .where(eq(usersTable.id, user.id));
+
+    await db
+      .update(passwordResetSessionsTable)
+      .set({ expired: true })
+      .where(eq(passwordResetSessionsTable.id, sessionId));
+
     const response: Message = {
       message: "Password reset successfully",
     };

@@ -3,21 +3,13 @@ services:
     build: 
       context: ./frontend
       args:
-        - DATABASE_URL=${DATABASE_URL}
-        - FRONTEND_PORT=${FRONTEND_PORT}
-        - BACKEND_PORT=${BACKEND_PORT}
-        - PG_USER=${PG_USER}
-        - PG_PASSWORD=${PG_PASSWORD}
-        - PG_DB=${PG_DB}
+        - BACKEND_URL=${BACKEND_URL}
     ports:
       - "${FRONTEND_PORT}:3000"
     environment:
-      - DATABASE_URL=${DATABASE_URL}
-      - FRONTEND_PORT=${FRONTEND_PORT}
-      - BACKEND_PORT=${BACKEND_PORT}
-      - PG_USER=${PG_USER}
-      - PG_PASSWORD=${PG_PASSWORD}
-      - PG_DB=${PG_DB}
+      - BACKEND_URL=${BACKEND_URL}
+    depends_on:
+      - backend
 
   backend:
     build: 
@@ -25,14 +17,32 @@ services:
     ports:
       - "${BACKEND_PORT}:8000"
     environment:
+      - APP_URL=${APP_URL}
+      - PORT=${BACKEND_PORT}
+      
       - DATABASE_URL=${DATABASE_URL}
-      - FRONTEND_PORT=${FRONTEND_PORT}
-      - BACKEND_PORT=${BACKEND_PORT}
+      
+      - MAIL_SERVICE=${MAIL_SERVICE}
+      - APP_EMAIL=${APP_EMAIL}
+      - SADMIN_EMAIL=${SADMIN_EMAIL}
+      - SMTP_PASSWORD=${SMTP_PASSWORD}
+      
+      - OTP_EXPIRATION_MINUTES=${OTP_EXPIRATION_MINUTES}
+      - AUTH_SESSION_EXPIRATION_DAYS=${AUTH_SESSION_EXPIRATION_DAYS}
+      - EMAIL_VERIFICATION_EXPIRATION_HOURS=${EMAIL_VERIFICATION_EXPIRATION_HOURS}
+      - PASSWORD_RESET_EXPIRATION_MINUTES=${PASSWORD_RESET_EXPIRATION_MINUTES}
+      
+      - DEBUG=${DEBUG}
+      - STORAGE=${STORAGE}
+      
       - PG_USER=${PG_USER}
       - PG_PASSWORD=${PG_PASSWORD}
       - PG_DB=${PG_DB}
+    volumes:
+      - app_storage:/app/fs/storage
     depends_on:
-      - db
+      db:
+        condition: service_healthy
 
   db:
     image: postgres:17
@@ -50,3 +60,4 @@ services:
 
 volumes:
   postgres_data:
+  app_storage:

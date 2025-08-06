@@ -84,6 +84,12 @@ export class BlogController {
     type: String,
     description: "Filter by author ID",
   })
+  @ApiQuery({
+    name: "query",
+    required: false,
+    type: String,
+    description: "Search in title, description, content, tags, and author name",
+  })
   @ApiResponse({
     status: 200,
     description: "List of blog posts",
@@ -93,6 +99,65 @@ export class BlogController {
     @Query() query: GetBlogPostsQueryDTO,
   ): Promise<BlogPostDTO[]> {
     return await this.blogService.getBlogPosts(query);
+  }
+
+  @Get("admin/posts")
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: "Get all blog posts (including drafts and archived) - Admin only" })
+  @ApiQuery({
+    name: "offset",
+    required: false,
+    type: Number,
+    description: "Number of posts to skip",
+  })
+  @ApiQuery({
+    name: "limit",
+    required: false,
+    type: Number,
+    description: "Maximum number of posts to return",
+  })
+  @ApiQuery({
+    name: "categoryId",
+    required: false,
+    type: String,
+    description: "Filter by category ID",
+  })
+  @ApiQuery({
+    name: "tag",
+    required: false,
+    type: String,
+    description: "Filter by tag name",
+  })
+  @ApiQuery({
+    name: "featured",
+    required: false,
+    type: Boolean,
+    description: "Filter by featured status",
+  })
+  @ApiQuery({
+    name: "authorId",
+    required: false,
+    type: String,
+    description: "Filter by author ID",
+  })
+  @ApiQuery({
+    name: "query",
+    required: false,
+    type: String,
+    description: "Search in title, description, content, tags, and author name",
+  })
+  @ApiResponse({
+    status: 200,
+    description: "List of all blog posts (including drafts and archived)",
+    type: [BlogPostDTO],
+  })
+  @ApiResponse({ status: 403, description: "Access denied - Admin permission required" })
+  async getAllBlogPosts(
+    @Query() query: GetBlogPostsQueryDTO,
+    @User() user: DBUser,
+  ): Promise<BlogPostDTO[]> {
+    return await this.blogService.getAllBlogPosts(query, user);
   }
 
   @Get("posts/:id")
@@ -109,6 +174,35 @@ export class BlogController {
     @OptionalUser() user?: DBUser,
   ): Promise<BlogPostDTO> {
     return await this.blogService.getBlogPostById(id, user);
+  }
+
+  @Get("posts/popular")
+  @ApiOperation({ summary: "Get popular blog posts" })
+  @ApiQuery({
+    name: "limit",
+    required: false,
+    type: Number,
+    description: "Maximum number of popular posts to return (default: 10)",
+  })
+  @ApiQuery({
+    name: "offset",
+    required: false,
+    type: Number,
+    description: "Number of posts to skip for pagination (default: 0)",
+  })
+  @ApiResponse({
+    status: 200,
+    description: "List of popular blog posts",
+    type: [BlogPostDTO],
+  })
+  async getPopularPosts(
+    @Query("limit") limit?: number,
+    @Query("offset") offset?: number,
+  ): Promise<BlogPostDTO[]> {
+    return await this.blogService.getPopularBlogPosts({
+      limit: limit ?? 10,
+      offset: offset ?? 0,
+    });
   }
 
   @Post("posts")

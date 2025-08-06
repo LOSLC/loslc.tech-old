@@ -4,14 +4,16 @@ import { User, usersTable } from "@/core/db/schema";
 import { filesTable } from "@/core/db/schemas/resources/file";
 import { banMotivesTable } from "@/core/db/schemas/user/banMotive";
 import { HttpStatus, Injectable } from "@nestjs/common";
-import { eq } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 import {
   UpdateUserInfoDTO,
   UserBanDTO,
   UserBanResponseDTO,
   UserDTO,
+  toUserDTO,
 } from "./users.dto";
 import { AccessmgtService } from "@/accessmgt/accessmgt.service";
+import { Message } from "@/common/dto/message";
 
 @Injectable()
 export class UsersService {
@@ -27,31 +29,11 @@ export class UsersService {
       statusCode: 404,
       message: "User not found",
     });
-    const r: UserDTO = {
-      id: user.id,
-      email: user.email,
-      username: user.username,
-      fullName: user.fullName,
-      profilePictureFileId: user.profilePictureFileId,
-      joinedAt: user.joinedAt,
-      isBanned: user.isBanned,
-      isVerified: user.isVerified,
-    };
-    return r;
+    return toUserDTO(user);
   }
 
   async getCurrentUser(user: User) {
-    const r: UserDTO = {
-      id: user.id,
-      email: user.email,
-      username: user.username,
-      fullName: user.fullName,
-      profilePictureFileId: user.profilePictureFileId,
-      joinedAt: user.joinedAt,
-      isBanned: user.isBanned,
-      isVerified: user.isVerified,
-    };
-    return r;
+    return toUserDTO(user);
   }
 
   async getUsers({
@@ -59,20 +41,13 @@ export class UsersService {
     offset = 0,
   }: { limit?: number; offset?: number } = {}): Promise<UserDTO[]> {
     const users = (
-      await db.select().from(usersTable).offset(offset).limit(limit)
-    ).map((u) => {
-      const r: UserDTO = {
-        id: u.id,
-        email: u.email,
-        username: u.username,
-        fullName: u.fullName,
-        profilePictureFileId: u.profilePictureFileId,
-        joinedAt: u.joinedAt,
-        isBanned: u.isBanned,
-        isVerified: u.isVerified,
-      };
-      return r;
-    });
+      await db
+        .select()
+        .from(usersTable)
+        .offset(offset)
+        .limit(limit)
+        .orderBy(desc(usersTable.joinedAt))
+    ).map(toUserDTO);
 
     return users;
   }
@@ -113,17 +88,7 @@ export class UsersService {
       .where(eq(usersTable.id, userId))
       .returning();
 
-    const r: UserDTO = {
-      id: updatedUser.id,
-      email: updatedUser.email,
-      username: updatedUser.username,
-      fullName: updatedUser.fullName,
-      profilePictureFileId: updatedUser.profilePictureFileId,
-      joinedAt: updatedUser.joinedAt,
-      isBanned: updatedUser.isBanned,
-      isVerified: updatedUser.isVerified,
-    };
-    return r;
+    return toUserDTO(updatedUser);
   }
 
   async changeProfilePicture({ id, user }: { id: string; user: User }) {
@@ -160,17 +125,7 @@ export class UsersService {
       .set({ profilePictureFileId: id })
       .where(eq(usersTable.id, user.id));
 
-    const r: UserDTO = {
-      id: user.id,
-      email: user.email,
-      username: user.username,
-      fullName: user.fullName,
-      profilePictureFileId: dbFile.id,
-      joinedAt: user.joinedAt,
-      isBanned: user.isBanned,
-      isVerified: user.isVerified,
-    };
-    return r;
+    return toUserDTO({ ...user, profilePictureFileId: dbFile.id });
   }
 
   async banUser({ data, user }: { data: UserBanDTO; user: User }) {
@@ -239,16 +194,38 @@ export class UsersService {
       .delete(banMotivesTable)
       .where(eq(banMotivesTable.userId, userToUnban.id));
 
-    const r: UserDTO = {
-      id: unbannedUser.id,
-      email: unbannedUser.email,
-      username: unbannedUser.username,
-      fullName: unbannedUser.fullName,
-      profilePictureFileId: unbannedUser.profilePictureFileId,
-      joinedAt: unbannedUser.joinedAt,
-      isBanned: unbannedUser.isBanned,
-      isVerified: unbannedUser.isVerified,
-    };
-    return r;
+    return toUserDTO(unbannedUser);
+  }
+
+  async deleteUser(userId: string, user: User) {
+    const [userToDelete] = await db
+      .select()
+      .from(usersTable)
+      .where(eq(usersTable.id, userId))
+      .limit(1);
+
+    checkConditions({
+      conditions: [!!userToDelete],
+      statusCode: 404,
+      message: "User not found",
+    });
+
+    await this.accessmgtModule.checkPermissions({
+      user: user,
+      permissions: [
+        {
+          action: "rw",
+          resource: "user",
+          resourceId: userToDelete.id,
+        },
+      ],
+    });
+
+    await db.delete(usersTable).where(eq(usersTable.id, userToDelete.id));
+
+    const message: Message = {
+      message: "User deleted successfully",
+    }
+    return message
   }
 }

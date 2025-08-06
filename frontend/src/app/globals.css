@@ -1,6 +1,8 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @plugin "tailwindcss-motion";
+@import "@uiw/react-md-editor/markdown-editor.css";
+@import "@uiw/react-markdown-preview/markdown.css";
 
 @custom-variant dark (&:is(.dark *));
 
