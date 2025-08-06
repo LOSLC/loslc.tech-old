@@ -1,5 +1,6 @@
 import { IsNotEmpty, IsString, MaxLength, MinLength } from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";
+import { User } from "@/core/db/schema";
 
 export interface UserDTO {
   id: string;
@@ -10,6 +11,24 @@ export interface UserDTO {
   joinedAt: Date;
   isBanned: boolean;
   isVerified: boolean;
+}
+
+/**
+ * Convert a User from the database to UserDTO
+ * @param user - User object from database
+ * @returns UserDTO object
+ */
+export function toUserDTO(user: User): UserDTO {
+  return {
+    id: user.id,
+    email: user.email,
+    username: user.username,
+    fullName: user.fullName,
+    profilePictureFileId: user.profilePictureFileId,
+    joinedAt: user.joinedAt,
+    isBanned: user.isBanned,
+    isVerified: user.isVerified,
+  };
 }
 
 export interface UserBanDTO {

@@ -1,5 +1,6 @@
 import { IsNotEmpty, IsOptional, IsBoolean, IsString, IsUUID, IsArray, IsInt, Min, Max } from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";
+import { Transform, Type } from "class-transformer";
 
 // Blog Post DTOs
 export class BlogPostDTO {
@@ -241,18 +242,19 @@ export class CreateTagDTO {
   @IsString()
   name: string;
 }
-
 // Query DTOs
 export class GetBlogPostsQueryDTO {
   @IsOptional()
   @IsInt()
   @Min(0)
+  @Type(() => Number)
   offset?: number = 0;
 
   @IsOptional()
   @IsInt()
   @Min(1)
   @Max(100)
+  @Type(() => Number)
   limit?: number = 20;
 
   @IsOptional()
@@ -265,9 +267,14 @@ export class GetBlogPostsQueryDTO {
 
   @IsOptional()
   @IsBoolean()
+  @Transform(({value}) => value === 'true')
   featured?: boolean;
 
   @IsOptional()
   @IsString()
   authorId?: string;
+
+  @IsOptional()
+  @IsString()
+  query?: string;
 }

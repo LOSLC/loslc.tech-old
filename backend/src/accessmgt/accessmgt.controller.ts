@@ -46,6 +46,94 @@ import { User } from "@/common/decorators/user.decorator";
 export class AccessmgtController {
   constructor(private readonly accessmgtService: AccessmgtService) {}
 
+  @Get("roles")
+  @ApiOperation({
+    summary: "Get all roles",
+    description: "Retrieve all roles in the system",
+  })
+  @ApiQuery({
+    name: "all",
+    description: "Return all roles without pagination",
+    required: false,
+    type: "boolean",
+  })
+  @ApiQuery({
+    name: "limit",
+    description: "Maximum number of roles to return (max 100)",
+    required: false,
+    type: "number",
+    example: 10,
+  })
+  @ApiQuery({
+    name: "offset",
+    description: "Number of roles to skip for pagination",
+    required: false,
+    type: "number",
+    example: 0,
+  })
+  @ApiResponse({
+    status: 200,
+    description: "Successfully retrieved roles",
+    type: [RoleDTO],
+  })
+  @Permissions([
+    { resource: "user", action: "r" },
+    { resource: "role", action: "rw" },
+  ])
+  @BypassRole({ roleName: "admin" })
+  @UseGuards(AuthGuard, AccessGuard)
+  async getAllRoles(
+    @Query("all") all?: boolean,
+    @Query("limit") limit?: number,
+    @Query("offset") offset?: number,
+  ): Promise<RoleDTO[]> {
+    return this.accessmgtService.getAllRoles({ all, limit, offset });
+  }
+
+  @Get("permissions")
+  @ApiOperation({
+    summary: "Get all permissions",
+    description: "Retrieve all permissions in the system",
+  })
+  @ApiQuery({
+    name: "all",
+    description: "Return all permissions without pagination",
+    required: false,
+    type: "boolean",
+  })
+  @ApiQuery({
+    name: "limit",
+    description: "Maximum number of permissions to return (max 100)",
+    required: false,
+    type: "number",
+    example: 10,
+  })
+  @ApiQuery({
+    name: "offset",
+    description: "Number of permissions to skip for pagination",
+    required: false,
+    type: "number",
+    example: 0,
+  })
+  @ApiResponse({
+    status: 200,
+    description: "Successfully retrieved permissions",
+    type: [PermissionDTO],
+  })
+  @Permissions([
+    { resource: "user", action: "r" },
+    { resource: "role", action: "rw" },
+  ])
+  @BypassRole({ roleName: "admin" })
+  @UseGuards(AuthGuard, AccessGuard)
+  async getAllPermissions(
+    @Query("all") all?: boolean,
+    @Query("limit") limit?: number,
+    @Query("offset") offset?: number,
+  ): Promise<PermissionDTO[]> {
+    return this.accessmgtService.getAllPermissions({ all, limit, offset });
+  }
+
   @Get("users/:userId/roles")
   @ApiOperation({
     summary: "Get user roles",
@@ -195,6 +283,80 @@ export class AccessmgtController {
     return this.accessmgtService.getRoleById(roleId);
   }
 
+  @Get("roles/:roleId/users")
+  @ApiOperation({
+    summary: "Get users with role",
+    description: "Retrieve all users assigned to a specific role",
+  })
+  @ApiParam({
+    name: "roleId",
+    description: "The unique identifier of the role",
+    type: "string",
+  })
+  @ApiQuery({
+    name: "all",
+    description: "Return all users without pagination",
+    required: false,
+    type: "boolean",
+  })
+  @ApiQuery({
+    name: "limit",
+    description: "Maximum number of users to return (max 100)",
+    required: false,
+    type: "number",
+    example: 10,
+  })
+  @ApiQuery({
+    name: "offset",
+    description: "Number of users to skip for pagination",
+    required: false,
+    type: "number",
+    example: 0,
+  })
+  @ApiResponse({
+    status: 200,
+    description: "Successfully retrieved users with role",
+    schema: {
+      type: "array",
+      items: {
+        type: "object",
+        properties: {
+          id: { type: "string" },
+          email: { type: "string" },
+          username: { type: "string" },
+          fullName: { type: "string" },
+          profilePictureFileId: { type: "string", nullable: true },
+          joinedAt: { type: "string", format: "date-time" },
+          isBanned: { type: "boolean" },
+          isVerified: { type: "boolean" },
+        },
+      },
+    },
+  })
+  @ApiResponse({
+    status: 404,
+    description: "Role not found",
+  })
+  @Permissions([
+    { resource: "user", action: "r" },
+    { resource: "role", action: "rw" },
+  ])
+  @BypassRole({ roleName: "admin" })
+  @UseGuards(AuthGuard, AccessGuard)
+  async getRoleUsers(
+    @Param("roleId") roleId: string,
+    @Query("all") all?: boolean,
+    @Query("limit") limit?: number,
+    @Query("offset") offset?: number,
+  ) {
+    return this.accessmgtService.getRolesUsers({
+      roleId,
+      all,
+      limit,
+      offset,
+    });
+  }
+
   @Get("permissions/:permissionId")
   @ApiOperation({
     summary: "Get permission by ID",
@@ -224,6 +386,80 @@ export class AccessmgtController {
     @Param("permissionId") permissionId: string,
   ): Promise<PermissionDTO> {
     return this.accessmgtService.getPermissionById(permissionId);
+  }
+
+  @Get("permissions/:permissionId/users")
+  @ApiOperation({
+    summary: "Get users with permission",
+    description: "Retrieve all users that have a specific permission (through their roles)",
+  })
+  @ApiParam({
+    name: "permissionId",
+    description: "The unique identifier of the permission",
+    type: "string",
+  })
+  @ApiQuery({
+    name: "all",
+    description: "Return all users without pagination",
+    required: false,
+    type: "boolean",
+  })
+  @ApiQuery({
+    name: "limit",
+    description: "Maximum number of users to return (max 100)",
+    required: false,
+    type: "number",
+    example: 10,
+  })
+  @ApiQuery({
+    name: "offset",
+    description: "Number of users to skip for pagination",
+    required: false,
+    type: "number",
+    example: 0,
+  })
+  @ApiResponse({
+    status: 200,
+    description: "Successfully retrieved users with permission",
+    schema: {
+      type: "array",
+      items: {
+        type: "object",
+        properties: {
+          id: { type: "string" },
+          email: { type: "string" },
+          username: { type: "string" },
+          fullName: { type: "string" },
+          profilePictureFileId: { type: "string", nullable: true },
+          joinedAt: { type: "string", format: "date-time" },
+          isBanned: { type: "boolean" },
+          isVerified: { type: "boolean" },
+        },
+      },
+    },
+  })
+  @ApiResponse({
+    status: 404,
+    description: "Permission not found",
+  })
+  @Permissions([
+    { resource: "user", action: "r" },
+    { resource: "role", action: "rw" },
+  ])
+  @BypassRole({ roleName: "admin" })
+  @UseGuards(AuthGuard, AccessGuard)
+  async getPermissionUsers(
+    @Param("permissionId") permissionId: string,
+    @Query("all") all?: boolean,
+    @Query("limit") limit?: number,
+    @Query("offset") offset?: number,
+  ) {
+    return this.accessmgtService.getPermissionsUsers({
+      permissionId,
+      all,
+      limit,
+      offset,
+    });
   }
 
   @Post("roles")
@@ -570,15 +806,10 @@ export class AccessmgtController {
     return this.accessmgtService.deletePermission(permissionId);
   }
 
-  @Get("users/:userId/is-admin")
+  @Get("users/is-admin")
   @ApiOperation({
     summary: "Check if user is admin",
     description: "Check if a specific user has admin or superadmin role",
-  })
-  @ApiParam({
-    name: "userId",
-    description: "The unique identifier of the user to check",
-    type: "string",
   })
   @ApiResponse({
     status: 200,

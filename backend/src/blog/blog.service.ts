@@ -9,13 +9,20 @@ import {
   blogTagsTable,
   blogPostTagsTable,
   User,
+  usersTable,
 } from "@/core/db/schema";
+import { HttpStatus, Injectable, NotFoundException } from "@nestjs/common";
 import {
-  HttpStatus,
-  Injectable,
-  NotFoundException,
-} from "@nestjs/common";
-import { eq, and, desc } from "drizzle-orm";
+  eq,
+  and,
+  desc,
+  or,
+  ilike,
+  isNotNull,
+  exists,
+  count,
+  SQL,
+} from "drizzle-orm";
 import {
   BlogPostDTO,
   CreateBlogPostDTO,
@@ -43,13 +50,15 @@ export class BlogService {
   // Blog Post Methods
   async getBlogPosts(query: GetBlogPostsQueryDTO): Promise<BlogPostDTO[]> {
     const {
-      offset = 0,
-      limit = 20,
+      offset,
+      limit,
       categoryId,
       tag,
       featured,
       authorId,
+      query: searchQuery,
     } = query;
+    console.log(query);
 
     const whereConditions = [
       eq(blogPostsTable.published, true),
@@ -66,8 +75,8 @@ export class BlogService {
       whereConditions.push(eq(blogPostsTable.authorId, authorId));
     }
 
-    if (tag) {
-      const posts = await db
+    if (searchQuery || tag) {
+      let baseQuery = db
         .select({
           id: blogPostsTable.id,
           title: blogPostsTable.title,
@@ -83,21 +92,67 @@ export class BlogService {
           updatedAt: blogPostsTable.updatedAt,
         })
         .from(blogPostsTable)
-        .innerJoin(
-          blogPostTagsTable,
-          eq(blogPostTagsTable.postId, blogPostsTable.id),
-        )
-        .innerJoin(
-          blogTagsTable,
-          and(
+        .leftJoin(usersTable, eq(usersTable.id, blogPostsTable.authorId));
+
+      if (tag) {
+        baseQuery = baseQuery
+          .innerJoin(
+            blogPostTagsTable,
+            eq(blogPostTagsTable.postId, blogPostsTable.id),
+          )
+          .innerJoin(
+            blogTagsTable,
+            and(
+              eq(blogTagsTable.id, blogPostTagsTable.tagId),
+              eq(blogTagsTable.name, tag),
+            ),
+          );
+      } else if (searchQuery) {
+        baseQuery = baseQuery
+          .leftJoin(
+            blogPostTagsTable,
+            eq(blogPostTagsTable.postId, blogPostsTable.id),
+          )
+          .leftJoin(
+            blogTagsTable,
             eq(blogTagsTable.id, blogPostTagsTable.tagId),
-            eq(blogTagsTable.name, tag),
-          ),
-        )
+          );
+      }
+
+      if (searchQuery) {
+        const searchPattern = `%${searchQuery}%`;
+        const searchConditions = or(
+          ilike(blogPostsTable.title, searchPattern),
+          ilike(blogPostsTable.description, searchPattern),
+          ilike(blogPostsTable.content, searchPattern),
+          ilike(usersTable.fullName, searchPattern),
+          ilike(usersTable.username, searchPattern),
+          ilike(blogTagsTable.name, searchPattern),
+        );
+        if (searchConditions) {
+          whereConditions.push(searchConditions);
+        }
+      }
+
+      const posts = await baseQuery
         .where(and(...whereConditions))
+        .groupBy(
+          blogPostsTable.id,
+          blogPostsTable.title,
+          blogPostsTable.description,
+          blogPostsTable.content,
+          blogPostsTable.authorId,
+          blogPostsTable.categoryId,
+          blogPostsTable.coverImageId,
+          blogPostsTable.featured,
+          blogPostsTable.published,
+          blogPostsTable.archived,
+          blogPostsTable.createdAt,
+          blogPostsTable.updatedAt,
+        )
         .orderBy(desc(blogPostsTable.createdAt))
-        .offset(offset)
-        .limit(limit);
+        .offset(offset ?? 0)
+        .limit(limit ?? 10);
 
       return posts;
     }
@@ -119,8 +174,195 @@ export class BlogService {
       .from(blogPostsTable)
       .where(and(...whereConditions))
       .orderBy(desc(blogPostsTable.createdAt))
-      .offset(offset)
-      .limit(limit);
+      .offset(offset ?? 0)
+      .limit(limit ?? 10);
+
+    return posts;
+  }
+
+  async getAllBlogPosts(query: GetBlogPostsQueryDTO, user: User): Promise<BlogPostDTO[]> {
+    await this.accessManager.checkPermissions({
+      permissions: [
+        {
+          action: "r",
+          resource: "blogpost",
+        },
+        {
+          action: "rw",
+          resource: "blogpost",
+        },
+      ],
+      bypassRole: {
+        roleName: "admin",
+      },
+      user,
+    });
+
+    const {
+      offset,
+      limit,
+      categoryId,
+      tag,
+      featured,
+      authorId,
+      query: searchQuery,
+    } = query;
+
+    const whereConditions: SQL<unknown>[] = [];
+
+    if (categoryId) {
+      whereConditions.push(eq(blogPostsTable.categoryId, categoryId));
+    }
+    if (featured !== undefined) {
+      whereConditions.push(eq(blogPostsTable.featured, featured));
+    }
+    if (authorId) {
+      whereConditions.push(eq(blogPostsTable.authorId, authorId));
+    }
+
+    // If there's a search query, we need to use joins to search across all fields
+    if (searchQuery || tag) {
+      let baseQuery = db
+        .select({
+          id: blogPostsTable.id,
+          title: blogPostsTable.title,
+          description: blogPostsTable.description,
+          content: blogPostsTable.content,
+          authorId: blogPostsTable.authorId,
+          categoryId: blogPostsTable.categoryId,
+          coverImageId: blogPostsTable.coverImageId,
+          featured: blogPostsTable.featured,
+          published: blogPostsTable.published,
+          archived: blogPostsTable.archived,
+          createdAt: blogPostsTable.createdAt,
+          updatedAt: blogPostsTable.updatedAt,
+        })
+        .from(blogPostsTable)
+        .leftJoin(usersTable, eq(usersTable.id, blogPostsTable.authorId));
+
+      // Add tag joins if needed
+      if (tag) {
+        baseQuery = baseQuery
+          .innerJoin(
+            blogPostTagsTable,
+            eq(blogPostTagsTable.postId, blogPostsTable.id),
+          )
+          .innerJoin(
+            blogTagsTable,
+            and(
+              eq(blogTagsTable.id, blogPostTagsTable.tagId),
+              eq(blogTagsTable.name, tag),
+            ),
+          );
+      } else if (searchQuery) {
+        // Left join tags for searching in tag names
+        baseQuery = baseQuery
+          .leftJoin(
+            blogPostTagsTable,
+            eq(blogPostTagsTable.postId, blogPostsTable.id),
+          )
+          .leftJoin(
+            blogTagsTable,
+            eq(blogTagsTable.id, blogPostTagsTable.tagId),
+          );
+      }
+
+      // Add search conditions if searchQuery is provided
+      if (searchQuery) {
+        const searchPattern = `%${searchQuery}%`;
+        const searchConditions = or(
+          ilike(blogPostsTable.title, searchPattern),
+          ilike(blogPostsTable.description, searchPattern),
+          ilike(blogPostsTable.content, searchPattern),
+          ilike(usersTable.fullName, searchPattern),
+          ilike(usersTable.username, searchPattern),
+          ilike(blogTagsTable.name, searchPattern),
+        );
+        if (searchConditions) {
+          whereConditions.push(searchConditions);
+        }
+      }
+
+      const posts = await baseQuery
+        .where(whereConditions.length > 0 ? and(...whereConditions) : undefined)
+        .groupBy(
+          blogPostsTable.id,
+          blogPostsTable.title,
+          blogPostsTable.description,
+          blogPostsTable.content,
+          blogPostsTable.authorId,
+          blogPostsTable.categoryId,
+          blogPostsTable.coverImageId,
+          blogPostsTable.featured,
+          blogPostsTable.published,
+          blogPostsTable.archived,
+          blogPostsTable.createdAt,
+          blogPostsTable.updatedAt,
+        )
+        .orderBy(desc(blogPostsTable.createdAt))
+        .offset(offset ?? 0)
+        .limit(limit ?? 10);
+
+      return posts;
+    }
+
+    const posts = await db
+      .select({
+        id: blogPostsTable.id,
+        title: blogPostsTable.title,
+        description: blogPostsTable.description,
+        content: blogPostsTable.content,
+        authorId: blogPostsTable.authorId,
+        categoryId: blogPostsTable.categoryId,
+        coverImageId: blogPostsTable.coverImageId,
+        featured: blogPostsTable.featured,
+        published: blogPostsTable.published,
+        archived: blogPostsTable.archived,
+        createdAt: blogPostsTable.createdAt,
+        updatedAt: blogPostsTable.updatedAt,
+      })
+      .from(blogPostsTable)
+      .where(whereConditions.length > 0 ? and(...whereConditions) : undefined)
+      .orderBy(desc(blogPostsTable.createdAt))
+      .offset(offset ?? 0)
+      .limit(limit ?? 10);
+
+    return posts;
+  }
+
+  async getPopularBlogPosts({
+    offset,
+    limit,
+  }: { offset: number; limit: number }) {
+    const posts = await db
+      .select({
+        id: blogPostsTable.id,
+        title: blogPostsTable.title,
+        description: blogPostsTable.description,
+        content: blogPostsTable.content,
+        authorId: blogPostsTable.authorId,
+        categoryId: blogPostsTable.categoryId,
+        coverImageId: blogPostsTable.coverImageId,
+        featured: blogPostsTable.featured,
+        published: blogPostsTable.published,
+        archived: blogPostsTable.archived,
+        createdAt: blogPostsTable.createdAt,
+        updatedAt: blogPostsTable.updatedAt,
+      })
+      .from(blogPostsTable)
+      .leftJoin(
+        blogPostViewsTable,
+        eq(blogPostViewsTable.postId, blogPostsTable.id),
+      )
+      .where(
+        and(
+          eq(blogPostsTable.published, true),
+          eq(blogPostsTable.archived, false),
+        ),
+      )
+      .orderBy(desc(count(blogPostsTable.createdAt)))
+      .offset(offset ?? 0)
+      .limit(limit ?? 10);
 
     return posts;
   }
@@ -929,5 +1171,55 @@ export class BlogService {
         })
         .onConflictDoNothing();
     }
+  }
+
+  async getRelatedPosts({
+    tagId,
+    limit,
+    offset,
+  }: { tagId: string; limit?: number; offset?: number }) {
+    const [tag] = await db
+      .select()
+      .from(blogTagsTable)
+      .where(eq(blogTagsTable.id, tagId))
+      .limit(1);
+    checkConditions({
+      conditions: [!!tag],
+      message: "Tag not found",
+      statusCode: HttpStatus.NOT_FOUND,
+    });
+    const relatedPosts: BlogPostDTO[] = await db
+      .select({
+        id: blogPostsTable.id,
+        title: blogPostsTable.title,
+        description: blogPostsTable.description,
+        content: blogPostsTable.content,
+        authorId: blogPostsTable.authorId,
+        categoryId: blogPostsTable.categoryId,
+        coverImageId: blogPostsTable.coverImageId,
+        featured: blogPostsTable.featured,
+        published: blogPostsTable.published,
+        archived: blogPostsTable.archived,
+        createdAt: blogPostsTable.createdAt,
+        updatedAt: blogPostsTable.updatedAt,
+      })
+      .from(blogPostsTable)
+      .innerJoin(
+        blogPostTagsTable,
+        and(
+          eq(blogPostTagsTable.tagId, tagId),
+          eq(blogPostTagsTable.postId, blogPostsTable.id),
+        ),
+      )
+      .where(
+        and(
+          eq(blogPostsTable.published, true),
+          eq(blogPostsTable.archived, false),
+        ),
+      )
+      .orderBy(desc(blogPostsTable.createdAt))
+      .offset(offset ?? 0)
+      .limit(limit ?? 10);
+    return relatedPosts;
   }
 }

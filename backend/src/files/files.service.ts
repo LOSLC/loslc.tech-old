@@ -139,10 +139,7 @@ export class FilesService {
       
       throw new InternalServerErrorException("Failed to upload file");
     }
-    const response: Message = {
-      message: "File uploaded successfully",
-    };
-    return response;
+    return dbFile
   }
 
   async uploadFiles({
@@ -189,22 +186,17 @@ export class FilesService {
       return { file: file, id: dbFile.id };
     });
     
-    // Wait for all database records to be created first
     const fileUploadData = await Promise.all(filesToUpload);
     
-    // Now write all files to filesystem
     try {
       await fm.uploadFiles(fileUploadData);
     } catch (error) {
-      // If any file write fails, we should clean up all database records
       console.error("Error uploading files to filesystem:", error);
       
-      // Clean up database records on file write failure
       for (const { id } of fileUploadData) {
         try {
           const [file] = await db.select().from(filesTable).where(eq(filesTable.id, id)).limit(1);
           if (file) {
-            // Delete associated permissions and roles
             const roles = await db.select().from(rolesTable).where(eq(rolesTable.name, `${user.username} rw file-mgt ${id}`));
             for (const role of roles) {
               await db.delete(rolePermissionsTable).where(eq(rolePermissionsTable.roleId, role.id));

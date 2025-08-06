@@ -76,6 +76,132 @@ bun install
 bun run dev
 ```
 
+## ⚙️ Environment Configuration
+
+### 🔧 Environment Variables
+
+The application uses multiple environment files for different components:
+
+- **Root `.env`** - Docker Compose and global configuration
+- **Backend `.env`** - Backend-specific settings  
+- **Frontend `.env.local`** - Frontend-specific settings
+
+### 📝 Required Environment Variables
+
+#### Root Configuration (`.env`)
+
+```bash
+# ============================================================================
+# 🐳 Docker Compose Configuration
+# ============================================================================
+FRONTEND_PORT=3000
+BACKEND_PORT=8000
+
+# ============================================================================
+# 🗄️ Database Configuration
+# ============================================================================
+PG_USER=loslc_user
+PG_PASSWORD=secure_password_here
+PG_DB=loslc_database
+DATABASE_URL=postgresql://${PG_USER}:${PG_PASSWORD}@db:5432/${PG_DB}
+
+# ============================================================================
+# 🌐 Application URLs
+# ============================================================================
+APP_URL=https://loslc.tech
+BACKEND_URL=http://backend:8000  # For Docker, use http://localhost:8000 for local dev
+
+# ============================================================================
+# 📧 Email Configuration
+# ============================================================================
+MAIL_SERVICE=gmail
+APP_EMAIL=no-reply@loslc.tech
+SADMIN_EMAIL=admin@loslc.tech
+SMTP_PASSWORD=your-smtp-app-password-here
+
+# ============================================================================
+# 🔐 Security & Authentication
+# ============================================================================
+OTP_EXPIRATION_MINUTES=10
+AUTH_SESSION_EXPIRATION_DAYS=7
+EMAIL_VERIFICATION_EXPIRATION_HOURS=24
+PASSWORD_RESET_EXPIRATION_MINUTES=30
+
+# ============================================================================
+# 🐞 Development
+# ============================================================================
+DEBUG=true
+STORAGE=fs/storage
+```
+
+#### Backend Configuration (`backend/.env`)
+
+```bash
+# Application settings
+APP_URL=https://loslc.tech
+PORT=8000
+DEBUG=true
+
+# Database
+DATABASE_URL=postgresql://username:password@localhost:5432/database
+
+# Email configuration
+MAIL_SERVICE=gmail
+APP_EMAIL=no-reply@loslc.tech
+SADMIN_EMAIL=admin@loslc.tech
+SMTP_PASSWORD=your-smtp-password
+
+# Authentication timeouts
+OTP_EXPIRATION_MINUTES=10
+AUTH_SESSION_EXPIRATION_DAYS=7
+EMAIL_VERIFICATION_EXPIRATION_HOURS=24
+PASSWORD_RESET_EXPIRATION_MINUTES=30
+
+# File storage
+STORAGE=fs/storage
+```
+
+#### Frontend Configuration (`frontend/.env.local`)
+
+```bash
+# Backend API URL
+BACKEND_URL=http://localhost:8000
+```
+
+### 🔄 Environment Setup Steps
+
+1. **Copy example files:**
+   ```bash
+   # Root configuration for Docker
+   cp .env.example .env
+   
+   # Backend configuration
+   cp backend/.env.example backend/.env
+   
+   # Frontend configuration  
+   cp frontend/.env.example frontend/.env.local
+   ```
+
+2. **Update database credentials:**
+   - Change `PG_USER`, `PG_PASSWORD`, and `PG_DB` in root `.env`
+   - Update `DATABASE_URL` in backend `.env`
+
+3. **Configure email service:**
+   - Set up Gmail App Password or other email service
+   - Update `SMTP_PASSWORD` and email addresses
+
+4. **Set application URLs:**
+   - For development: Use `localhost` URLs
+   - For production: Use your domain names
+
+### 🚨 Security Notes
+
+- **Never commit actual credentials** to version control
+- **Use strong passwords** for database and email accounts
+- **Enable 2FA** on email accounts used for SMTP
+- **Use environment-specific URLs** (localhost for dev, domain for prod)
+- **Set `DEBUG=false`** in production environments
+
 ## 🏗️ Project Structure
 
 ### Frontend (Next.js)

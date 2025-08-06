@@ -15,6 +15,7 @@ export type Env =
   | "PASSWORD_RESET_EXPIRATION_MINUTES"
   | "DATABASE_URL"
   | "STORAGE"
+  | "CORS_ORIGIN"
 
 export function getEnv(key: Env): string {
   const value = process.env[key];

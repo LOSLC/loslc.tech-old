@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpCode,
   HttpStatus,
@@ -386,5 +387,51 @@ export class UsersController {
   @UseGuards(AuthGuard, AccessGuard)
   async unbanUser(@Param("userId") userId: string) {
     return this.usersService.unbanUser(userId);
+  }
+
+  @Delete(":userId")
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({
+    summary: "Delete a user",
+    description: "Permanently delete a user from the system",
+  })
+  @ApiParam({
+    name: "userId",
+    description: "The unique identifier of the user to delete",
+    type: "string",
+  })
+  @ApiResponse({
+    status: 200,
+    description: "Successfully deleted user",
+    schema: {
+      type: "object",
+      properties: {
+        message: {
+          type: "string",
+          example: "User deleted successfully",
+        },
+      },
+    },
+  })
+  @ApiResponse({
+    status: 401,
+    description: "Unauthorized - Invalid or missing authentication token",
+  })
+  @ApiResponse({
+    status: 403,
+    description: "Forbidden - Insufficient permissions",
+  })
+  @ApiResponse({
+    status: 404,
+    description: "User not found",
+  })
+  @Permissions([{ resource: "user", action: "rw" }])
+  @BypassRole({ roleName: "superadmin" })
+  @UseGuards(AuthGuard, AccessGuard)
+  async deleteUser(
+    @Param("userId") userId: string,
+    @UserDecorator() user: User,
+  ) {
+    return this.usersService.deleteUser(userId, user);
   }
 }

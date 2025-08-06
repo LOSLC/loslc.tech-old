@@ -33,7 +33,7 @@ function VerifyOtpContent() {
     onSuccess: () => {
       toast.success(t("auth.otpVerificationSuccess"));
       setTimeout(() => {
-        router.push("/dashboard");
+        router.push("/");
       }, 1000);
     },
     retry: false,
