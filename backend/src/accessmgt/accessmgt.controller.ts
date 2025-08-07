@@ -500,6 +500,7 @@ export class AccessmgtController {
   @BypassRole({ roleName: "superadmin" })
   @UseGuards(AuthGuard, AccessGuard)
   async createRole(@Body() createRoleDTO: CreateRoleDTO): Promise<RoleDTO> {
+    console.log(createRoleDTO)
     return this.accessmgtService.createRole(createRoleDTO);
   }
 
@@ -549,6 +550,7 @@ export class AccessmgtController {
   async createPermission(
     @Body() createPermissionDTO: CreatePermissionDTO,
   ): Promise<PermissionDTO> {
+    console.log(createPermissionDTO);
     return this.accessmgtService.createPermission(createPermissionDTO);
   }
 
