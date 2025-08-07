@@ -1,2 +1,2 @@
-bun run db:migrate
-bun run start
+pnpm run db:migrate
+pnpm run start
