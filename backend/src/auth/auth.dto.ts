@@ -1,5 +1,5 @@
 import { IsEmail, IsNotEmpty, MinLength } from "class-validator";
-import { Expose } from "class-transformer";
+import { Transform } from "class-transformer";
 
 interface RegisterDTOInterface {
   email: string;
@@ -35,49 +35,39 @@ interface PasswordResetDTOInterface {
 }
 
 export class RegisterDTO implements RegisterDTOInterface {
-  @Expose()
   @IsEmail()
   email: string;
 
-  @Expose()
   @IsNotEmpty()
   username: string;
 
-  @Expose()
   @IsNotEmpty()
   fullName: string;
 
-  @Expose()
   @MinLength(8)
   password: string;
 
-  @Expose()
   @MinLength(8)
   confirmPassword: string;
 }
 
 export class LoginDTO implements LoginDTOInterface {
-  @Expose()
   @IsEmail()
   email: string;
 
-  @Expose()
   @MinLength(8)
   password: string;
 }
 
 export class OtpVerificationDTO implements OtpVerificationDTOInterface {
-  @Expose()
   @IsNotEmpty()
   token: string;
 }
 
 export class AccountVerificationDTO implements AccountVerificationDTOInterface {
-  @Expose()
   @IsNotEmpty()
   authSessionId: string;
 
-  @Expose()
   @IsNotEmpty()
   authSessionToken: string;
 }
@@ -85,25 +75,20 @@ export class AccountVerificationDTO implements AccountVerificationDTOInterface {
 export class PasswordResetRequestDTO
   implements PasswordResetRequestDTOInterface
 {
-  @Expose()
   @IsEmail()
   email: string;
 }
 
 export class PasswordResetDTO implements PasswordResetDTOInterface {
-  @Expose()
   @IsNotEmpty()
   sessionId: string;
 
-  @Expose()
   @IsNotEmpty()
   token: string;
 
-  @Expose()
   @MinLength(8)
   newPassword: string;
 
-  @Expose()
   @MinLength(8)
   confirmNewPassword: string;
 }

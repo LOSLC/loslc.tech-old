@@ -1,244 +1,246 @@
-import { IsNotEmpty, IsOptional, IsBoolean, IsString, IsUUID, IsArray, IsInt, Min, Max } from "class-validator";
+import { IsNotEmpty, IsOptional, IsBoolean, IsString, IsUUID, IsArray, IsInt, Min, Max, ValidateIf, Allow } from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";
-import { Transform, Type, Expose } from "class-transformer";
+import { Transform, Type } from "class-transformer";
 
 // Blog Post DTOs
 export class BlogPostDTO {
   @ApiProperty()
-  @Expose()
+  @IsNotEmpty()
+  @IsString()
   id: string;
 
   @ApiProperty()
-  @Expose()
+  @IsNotEmpty()
+  @IsString()
   title: string;
 
   @ApiProperty()
-  @Expose()
+  @IsNotEmpty()
+  @IsString()
   description: string;
 
   @ApiProperty()
-  @Expose()
+  @IsNotEmpty()
+  @IsString()
   content: string;
 
   @ApiProperty()
-  @Expose()
+  @IsNotEmpty()
+  @IsString()
   authorId: string;
 
   @ApiProperty()
-  @Expose()
+  @ValidateIf((o) => o.categoryId !== null)
+  @IsUUID()
   categoryId: string | null;
 
   @ApiProperty()
-  @Expose()
+  @ValidateIf((o) => o.coverImageId !== null)
+  @IsUUID()
   coverImageId: string | null;
 
   @ApiProperty()
-  @Expose()
+  @IsBoolean()
   featured: boolean;
 
   @ApiProperty()
-  @Expose()
+  @IsBoolean()
   published: boolean;
 
   @ApiProperty()
-  @Expose()
+  @IsBoolean()
   archived: boolean;
 
   @ApiProperty()
-  @Expose()
+  @Allow()
   createdAt: Date;
 
   @ApiProperty()
-  @Expose()
+  @ValidateIf((o) => o.updatedAt !== null)
+  @Allow()
   updatedAt: Date | null;
 }
 
 export class CreateBlogPostDTO {
   @IsNotEmpty()
   @IsString()
-  @Expose()
   title: string;
 
   @IsNotEmpty()
   @IsString()
-  @Expose()
   description: string;
 
   @IsNotEmpty()
   @IsString()
-  @Expose()
   content: string;
 
   @IsOptional()
   @IsUUID()
-  @Expose()
   categoryId?: string;
 
   @IsOptional()
   @IsUUID()
-  @Expose()
   coverImageId?: string;
 
   @IsOptional()
   @IsBoolean()
-  @Expose()
   featured?: boolean;
 
   @IsOptional()
   @IsBoolean()
-  @Expose()
   published?: boolean;
 
   @IsOptional()
   @IsArray()
   @IsString({ each: true })
-  @Expose()
   tags?: string[];
 }
 
 export class UpdateBlogPostDTO {
   @IsOptional()
   @IsString()
-  @Expose()
   title?: string;
 
   @IsOptional()
   @IsString()
-  @Expose()
   description?: string;
 
   @IsOptional()
   @IsString()
-  @Expose()
   content?: string;
 
   @IsOptional()
   @IsUUID()
-  @Expose()
   categoryId?: string;
 
   @IsOptional()
   @IsUUID()
-  @Expose()
   coverImageId?: string;
 
   @IsOptional()
   @IsBoolean()
-  @Expose()
   featured?: boolean;
 
   @IsOptional()
   @IsBoolean()
-  @Expose()
   published?: boolean;
 
   @IsOptional()
   @IsBoolean()
-  @Expose()
   archived?: boolean;
 
   @IsOptional()
   @IsArray()
   @IsString({ each: true })
-  @Expose()
   tags?: string[];
 }
 
 // Comment DTOs
 export class BlogCommentDTO {
   @ApiProperty()
-  @Expose()
+  @IsNotEmpty()
+  @IsString()
   id: string;
 
   @ApiProperty()
-  @Expose()
+  @IsNotEmpty()
+  @IsString()
   postId: string;
 
   @ApiProperty()
-  @Expose()
+  @IsNotEmpty()
+  @IsString()
   authorId: string;
 
   @ApiProperty()
-  @Expose()
+  @ValidateIf((o) => o.parentId !== null)
+  @IsUUID()
   parentId: string | null;
 
   @ApiProperty()
-  @Expose()
+  @IsNotEmpty()
+  @IsString()
   content: string;
 }
 
 export class CreateCommentDTO {
   @IsNotEmpty()
   @IsString()
-  @Expose()
   content: string;
 
   @IsOptional()
   @IsUUID()
-  @Expose()
   parentId?: string;
 }
 
 export class UpdateCommentDTO {
   @IsNotEmpty()
   @IsString()
-  @Expose()
   content: string;
 }
 
 // Like DTOs
 export class BlogLikeDTO {
   @ApiProperty()
-  @Expose()
+  @IsNotEmpty()
+  @IsString()
   id: string;
 
   @ApiProperty()
-  @Expose()
+  @IsNotEmpty()
+  @IsString()
   likerId: string;
 
   @ApiProperty()
-  @Expose()
+  @IsNotEmpty()
+  @IsString()
   postId: string;
 
   @ApiProperty()
-  @Expose()
+  @Allow()
   likedAt: Date;
 }
 
 export class ToggleLikeResponseDTO {
   @ApiProperty({ description: 'Whether the post is now liked or not' })
-  @Expose()
+  @IsBoolean()
   liked: boolean;
 
   @ApiProperty({ required: false, description: 'The like object if the post was liked' })
-  @Expose()
+  @IsOptional()
+  @Allow()
   like?: BlogLikeDTO;
 
   @ApiProperty({ description: 'Success message' })
-  @Expose()
+  @IsNotEmpty()
+  @IsString()
   message: string;
 }
 
 // View DTOs
 export class BlogViewDTO {
   @ApiProperty()
-  @Expose()
+  @IsNotEmpty()
+  @IsString()
   id: string;
 
   @ApiProperty()
-  @Expose()
+  @ValidateIf((o) => o.viewerId !== null)
+  @IsString()
   viewerId: string | null;
 
   @ApiProperty()
-  @Expose()
+  @IsNotEmpty()
+  @IsString()
   postId: string;
 
   @ApiProperty()
-  @Expose()
+  @Allow()
   viewedAt: Date;
 
   @ApiProperty()
-  @Expose()
+  @IsInt()
+  @Min(0)
   viewTime: number;
 }
 
@@ -247,58 +249,59 @@ export class CreateViewDTO {
   @IsInt()
   @Min(0)
   @Max(86400) // Max 24 hours in seconds
-  @Expose()
   viewTime?: number;
 }
 
 // Category DTOs
 export class BlogCategoryDTO {
   @ApiProperty()
-  @Expose()
+  @IsNotEmpty()
+  @IsString()
   id: string;
 
   @ApiProperty()
-  @Expose()
+  @IsNotEmpty()
+  @IsString()
   name: string;
 }
 
 export class CreateCategoryDTO {
   @IsNotEmpty()
   @IsString()
-  @Expose()
   name: string;
 }
 
 export class UpdateCategoryDTO {
   @IsNotEmpty()
   @IsString()
-  @Expose()
   name: string;
 }
 
 // Tag DTOs
 export class BlogTagDTO {
   @ApiProperty()
-  @Expose()
+  @IsNotEmpty()
+  @IsString()
   id: string;
 
   @ApiProperty()
-  @Expose()
+  @IsNotEmpty()
+  @IsString()
   name: string;
 
   @ApiProperty()
-  @Expose()
+  @IsNotEmpty()
+  @IsString()
   userId: string;
 
   @ApiProperty()
-  @Expose()
+  @Allow()
   createdAt: Date;
 }
 
 export class CreateTagDTO {
   @IsNotEmpty()
   @IsString()
-  @Expose()
   name: string;
 }
 // Query DTOs
@@ -307,7 +310,6 @@ export class GetBlogPostsQueryDTO {
   @IsInt()
   @Min(0)
   @Type(() => Number)
-  @Expose()
   offset?: number = 0;
 
   @IsOptional()
@@ -315,32 +317,26 @@ export class GetBlogPostsQueryDTO {
   @Min(1)
   @Max(100)
   @Type(() => Number)
-  @Expose()
   limit?: number = 20;
 
   @IsOptional()
   @IsUUID()
-  @Expose()
   categoryId?: string;
 
   @IsOptional()
   @IsString()
-  @Expose()
   tag?: string;
 
   @IsOptional()
   @IsBoolean()
   @Transform(({value}) => value === 'true')
-  @Expose()
   featured?: boolean;
 
   @IsOptional()
   @IsString()
-  @Expose()
   authorId?: string;
 
   @IsOptional()
   @IsString()
-  @Expose()
   query?: string;
 }
