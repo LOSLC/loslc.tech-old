@@ -34,6 +34,7 @@ services:
       
       - DEBUG=${DEBUG}
       - STORAGE=${STORAGE}
+      - CORS_ORIGIN=${CORS_ORIGIN}
       
       - PG_USER=${PG_USER}
       - PG_PASSWORD=${PG_PASSWORD}
