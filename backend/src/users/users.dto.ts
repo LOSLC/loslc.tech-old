@@ -1,5 +1,6 @@
 import { IsNotEmpty, IsString, MaxLength, MinLength } from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";
+import { Expose } from "class-transformer";
 import { User } from "@/core/db/schema";
 
 export interface UserDTO {
@@ -44,6 +45,7 @@ export interface UserBanResponseDTO {
 }
 
 export class UpdateUserInfoDTO {
+  @Expose()
   @ApiProperty({
     description: "The user's full name",
     example: "John Doe",
@@ -58,6 +60,7 @@ export class UpdateUserInfoDTO {
 }
 
 export class GetUsersDTO {
+  @Expose()
   @ApiProperty({
     description: "Maximum number of users to return",
     example: 20,
@@ -67,6 +70,7 @@ export class GetUsersDTO {
   })
   limit?: number = 20;
 
+  @Expose()
   @ApiProperty({
     description: "Number of users to skip for pagination",
     example: 0,

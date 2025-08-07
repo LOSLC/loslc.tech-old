@@ -58,7 +58,6 @@ export class BlogService {
       authorId,
       query: searchQuery,
     } = query;
-    console.log(query);
 
     const whereConditions = [
       eq(blogPostsTable.published, true),

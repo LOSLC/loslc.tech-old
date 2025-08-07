@@ -141,10 +141,7 @@ export class AccessmgtService {
           eq(userRolesTable.roleId, rolesTable.id),
         ),
       )
-      .innerJoin(
-        rolesTable,
-        eq(rolesTable.id, userRolesTable.roleId),
-      )
+      .innerJoin(rolesTable, eq(rolesTable.id, userRolesTable.roleId))
       .innerJoin(
         rolePermissionsTable,
         and(
@@ -261,7 +258,13 @@ export class AccessmgtService {
   }
 
   async createRole(props: CreateRoleDTO): Promise<RoleDTO> {
-    const [role] = await db.insert(rolesTable).values(props).returning();
+    const [role] = await db
+      .insert(rolesTable)
+      .values({
+        name: props.name,
+        description: props.description,
+      })
+      .returning();
     return role;
   }
 
