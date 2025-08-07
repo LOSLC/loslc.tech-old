@@ -8,6 +8,6 @@ COPY --chown=app:app . .
 
 RUN bun install
 RUN bun run build
-EXPOSE 3000
+EXPOSE 8000
 RUN chmod +x entry-point.sh
 CMD ["./entry-point.sh"]
