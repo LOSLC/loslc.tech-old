@@ -258,7 +258,6 @@ export class AccessmgtService {
   }
 
   async createRole(props: CreateRoleDTO): Promise<RoleDTO> {
-    console.log(props)
     const [role] = await db
       .insert(rolesTable)
       .values({
