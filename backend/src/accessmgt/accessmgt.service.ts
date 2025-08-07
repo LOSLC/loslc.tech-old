@@ -569,14 +569,18 @@ export class AccessmgtService {
   }
 
   async isAdmin(user: User): Promise<boolean> {
-    const userRoles = await this.getUserRoles({
-      userId: user.id,
-      all: true,
+    const check = await this.checkPermissions({
+      user: user,
+      permissions: [
+        {
+          action: "rw",
+          resource: "adminaction",
+        },
+      ],
+      bypassRole: {
+        roleName: "admin",
+      },
     });
-
-    return userRoles.some(
-      (role) =>
-        role.name && (role.name === "admin" || role.name === "superadmin"),
-    );
+    return check;
   }
 }
