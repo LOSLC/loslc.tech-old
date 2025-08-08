@@ -25,6 +25,7 @@ import remarkGfm from "remark-gfm";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { tomorrow } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { isSlugWithPostId, extractPostIdFromSlug } from "@/lib/utils/slug";
+import { LikeButton } from "@/components/blog/LikeButton";
 
 export default function BlogPostPage() {
   const params = useParams();
@@ -149,7 +150,7 @@ export default function BlogPostPage() {
   return (
     <div className="min-h-screen bg-background">
       {/* Enhanced Header with breadcrumb navigation */}
-      <header className="border-b border-border sticky top-0 z-10 backdrop-blur-sm bg-card/95">
+  <header className="border-b border-border sticky top-0 z-10 bg-card/95 supports-[backdrop-filter]:backdrop-blur-sm">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
@@ -172,10 +173,8 @@ export default function BlogPostPage() {
             
             {/* Social sharing buttons */}
             <div className="flex items-center space-x-2">
-              <Button size="sm" variant="ghost" className="text-muted-foreground hover:text-primary">
-                <Heart className="w-4 h-4" />
-              </Button>
-              <Button size="sm" variant="ghost" className="text-muted-foreground hover:text-primary">
+              {post?.id && <LikeButton postId={post.id} size="sm" />}
+              <Button size="sm" variant="ghost" aria-label="Share article" className="text-muted-foreground hover:text-primary">
                 <Share2 className="w-4 h-4" />
               </Button>
             </div>
@@ -368,10 +367,7 @@ export default function BlogPostPage() {
               </div>
               
               <div className="flex flex-col sm:flex-row gap-3">
-                <Button variant="ghost" size="sm" className="gap-2">
-                  <Heart className="w-4 h-4" />
-                  Like Article
-                </Button>
+                {post?.id && <LikeButton postId={post.id} size="sm" />}
                 <Button variant="outline" size="sm" className="gap-2">
                   <Share2 className="w-4 h-4" />
                   Share

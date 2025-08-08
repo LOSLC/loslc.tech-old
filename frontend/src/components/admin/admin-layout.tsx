@@ -287,7 +287,7 @@ export function AdminLayout({ children }: AdminLayoutProps) {
 
         {/* Mobile Header */}
         <div className="lg:hidden fixed top-0 left-0 right-0 z-40">
-          <div className="flex items-center justify-between p-4 border-b border-border bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/60">
+          <div className="flex items-center justify-between px-3 py-3 sm:px-4 sm:py-4 border-b border-border bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/60">
             <div className="flex items-center space-x-2">
               <div className="w-8 h-8 bg-gradient-to-br from-primary to-primary/80 rounded-lg flex items-center justify-center">
                 <LayoutDashboard className="w-4 h-4 text-primary-foreground" />
@@ -302,9 +302,9 @@ export function AdminLayout({ children }: AdminLayoutProps) {
         <MobileBottomNav />
 
         {/* Main Content */}
-        <div className="flex-1 lg:ml-20 pt-16 lg:pt-0 pb-20 lg:pb-0">
+    <div className="flex-1 lg:ml-20 pt-14 sm:pt-16 lg:pt-0 pb-20 lg:pb-0">
           <main className="h-full overflow-y-auto">
-            <div className="p-4 sm:p-6 max-w-7xl mx-auto">
+      <div className="px-3 py-4 sm:p-6 max-w-7xl mx-auto w-full">
               {children}
             </div>
           </main>

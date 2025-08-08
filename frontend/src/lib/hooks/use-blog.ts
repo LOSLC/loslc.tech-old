@@ -13,6 +13,8 @@ export const blogKeys = {
   categories: () => [...blogKeys.all, 'categories'] as const,
   tags: () => [...blogKeys.all, 'tags'] as const,
   featured: () => [...blogKeys.all, 'featured'] as const,
+  liked: (id: string) => [...blogKeys.all, 'post', id, 'liked'] as const,
+  likesCount: (id: string) => [...blogKeys.all, 'post', id, 'likes', 'count'] as const,
   search: (query: GetBlogPostsQueryDTO) => {
     // Create a stable key by sorting and stringifying the query object
     const stableQuery = Object.keys(query || {})
@@ -168,6 +170,32 @@ export function useRefreshBlogData() {
 }
 
 /**
+ * Hook to check if current user has liked a post
+ */
+export function useHasLiked(postId: string, enabled: boolean = true) {
+  return useQuery({
+    queryKey: blogKeys.liked(postId),
+    queryFn: () => blogApi.hasLiked(postId),
+    select: (data) => data.hasLiked,
+    enabled: !!postId && enabled,
+    staleTime: 2 * 60 * 1000,
+  });
+}
+
+/**
+ * Hook to get likes count for a post
+ */
+export function usePostLikesCount(postId: string, enabled: boolean = true) {
+  return useQuery({
+    queryKey: blogKeys.likesCount(postId),
+    queryFn: () => blogApi.getPostLikes(postId),
+    select: (likes) => likes.length,
+    enabled: !!postId && enabled,
+    staleTime: 2 * 60 * 1000,
+  });
+}
+
+/**
  * Hook for optimistic updates when liking a post
  */
 export function useLikeBlogPost() {
@@ -178,29 +206,43 @@ export function useLikeBlogPost() {
     onMutate: async (postId) => {
       // Cancel any outgoing refetches for the post
       await queryClient.cancelQueries({ queryKey: blogKeys.post(postId) });
+      await queryClient.cancelQueries({ queryKey: blogKeys.liked(postId) });
+      await queryClient.cancelQueries({ queryKey: blogKeys.likesCount(postId) });
 
       // Snapshot the previous value
       const previousPost = queryClient.getQueryData<BlogPostDTO>(blogKeys.post(postId));
+      const previousLiked = queryClient.getQueryData<boolean>(blogKeys.liked(postId));
+      const previousCount = queryClient.getQueryData<number>(blogKeys.likesCount(postId));
 
       // Optimistically update the cache
-      if (previousPost) {
-        queryClient.setQueryData<BlogPostDTO>(blogKeys.post(postId), {
-          ...previousPost,
-          // Add like count logic here when available in the DTO
-        });
+      if (typeof previousLiked === 'boolean') {
+        queryClient.setQueryData<boolean>(blogKeys.liked(postId), !previousLiked);
       }
 
-      return { previousPost };
+      if (typeof previousCount === 'number') {
+        const next = Math.max(0, previousCount + (previousLiked ? -1 : 1));
+        queryClient.setQueryData<number>(blogKeys.likesCount(postId), next);
+      }
+
+      return { previousPost, previousLiked, previousCount };
     },
     onError: (err, postId, context) => {
       // Rollback on error
       if (context?.previousPost) {
         queryClient.setQueryData(blogKeys.post(postId), context.previousPost);
       }
+      if (typeof context?.previousLiked === 'boolean') {
+        queryClient.setQueryData(blogKeys.liked(postId), context.previousLiked);
+      }
+      if (typeof context?.previousCount === 'number') {
+        queryClient.setQueryData(blogKeys.likesCount(postId), context.previousCount);
+      }
     },
     onSettled: (data, error, postId) => {
       // Always refetch after error or success
       queryClient.invalidateQueries({ queryKey: blogKeys.post(postId) });
+      queryClient.invalidateQueries({ queryKey: blogKeys.liked(postId) });
+      queryClient.invalidateQueries({ queryKey: blogKeys.likesCount(postId) });
     },
   });
 }
