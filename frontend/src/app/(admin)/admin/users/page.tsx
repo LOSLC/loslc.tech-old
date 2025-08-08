@@ -27,6 +27,7 @@ import {
   Loader2,
   ChevronLeft,
   ChevronRight,
+  CheckCircle2,
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -55,13 +56,17 @@ function UserCard({
   onDelete: (user: UserWithRoles) => void;
   isDeleting?: boolean;
 }) {
+  const [showAllRoles, setShowAllRoles] = useState(false);
+  const roleLimit = 4;
+  const rolesToShow = showAllRoles ? user.roles : user.roles.slice(0, roleLimit);
+
   return (
-    <Card>
+    <Card className="group hover:shadow-lg transition-all">
       <CardContent className="p-6">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <Avatar className="h-12 w-12">
-              <div className="w-full h-full bg-primary/10 flex items-center justify-center">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+          <div className="flex items-center space-x-4 min-w-0">
+            <Avatar className="h-12 w-12 ring-2 ring-transparent group-hover:ring-primary/30 transition">
+              <div className="w-full h-full bg-primary/10 flex items-center justify-center rounded-full">
                 <span className="text-primary font-medium">
                   {user.fullName
                     .split(" ")
@@ -70,14 +75,18 @@ function UserCard({
                 </span>
               </div>
             </Avatar>
-            <div>
-              <h3 className="font-semibold">{user.fullName}</h3>
-              <p className="text-sm text-muted-foreground">@{user.username}</p>
+            <div className="min-w-0">
+              <h3 className="font-semibold truncate">{user.fullName}</h3>
+              <p className="text-sm text-muted-foreground truncate">@{user.username}</p>
               <div className="flex items-center space-x-2 mt-1">
                 <Mail className="h-3 w-3 text-muted-foreground" />
-                <span className="text-xs text-muted-foreground">
+                <a
+                  href={`mailto:${user.email}`}
+                  className="text-xs text-muted-foreground break-all hover:underline"
+                  title={user.email}
+                >
                   {user.email}
-                </span>
+                </a>
               </div>
               <div className="flex items-center space-x-2 mt-1">
                 <Calendar className="h-3 w-3 text-muted-foreground" />
@@ -88,67 +97,84 @@ function UserCard({
             </div>
           </div>
 
-          <div className="flex items-center space-x-2">
-            <div className="flex flex-wrap gap-1">
-              {user.roles.map((role: RoleDTO) => (
-                <Badge key={role.id} variant="secondary" className="text-xs">
-                  {role.name}
-                </Badge>
-              ))}
-            </div>
-
-            <div className="flex items-center space-x-2">
-              {user.isVerified && (
-                <Badge variant="default" className="text-xs">
-                  Verified
-                </Badge>
-              )}
-              {user.isBanned && (
-                <Badge variant="destructive" className="text-xs">
-                  Banned
-                </Badge>
-              )}
-            </div>
-
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="sm" disabled={isDeleting}>
-                  {isDeleting ? (
-                    <Loader2 className="h-4 w-4 animate-spin" />
-                  ) : (
-                    <MoreHorizontal className="h-4 w-4" />
-                  )}
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                {user.isBanned ? (
-                  <DropdownMenuItem
-                    onClick={() => onUnban(user)}
-                    disabled={isDeleting}
+          <div className="flex flex-col gap-3 w-full sm:w-auto sm:items-end">
+            <div className="w-full sm:w-auto">
+              <div className="flex flex-wrap gap-1 rounded-md bg-muted/40 p-1">
+                {rolesToShow.map((role: RoleDTO) => (
+                  <Badge key={role.id} variant="secondary" className="text-xs">
+                    {role.name}
+                  </Badge>
+                ))}
+                {user.roles.length > roleLimit && (
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    className="h-6 px-2 text-xs"
+                    onClick={() => setShowAllRoles((v) => !v)}
+                    aria-expanded={showAllRoles}
+                    aria-label={showAllRoles ? "Show fewer roles" : "Show all roles"}
                   >
-                    <UnlockKeyhole className="h-4 w-4 mr-2" />
-                    Unban User
-                  </DropdownMenuItem>
-                ) : (
+                    {showAllRoles ? "Show less" : `+${user.roles.length - roleLimit} more`}
+                  </Button>
+                )}
+              </div>
+            </div>
+
+            <div className="flex items-center justify-between sm:justify-end gap-2 w-full">
+              <div className="flex items-center gap-2">
+                {user.isVerified && (
+                  <Badge variant="default" className="text-xs">
+                    <CheckCircle2 className="h-3 w-3 mr-1" /> Verified
+                  </Badge>
+                )}
+                {user.isBanned && (
+                  <Badge variant="destructive" className="text-xs">
+                    <Ban className="h-3 w-3 mr-1" /> Banned
+                  </Badge>
+                )}
+              </div>
+
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="sm" aria-label="User actions" disabled={isDeleting}>
+                    {isDeleting ? (
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                    ) : (
+                      <MoreHorizontal className="h-4 w-4" />
+                    )}
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  {user.isBanned ? (
+                    <DropdownMenuItem
+                      onClick={() => onUnban(user)}
+                      disabled={isDeleting}
+                    >
+                      <UnlockKeyhole className="h-4 w-4 mr-2" />
+                      Unban User
+                    </DropdownMenuItem>
+                  ) : (
+                    <DropdownMenuItem
+                      onClick={() => onBan(user)}
+                      className="text-destructive"
+                      disabled={isDeleting}
+                    >
+                      <Ban className="h-4 w-4 mr-2" />
+                      Ban User
+                    </DropdownMenuItem>
+                  )}
                   <DropdownMenuItem
-                    onClick={() => onBan(user)}
+                    onClick={() => onDelete(user)}
                     className="text-destructive"
                     disabled={isDeleting}
                   >
-                    <Ban className="h-4 w-4 mr-2" />
-                    Ban User
+                    <Trash2 className="h-4 w-4 mr-2" />
+                    Delete User
                   </DropdownMenuItem>
-                )}
-                <DropdownMenuItem
-                  onClick={() => onDelete(user)}
-                  className="text-destructive"
-                  disabled={isDeleting}
-                >
-                  <Trash2 className="h-4 w-4 mr-2" />
-                  Delete User
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
           </div>
         </div>
       </CardContent>
@@ -560,7 +586,7 @@ export default function UsersPage() {
   return (
     <AdminLayout>
       <div className="space-y-6">
-        <div className="flex items-center justify-between">
+  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
             <h1 className="text-3xl font-bold">User Management</h1>
             <p className="text-muted-foreground">
@@ -570,7 +596,7 @@ export default function UsersPage() {
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <Card>
             <CardContent className="p-4">
               <div className="text-2xl font-bold">{usersData.length}</div>
@@ -610,7 +636,7 @@ export default function UsersPage() {
         {/* Search and Filters */}
         <Card>
           <CardContent className="p-6">
-            <div className="flex items-center space-x-4">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-3">
               <div className="relative flex-1">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input

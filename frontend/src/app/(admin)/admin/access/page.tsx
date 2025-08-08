@@ -21,7 +21,8 @@ import {
   UserPlus,
   Link as LinkIcon,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  Mail,
 } from "lucide-react";
 import { adminApi, type RoleDTO, type PermissionDTO, type CreateRoleDTO, type CreatePermissionDTO, type RoleAssignmentDTO } from "@/lib/api/admin";
 import { type UserDTO } from "@/lib/api/users";
@@ -41,37 +42,65 @@ function UserRoleCard({ user, onAssignRole, onRevokeRole }: {
   onAssignRole: (user: UserWithRoles) => void;
   onRevokeRole: (user: UserWithRoles, role: RoleDTO) => void;
 }) {
+  const [showAllRoles, setShowAllRoles] = useState(false);
+  const roleLimit = 4;
+  const rolesToShow = showAllRoles ? user.roles : user.roles.slice(0, roleLimit);
+
   return (
-    <Card>
+    <Card className="group hover:shadow-lg transition-all">
       <CardContent className="p-6">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-4">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+          <div className="flex items-center space-x-4 min-w-0">
             <div className="p-2 bg-primary/10 rounded-lg">
               <Users className="h-6 w-6 text-primary" />
             </div>
-            <div>
-              <h3 className="font-semibold">{user.fullName}</h3>
-              <p className="text-sm text-muted-foreground">@{user.username}</p>
-              <p className="text-xs text-muted-foreground">{user.email}</p>
+            <div className="min-w-0">
+              <h3 className="font-semibold truncate">{user.fullName}</h3>
+              <p className="text-sm text-muted-foreground truncate">@{user.username}</p>
+              <div className="flex items-center gap-2 mt-1">
+                <Mail className="h-3 w-3 text-muted-foreground" />
+                <a
+                  href={`mailto:${user.email}`}
+                  className="text-xs text-muted-foreground break-all hover:underline"
+                  title={user.email}
+                >
+                  {user.email}
+                </a>
+              </div>
             </div>
           </div>
           
-          <div className="flex items-center space-x-2">
-            <div className="flex flex-wrap gap-1">
-              {user.roles.map((role: RoleDTO) => (
-                <Badge 
-                  key={role.id} 
-                  variant="secondary" 
-                  className="text-xs cursor-pointer hover:bg-destructive hover:text-destructive-foreground"
-                  onClick={() => onRevokeRole(user, role)}
-                  title="Click to revoke this role"
-                >
-                  {role.name} ×
-                </Badge>
-              ))}
+          <div className="flex flex-col sm:items-end gap-3 w-full sm:w-auto">
+            <div className="w-full sm:w-auto">
+              <div className="flex flex-wrap gap-1 rounded-md bg-muted/40 p-1">
+                {rolesToShow.map((role: RoleDTO) => (
+                  <Badge 
+                    key={role.id} 
+                    variant="secondary" 
+                    className="text-xs cursor-pointer hover:bg-destructive hover:text-destructive-foreground"
+                    onClick={() => onRevokeRole(user, role)}
+                    title="Click to revoke this role"
+                  >
+                    {role.name} ×
+                  </Badge>
+                ))}
+                {user.roles.length > roleLimit && (
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    className="h-6 px-2 text-xs"
+                    onClick={() => setShowAllRoles((v) => !v)}
+                    aria-expanded={showAllRoles}
+                    aria-label={showAllRoles ? "Show fewer roles" : "Show all roles"}
+                  >
+                    {showAllRoles ? "Show less" : `+${user.roles.length - roleLimit} more`}
+                  </Button>
+                )}
+              </div>
             </div>
-            
-            <Button variant="outline" size="sm" onClick={() => onAssignRole(user)}>
+
+            <Button variant="outline" size="sm" onClick={() => onAssignRole(user)} className="w-full sm:w-auto">
               <UserPlus className="h-4 w-4 mr-2" />
               Assign Role
             </Button>
@@ -117,7 +146,7 @@ function CreateRoleDialog({ open, onOpenChange }: {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[425px] mx-4">
         <DialogHeader>
           <DialogTitle>Create New Role</DialogTitle>
         </DialogHeader>
@@ -153,11 +182,11 @@ function CreateRoleDialog({ open, onOpenChange }: {
             />
           </div>
         </div>
-        <div className="flex justify-end space-x-2">
-          <Button variant="outline" onClick={() => onOpenChange(false)} disabled={createRoleMutation.isPending}>
+        <div className="flex flex-col sm:flex-row sm:justify-end gap-2 sm:gap-2">
+          <Button variant="outline" onClick={() => onOpenChange(false)} disabled={createRoleMutation.isPending} className="w-full sm:w-auto">
             Cancel
           </Button>
-          <Button onClick={handleSave} disabled={createRoleMutation.isPending}>
+          <Button onClick={handleSave} disabled={createRoleMutation.isPending} className="w-full sm:w-auto">
             {createRoleMutation.isPending && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
             Create Role
           </Button>
@@ -213,7 +242,7 @@ function CreatePermissionDialog({ open, onOpenChange }: {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[425px] mx-4">
         <DialogHeader>
           <DialogTitle>Create New Permission</DialogTitle>
         </DialogHeader>
@@ -269,11 +298,11 @@ function CreatePermissionDialog({ open, onOpenChange }: {
             />
           </div>
         </div>
-        <div className="flex justify-end space-x-2">
-          <Button variant="outline" onClick={() => onOpenChange(false)} disabled={createPermissionMutation.isPending}>
+        <div className="flex flex-col sm:flex-row sm:justify-end gap-2 sm:gap-2">
+          <Button variant="outline" onClick={() => onOpenChange(false)} disabled={createPermissionMutation.isPending} className="w-full sm:w-auto">
             Cancel
           </Button>
-          <Button onClick={handleSave} disabled={createPermissionMutation.isPending}>
+          <Button onClick={handleSave} disabled={createPermissionMutation.isPending} className="w-full sm:w-auto">
             {createPermissionMutation.isPending && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
             Create Permission
           </Button>
@@ -321,7 +350,7 @@ function AssignRoleDialog({ open, onOpenChange, user, knownRoles }: {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[425px] mx-4">
         <DialogHeader>
           <DialogTitle>Assign Role to {user.fullName}</DialogTitle>
         </DialogHeader>
@@ -342,11 +371,11 @@ function AssignRoleDialog({ open, onOpenChange, user, knownRoles }: {
             </Select>
           </div>
         </div>
-        <div className="flex justify-end space-x-2">
-          <Button variant="outline" onClick={() => onOpenChange(false)} disabled={assignRoleMutation.isPending}>
+        <div className="flex flex-col sm:flex-row sm:justify-end gap-2 sm:gap-2">
+          <Button variant="outline" onClick={() => onOpenChange(false)} disabled={assignRoleMutation.isPending} className="w-full sm:w-auto">
             Cancel
           </Button>
-          <Button onClick={handleAssign} disabled={assignRoleMutation.isPending || !selectedRoleId}>
+          <Button onClick={handleAssign} disabled={assignRoleMutation.isPending || !selectedRoleId} className="w-full sm:w-auto">
             {assignRoleMutation.isPending && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
             Assign Role
           </Button>
@@ -361,10 +390,14 @@ function RoleCard({ role, onDelete, onManagePermissions }: {
   onDelete: (role: RoleDTO) => void;
   onManagePermissions: (role: RoleDTO) => void;
 }) {
+  const [showAllPerms, setShowAllPerms] = useState(false);
+  const permLimit = 3;
+  const permsToShow = showAllPerms ? role.permissions : role.permissions.slice(0, permLimit);
+
   return (
-    <Card>
+    <Card className="group hover:shadow-md transition">
       <CardContent className="p-6">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div className="flex items-center space-x-4">
             <div className="p-2 bg-primary/10 rounded-lg">
               <Shield className="h-6 w-6 text-primary" />
@@ -385,32 +418,42 @@ function RoleCard({ role, onDelete, onManagePermissions }: {
             </div>
           </div>
           
-          <div className="flex items-center space-x-2">
-            <div className="flex flex-wrap gap-1 max-w-xs">
-              {role.permissions.slice(0, 3).map((permission: PermissionDTO) => (
+          <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 sm:justify-end">
+            <div className="flex flex-wrap gap-1 max-w-full">
+              {permsToShow.map((permission: PermissionDTO) => (
                 <Badge key={permission.id} variant="outline" className="text-xs">
                   {permission.name}
                 </Badge>
               ))}
-              {role.permissions.length > 3 && (
-                <Badge variant="outline" className="text-xs">
-                  +{role.permissions.length - 3} more
-                </Badge>
+              {role.permissions.length > permLimit && (
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  className="h-6 px-2 text-xs"
+                  onClick={() => setShowAllPerms((v) => !v)}
+                  aria-expanded={showAllPerms}
+                  aria-label={showAllPerms ? "Show fewer permissions" : "Show all permissions"}
+                >
+                  {showAllPerms ? "Show less" : `+${role.permissions.length - permLimit} more`}
+                </Button>
               )}
             </div>
             
-            <Button variant="outline" size="sm" onClick={() => onManagePermissions(role)}>
-              <LinkIcon className="h-4 w-4 mr-2" />
-              Permissions
-            </Button>
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              onClick={() => onDelete(role)}
-              className="text-destructive hover:text-destructive"
-            >
-              <Trash2 className="h-4 w-4" />
-            </Button>
+            <div className="flex items-center gap-2 sm:gap-2">
+              <Button variant="outline" size="sm" onClick={() => onManagePermissions(role)} className="w-full sm:w-auto">
+                <LinkIcon className="h-4 w-4 mr-2" />
+                Permissions
+              </Button>
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                onClick={() => onDelete(role)}
+                className="text-destructive hover:text-destructive"
+              >
+                <Trash2 className="h-4 w-4" />
+              </Button>
+            </div>
           </div>
         </div>
       </CardContent>
@@ -508,12 +551,126 @@ function PaginationControls({
   );
 }
 
+function ManageRolePermissionsDialog({ open, onOpenChange, role, allPermissions }: {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  role: RoleWithPermissions | null;
+  allPermissions: PermissionDTO[];
+}) {
+  const queryClient = useQueryClient();
+  const [selectedPermissionId, setSelectedPermissionId] = useState("");
+
+  const assignPermissionMutation = useMutation({
+    mutationFn: (data: { roleId: string; permissionId: string }) =>
+      adminApi.accessManagement.assignPermissionToRole({ roleId: data.roleId, permissionId: data.permissionId }),
+    onSuccess: () => {
+      toast.success("Permission assigned");
+      queryClient.invalidateQueries({ queryKey: ["admin", "roles-with-permissions"] });
+      setSelectedPermissionId("");
+      onOpenChange(false);
+    },
+    onError: (error) => {
+      toast.error(`Failed to assign permission: ${error.message}`);
+    },
+  });
+
+  const revokePermissionMutation = useMutation({
+    mutationFn: (data: { roleId: string; permissionId: string }) =>
+      adminApi.accessManagement.revokePermissionFromRole({ roleId: data.roleId, permissionId: data.permissionId }),
+    onSuccess: () => {
+      toast.success("Permission revoked");
+      queryClient.invalidateQueries({ queryKey: ["admin", "roles-with-permissions"] });
+    },
+    onError: (error) => {
+      toast.error(`Failed to revoke permission: ${error.message}`);
+    },
+  });
+
+  if (!role) return null;
+
+  const availablePermissions = allPermissions.filter(p => !role.permissions.some(rp => rp.id === p.id));
+
+  const handleAssign = () => {
+    if (!selectedPermissionId) {
+      toast.error("Please select a permission");
+      return;
+    }
+    assignPermissionMutation.mutate({ roleId: role.id, permissionId: selectedPermissionId });
+  };
+
+  const handleRevoke = (permission: PermissionDTO) => {
+    if (confirm(`Revoke permission "${permission.name}" from role "${role.name}"?`)) {
+      revokePermissionMutation.mutate({ roleId: role.id, permissionId: permission.id });
+    }
+  };
+
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="sm:max-w-[520px] mx-4">
+        <DialogHeader>
+          <DialogTitle>Manage Permissions — {role.name}</DialogTitle>
+        </DialogHeader>
+        <div className="grid gap-4 py-2">
+          <div className="grid gap-2">
+            <Label htmlFor="permission">Add Permission</Label>
+            <Select value={selectedPermissionId} onValueChange={setSelectedPermissionId} disabled={assignPermissionMutation.isPending}>
+              <SelectTrigger>
+                <SelectValue placeholder="Choose a permission" />
+              </SelectTrigger>
+              <SelectContent>
+                {availablePermissions.length === 0 ? (
+                  <div className="px-3 py-2 text-sm text-muted-foreground">No available permissions</div>
+                ) : (
+                  availablePermissions.map((p) => (
+                    <SelectItem key={p.id} value={p.id}>
+                      {p.name} — {p.action}:{p.resource}
+                    </SelectItem>
+                  ))
+                )}
+              </SelectContent>
+            </Select>
+            <div className="flex justify-end">
+              <Button onClick={handleAssign} disabled={assignPermissionMutation.isPending || !selectedPermissionId} className="w-full sm:w-auto">
+                {assignPermissionMutation.isPending && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
+                Assign
+              </Button>
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <Label>Current Permissions</Label>
+            <div className="flex flex-wrap gap-2">
+              {role.permissions.length === 0 ? (
+                <p className="text-sm text-muted-foreground">No permissions assigned</p>
+              ) : (
+                role.permissions.map((perm) => (
+                  <Badge
+                    key={perm.id}
+                    variant="outline"
+                    className="text-xs cursor-pointer hover:bg-destructive hover:text-destructive-foreground"
+                    onClick={() => handleRevoke(perm)}
+                    title="Click to revoke"
+                  >
+                    {perm.name} ×
+                  </Badge>
+                ))
+              )}
+            </div>
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
 export default function AccessManagementPage() {
   const queryClient = useQueryClient();
   const [createRoleOpen, setCreateRoleOpen] = useState(false);
   const [createPermissionOpen, setCreatePermissionOpen] = useState(false);
   const [assignRoleOpen, setAssignRoleOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState<UserWithRoles | null>(null);
+  const [managePermsOpen, setManagePermsOpen] = useState(false);
+  const [selectedRole, setSelectedRole] = useState<RoleWithPermissions | null>(null);
   const [activeTab, setActiveTab] = useState("users");
   
   // Pagination states
@@ -631,13 +788,27 @@ export default function AccessManagementPage() {
     }
   };
 
-  const handleManagePermissions = () => {
-    toast.info("Permission management coming soon!");
+  const handleManagePermissions = (role: RoleDTO) => {
+    const roleFull = rolesData.find(r => r.id === role.id) || null;
+    setSelectedRole(roleFull);
+    setManagePermsOpen(true);
   };
+
+  const deletePermissionMutation = useMutation({
+    mutationFn: (permissionId: string) => adminApi.accessManagement.deletePermission(permissionId),
+    onSuccess: () => {
+      toast.success("Permission deleted successfully");
+      queryClient.invalidateQueries({ queryKey: ["admin", "all-permissions"] });
+      queryClient.invalidateQueries({ queryKey: ["admin", "roles-with-permissions"] });
+    },
+    onError: (error) => {
+      toast.error(`Failed to delete permission: ${error.message}`);
+    },
+  });
 
   const handleDeletePermission = (permission: PermissionDTO) => {
     if (confirm(`Are you sure you want to delete the permission "${permission.name}"? This action cannot be undone.`)) {
-      toast.info("Permission deletion coming soon!");
+      deletePermissionMutation.mutate(permission.id);
     }
   };
 
@@ -674,7 +845,8 @@ export default function AccessManagementPage() {
         </div>
 
         <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
-          <TabsList>
+          <div className="w-full overflow-x-auto">
+          <TabsList className="inline-flex min-w-max gap-1">
             <TabsTrigger value="users" className="flex items-center space-x-2">
               <Users className="h-4 w-4" />
               <span>User Roles</span>
@@ -688,12 +860,13 @@ export default function AccessManagementPage() {
               <span>Permissions ({allPermissions.length})</span>
             </TabsTrigger>
           </TabsList>
+          </div>
 
           <TabsContent value="users" className="space-y-6">
-            <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <h2 className="text-xl font-semibold">User Role Assignments</h2>
               <div className="flex space-x-2">
-                <Button onClick={() => setCreateRoleOpen(true)}>
+        <Button onClick={() => setCreateRoleOpen(true)} className="w-full sm:w-auto">
                   <Plus className="h-4 w-4 mr-2" />
                   Create Role
                 </Button>
@@ -726,14 +899,14 @@ export default function AccessManagementPage() {
           </TabsContent>
 
           <TabsContent value="roles" className="space-y-6">
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <h2 className="text-xl font-semibold">Role Management</h2>
-              <div className="flex space-x-2">
-                <Button onClick={() => setCreatePermissionOpen(true)} variant="outline">
+              <div className="flex flex-col sm:flex-row sm:items-center gap-2 w-full sm:w-auto">
+                <Button onClick={() => setCreatePermissionOpen(true)} variant="outline" className="w-full sm:w-auto">
                   <Plus className="h-4 w-4 mr-2" />
                   Create Permission
                 </Button>
-                <Button onClick={() => setCreateRoleOpen(true)}>
+                <Button onClick={() => setCreateRoleOpen(true)} className="w-full sm:w-auto">
                   <Plus className="h-4 w-4 mr-2" />
                   Create Role
                 </Button>
@@ -775,10 +948,10 @@ export default function AccessManagementPage() {
           </TabsContent>
 
           <TabsContent value="permissions" className="space-y-6">
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <h2 className="text-xl font-semibold">Permission Management</h2>
-              <div className="flex space-x-2">
-                <Button onClick={() => setCreatePermissionOpen(true)}>
+              <div className="flex w-full sm:w-auto">
+                <Button onClick={() => setCreatePermissionOpen(true)} className="w-full sm:w-auto">
                   <Plus className="h-4 w-4 mr-2" />
                   Create Permission
                 </Button>
@@ -868,6 +1041,13 @@ export default function AccessManagementPage() {
           onOpenChange={setAssignRoleOpen}
           user={selectedUser}
           knownRoles={knownRolesData}
+        />
+
+        <ManageRolePermissionsDialog
+          open={managePermsOpen}
+          onOpenChange={setManagePermsOpen}
+          role={selectedRole}
+          allPermissions={allPermissions}
         />
       </div>
     </AdminLayout>

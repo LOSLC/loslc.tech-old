@@ -45,7 +45,7 @@ function PostCard({ post, onDelete, onView }: {
   onView: (post: PostWithAuthor) => void;
 }) {
   return (
-    <Card className="group hover:shadow-lg transition-all duration-200 border-l-4 border-l-transparent hover:border-l-primary">
+    <Card className="group hover:shadow-lg transition-all duration-200">
       <CardContent className="p-6">
         <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-4">
           <div className="flex-1 space-y-3">
@@ -104,6 +104,7 @@ function PostCard({ post, onDelete, onView }: {
               variant="ghost" 
               size="sm" 
               onClick={() => onView(post)}
+              aria-label="View"
               className="hover:bg-blue-50 hover:text-blue-700 dark:hover:bg-blue-900/20 dark:hover:text-blue-300"
             >
               <Eye className="h-4 w-4" />
@@ -123,6 +124,7 @@ function PostCard({ post, onDelete, onView }: {
               variant="ghost" 
               size="sm" 
               onClick={() => onDelete(post)}
+              aria-label="Delete"
               className="hover:bg-red-50 hover:text-red-700 dark:hover:bg-red-900/20 dark:hover:text-red-300"
             >
               <Trash2 className="h-4 w-4" />
@@ -267,9 +269,8 @@ export default function BlogManagementPage() {
   };
 
   const handleViewPost = (post: BlogPostDTO) => {
-    // Generate slug-postId URL and navigate to it
     const slugWithId = createPostSlug(post.title, post.id);
-    window.open(`/blog/post/${slugWithId}`, '_blank');
+    window.location.href = `/blog/post/${slugWithId}`;
   };
 
   const handleDeleteCategory = (category: BlogCategoryDTO) => {
@@ -315,7 +316,8 @@ export default function BlogManagementPage() {
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList>
+          <div className="w-full overflow-x-auto">
+          <TabsList className="inline-flex min-w-max gap-1">
             <TabsTrigger value="posts" className="flex items-center space-x-2">
               <FileText className="h-4 w-4" />
               <span>Posts</span>
@@ -329,16 +331,17 @@ export default function BlogManagementPage() {
               <span>Tags</span>
             </TabsTrigger>
           </TabsList>
+          </div>
 
           <TabsContent value="posts" className="space-y-6">
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-3 justify-between">
               <div>
                 <h2 className="text-xl font-semibold">Posts</h2>
                 <p className="text-sm text-muted-foreground">
                   Manage your blog posts and content.
                 </p>
               </div>
-              <Button asChild>
+              <Button asChild className="w-full sm:w-auto">
                 <Link href="/admin/blog/create">
                   <Plus className="h-4 w-4 mr-2" />
                   Create Post
@@ -347,7 +350,7 @@ export default function BlogManagementPage() {
             </div>
 
             {/* Post Stats */}
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               <Card>
                 <CardContent className="p-4">
                   <div className="text-2xl font-bold">{posts.length}</div>
@@ -417,20 +420,20 @@ export default function BlogManagementPage() {
           </TabsContent>
 
           <TabsContent value="categories" className="space-y-6">
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-3 justify-between">
               <div>
                 <h2 className="text-xl font-semibold">Categories</h2>
                 <p className="text-sm text-muted-foreground">
                   Organize your posts with categories.
                 </p>
               </div>
-              <Button onClick={() => setCreateCategoryOpen(true)}>
+              <Button onClick={() => setCreateCategoryOpen(true)} className="w-full sm:w-auto">
                 <Plus className="h-4 w-4 mr-2" />
                 Create Category
               </Button>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
               {categories.map((category) => (
                 <Card key={category.id}>
                   <CardContent className="p-4">
@@ -469,7 +472,7 @@ export default function BlogManagementPage() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
               {tags.map((tag) => (
                 <Card key={tag.id}>
                   <CardContent className="p-4">

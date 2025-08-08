@@ -43,6 +43,7 @@ import {
 } from "@/lib/hooks/use-blog";
 import { UserDisplay } from "@/components/common/UserDisplay";
 import Image from "next/image";
+import { LikeButton } from "@/components/blog/LikeButton";
 import Link from "next/link";
 import FloatingNav from "@/components/core/FloatingNav";
 
@@ -83,14 +84,13 @@ const HeroSection = ({
   activeFilters,
   clearFilters,
 }: HeroSectionProps) => (
-  <section className="relative pt-32 pb-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-background via-background to-muted/30 overflow-hidden">
-    {/* Background decorative elements */}
-    <div className="absolute inset-0 opacity-5">
-      <div className="absolute top-20 left-20 w-32 h-32 rounded-full bg-primary motion-preset-spin motion-duration-[20s]"></div>
-      <div className="absolute bottom-32 right-32 w-24 h-24 rounded-full bg-secondary motion-preset-bounce motion-duration-[3s]"></div>
-      <div className="absolute top-1/2 left-10 w-16 h-16 rounded-full bg-accent motion-preset-pulse motion-duration-[4s]"></div>
-      <div className="absolute top-40 right-1/4 w-48 h-48 rounded-md border border-primary/30 rotate-45 motion-preset-spin motion-duration-[30s]"></div>
-      <div className="absolute bottom-40 left-1/3 w-36 h-36 rounded-md border border-secondary/30 -rotate-12 motion-preset-spin motion-duration-[25s]"></div>
+  <section className="relative pt-24 sm:pt-28 pb-16 sm:pb-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-background via-background to-muted/30 overflow-hidden">
+    {/* Background decorative elements (reduced motion) */}
+    <div className="absolute inset-0 opacity-[0.03] [@media(prefers-reduced-motion:reduce)]:hidden">
+      <div className="absolute top-20 left-20 w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-primary/80 motion-preset-pulse motion-duration-[6s]"></div>
+      <div className="absolute bottom-32 right-28 w-16 h-16 rounded-full bg-secondary/80 motion-preset-pulse motion-duration-[7s]"></div>
+      <div className="absolute top-40 right-1/4 w-40 h-40 rounded-md border border-primary/20 rotate-45"></div>
+      <div className="absolute bottom-40 left-1/3 w-28 h-28 rounded-md border border-secondary/20 -rotate-12"></div>
     </div>
 
     <div className="relative max-w-6xl mx-auto text-center">
@@ -101,11 +101,11 @@ const HeroSection = ({
         </p>
       </div>
 
-      <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground mb-6">
+  <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground mb-4">
         Discover our latest insights
       </h1>
 
-      <p className="text-lg text-muted-foreground mb-10 max-w-2xl mx-auto leading-relaxed">
+  <p className="text-base sm:text-lg text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed">
         Explore articles about Linux, Open Source, Cybersecurity, and technology
         trends shaping the future of Africa&apos;s digital landscape.
       </p>
@@ -127,12 +127,13 @@ const HeroSection = ({
               placeholder="Search articles, topics, or authors..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="h-12 pl-10 pr-4 text-base border-border bg-background/50 backdrop-blur-sm rounded-xl focus:ring-2 focus:ring-primary/50 focus:border-primary/50 transition-all duration-200"
+              className="h-12 pl-10 pr-4 text-base border-border bg-background/60 rounded-xl focus:ring-2 focus:ring-primary/40 focus:border-primary/40 transition-colors"
+              aria-label="Search blog"
             />
           </div>
           <Button
             type="submit"
-            className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-3 h-12 rounded-xl shadow-lg transition-all duration-200 hover:shadow-xl hover:scale-105"
+            className="bg-primary hover:bg-primary/90 text-primary-foreground px-6 sm:px-8 py-3 h-12 rounded-xl shadow-sm"
           >
             <Search className="w-4 h-4 mr-2" />
             Search
@@ -151,7 +152,7 @@ const HeroSection = ({
                 setCurrentPage(1);
               }}
             >
-              <SelectTrigger className="w-40 h-10 bg-background/50 backdrop-blur-sm border-border">
+              <SelectTrigger className="w-40 h-10 bg-background/70 border-border">
                 <SelectValue placeholder="Category" />
               </SelectTrigger>
               <SelectContent>
@@ -175,7 +176,7 @@ const HeroSection = ({
                 setCurrentPage(1);
               }}
             >
-              <SelectTrigger className="w-32 h-10 bg-background/50 backdrop-blur-sm border-border">
+              <SelectTrigger className="w-32 h-10 bg-background/70 border-border">
                 <SelectValue placeholder="Tag" />
               </SelectTrigger>
               <SelectContent>
@@ -205,7 +206,7 @@ const HeroSection = ({
           </Button>
 
           {/* View Mode Toggle */}
-          <div className="flex border rounded-lg overflow-hidden bg-background/50 backdrop-blur-sm">
+          <div className="flex border rounded-lg overflow-hidden bg-background/70">
             <Button
               variant={viewMode === "grid" ? "default" : "ghost"}
               size="sm"
@@ -433,7 +434,7 @@ export default function BlogPage() {
 
     return (
       <Link href={`/blog/post/${createPostSlug(post.title, post.id)}`} onMouseEnter={handleMouseEnter}>
-        <div className="group bg-card rounded-xl overflow-hidden border border-border shadow-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 hover:border-primary/30 h-full flex flex-col">
+  <div className="group bg-card rounded-xl overflow-hidden border border-border shadow-sm hover:shadow-md transition-colors duration-200 hover:border-primary/30 h-full flex flex-col">
           <div className="relative h-48 bg-gradient-to-br from-primary/10 to-secondary/10 flex-shrink-0">
             {post.coverImageId && (
               <Image
@@ -474,14 +475,8 @@ export default function BlogPage() {
             </div>
 
             {/* Interaction buttons */}
-            <div className="absolute bottom-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-              <Button
-                size="sm"
-                variant="ghost"
-                className="h-8 w-8 p-0 bg-foreground/40 hover:bg-background"
-              >
-                <Heart className="w-4 h-4 stroke-foreground" />
-              </Button>
+            <div className="absolute bottom-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity [@media(prefers-reduced-motion:reduce)]:hidden">
+              <LikeButton postId={post.id} size="sm" withCount={false} />
               <Button
                 size="sm"
                 variant="ghost"
@@ -518,9 +513,7 @@ export default function BlogPage() {
                 <div className="flex items-center">
                   <Eye className="w-3 h-3 mr-1" />0
                 </div>
-                <div className="flex items-center">
-                  <Heart className="w-3 h-3 mr-1" />0
-                </div>
+                <LikeButton postId={post.id} size="sm" />
               </div>
             </div>
           </div>
