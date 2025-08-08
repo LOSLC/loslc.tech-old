@@ -40,7 +40,7 @@ services:
       - PG_PASSWORD=${PG_PASSWORD}
       - PG_DB=${PG_DB}
     volumes:
-      - app_storage:/home/app/app/${STORAGE:-fs/storage}
+      - app_storage:/home/app/app/${STORAGE}
     depends_on:
       db:
         condition: service_healthy
