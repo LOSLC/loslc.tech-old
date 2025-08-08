@@ -39,6 +39,8 @@ import { adminApi, type UploadResponse } from "@/lib/api/admin";
 import { generateSlug } from "@/lib/utils/slug";
 
 export default function EditBlogPostPage() {
+  // Use the imported style directly; avoid `any` casts
+  const prismStyle = tomorrow;
   const { id: rawId } = useParams<{ id: string }>();
   const id = Array.isArray(rawId) ? rawId[0] : rawId;
   const { theme } = useTheme();
@@ -373,19 +375,19 @@ export default function EditBlogPostPage() {
           <ReactMarkdown
                     remarkPlugins={[remarkGfm]}
                     components={{
-            code({ className, children, ...props }: { className?: string; children?: React.ReactNode; [key: string]: any }) {
+            code({ className, children }: { className?: string; children?: React.ReactNode }) {
                         const match = /language-(\w+)/.exec(className || "");
                         const isInline = !match;
                         return !isInline ? (
                           <SyntaxHighlighter
-                            style={tomorrow as any}
+                            style={prismStyle}
                             language={match?.[1]}
                             PreTag="div"
                           >
                             {String(children).replace(/\n$/, "")}
                           </SyntaxHighlighter>
                         ) : (
-                          <code className={className} {...(props as any)}>
+                          <code className={className}>
                             {children}
                           </code>
                         );

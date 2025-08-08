@@ -27,8 +27,8 @@ export function LikeButton({ postId, size = "md", className, withCount = true }:
     }
     try {
       await likeMutation.mutateAsync(postId);
-    } catch (e: any) {
-      toast.error(e?.message || "Failed to toggle like");
+    } catch (e) {
+      console.error("Error toggling like: ", e);
     }
   };
 
