@@ -527,21 +527,21 @@ export default function FileManagementPage() {
   return (
     <AdminLayout>
       <div className="space-y-6">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
             <h1 className="text-3xl font-bold">File Management</h1>
             <p className="text-muted-foreground">
               Upload, organize, and manage media files and documents.
             </p>
           </div>
-          <Button onClick={() => setUploadDialogOpen(true)}>
+          <Button onClick={() => setUploadDialogOpen(true)} className="w-full sm:w-auto">
             <Plus className="h-4 w-4 mr-2" />
             Upload Files
           </Button>
         </div>
 
         {/* File Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <Card>
             <CardContent className="p-4">
               <div className="flex items-center space-x-2">

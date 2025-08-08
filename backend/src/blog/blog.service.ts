@@ -179,7 +179,10 @@ export class BlogService {
     return posts;
   }
 
-  async getAllBlogPosts(query: GetBlogPostsQueryDTO, user: User): Promise<BlogPostDTO[]> {
+  async getAllBlogPosts(
+    query: GetBlogPostsQueryDTO,
+    user: User,
+  ): Promise<BlogPostDTO[]> {
     await this.accessManager.checkPermissions({
       permissions: [
         {
@@ -902,6 +905,7 @@ export class BlogService {
         },
       ],
       user,
+      bypassRole: { roleName: "admin" },
     });
 
     const [category] = await db
