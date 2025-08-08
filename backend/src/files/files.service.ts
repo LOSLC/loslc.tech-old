@@ -119,14 +119,11 @@ export class FilesService {
       .insert(rolePermissionsTable)
       .values({ roleId: fileMgtRole.id, permissionId: fileRwPermission.id });
 
-    // Now that database record is created, write the actual file to filesystem
     try {
       await fm.uploadFile({ file: file, id: dbFile.id });
     } catch (error) {
-      // If file write fails, we should clean up the database record
       console.error("Error uploading file to filesystem:", error);
       
-      // Clean up database records on file write failure
       try {
         await db.delete(rolePermissionsTable).where(eq(rolePermissionsTable.roleId, fileMgtRole.id));
         await db.delete(userRolesTable).where(eq(userRolesTable.roleId, fileMgtRole.id));
