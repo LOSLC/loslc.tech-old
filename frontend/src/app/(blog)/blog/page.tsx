@@ -20,7 +20,6 @@ import {
   Filter,
   Clock,
   Eye,
-  Heart,
   Share2,
   ChevronLeft,
   ChevronRight,
