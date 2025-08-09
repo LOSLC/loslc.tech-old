@@ -1,8 +1,8 @@
 FROM gplane/pnpm
 
 RUN useradd -m app
-WORKDIR /home/app/app
 USER app
+WORKDIR /home/app/app
 COPY --chown=app:app . .
 RUN pnpm install
 RUN pnpm run build
