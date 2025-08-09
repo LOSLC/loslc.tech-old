@@ -2,6 +2,4 @@
 
 chown -R app:app /home/app
 
-su - app -c "pnpm run db:migrate"
-
-exec "$@"
+exec su -s /bin/bash app -c "$*"
