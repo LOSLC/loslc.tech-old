@@ -6,6 +6,7 @@ import { useHasLiked, useLikeBlogPost, usePostLikesCount } from "@/lib/hooks/use
 import { useAuth } from "@/lib/providers/auth-provider";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "react-i18next";
 
 interface LikeButtonProps {
   postId: string;
@@ -15,6 +16,7 @@ interface LikeButtonProps {
 }
 
 export function LikeButton({ postId, size = "md", className, withCount = true }: LikeButtonProps) {
+  const { t } = useTranslation();
   const { isAuthenticated } = useAuth();
   const { data: hasLiked = false, isLoading: likeLoading } = useHasLiked(postId, true);
   const { data: likesCount = 0 } = usePostLikesCount(postId, true);
@@ -22,7 +24,7 @@ export function LikeButton({ postId, size = "md", className, withCount = true }:
 
   const onToggleLike = async () => {
     if (!isAuthenticated) {
-      toast.error("You must be logged in to like posts");
+  toast.error(t("blog.like.mustLogin"));
       return;
     }
     try {
@@ -45,7 +47,7 @@ export function LikeButton({ postId, size = "md", className, withCount = true }:
     <Button
       size={size === "sm" ? "sm" : undefined}
       variant="ghost"
-      aria-label={hasLiked ? "Unlike article" : "Like article"}
+  aria-label={hasLiked ? t("blog.like.ariaUnlike") : t("blog.like.ariaLike")}
       className={buttonClasses}
       onClick={onToggleLike}
       disabled={isBusy}

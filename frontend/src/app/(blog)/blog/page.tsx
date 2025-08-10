@@ -45,6 +45,7 @@ import Image from "next/image";
 import { LikeButton } from "@/components/blog/LikeButton";
 import Link from "next/link";
 import FloatingNav from "@/components/core/FloatingNav";
+import { useTranslation } from "react-i18next";
 
 interface HeroSectionProps {
   searchQuery: string;
@@ -82,7 +83,9 @@ const HeroSection = ({
   setViewMode,
   activeFilters,
   clearFilters,
-}: HeroSectionProps) => (
+}: HeroSectionProps) => {
+  const { t } = useTranslation();
+  return (
   <section className="relative pt-24 sm:pt-28 pb-16 sm:pb-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-background via-background to-muted/30 overflow-hidden">
     {/* Background decorative elements (reduced motion) */}
     <div className="absolute inset-0 opacity-[0.03] [@media(prefers-reduced-motion:reduce)]:hidden">
@@ -96,17 +99,16 @@ const HeroSection = ({
       <div className="flex items-center justify-center space-x-2 mb-6">
         <BookOpen className="w-6 h-6 text-primary" />
         <p className="text-sm font-semibold tracking-wider text-muted-foreground uppercase">
-          LOSL-C Blog
+          {t("blog.badge")}
         </p>
       </div>
 
   <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground mb-4">
-        Discover our latest insights
+        {t("blog.title")}
       </h1>
 
   <p className="text-base sm:text-lg text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed">
-        Explore articles about Linux, Open Source, Cybersecurity, and technology
-        trends shaping the future of Africa&apos;s digital landscape.
+        {t("blog.subtitle")}
       </p>
 
       {/* Enhanced Search and Filter Section */}
@@ -123,11 +125,11 @@ const HeroSection = ({
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
             <Input
               type="text"
-              placeholder="Search articles, topics, or authors..."
+              placeholder={t("blog.searchPlaceholder")}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="h-12 pl-10 pr-4 text-base border-border bg-background/60 rounded-xl focus:ring-2 focus:ring-primary/40 focus:border-primary/40 transition-colors"
-              aria-label="Search blog"
+              aria-label={t("common.search")}
             />
           </div>
           <Button
@@ -135,7 +137,7 @@ const HeroSection = ({
             className="bg-primary hover:bg-primary/90 text-primary-foreground px-6 sm:px-8 py-3 h-12 rounded-xl shadow-sm"
           >
             <Search className="w-4 h-4 mr-2" />
-            Search
+            {t("common.search")}
           </Button>
         </form>
 
@@ -152,10 +154,10 @@ const HeroSection = ({
               }}
             >
               <SelectTrigger className="w-40 h-10 bg-background/70 border-border">
-                <SelectValue placeholder="Category" />
+                <SelectValue placeholder={t("common.category")} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">All Categories</SelectItem>
+                <SelectItem value="all">{t("common.allCategories")}</SelectItem>
                 {categories.map((category) => (
                   <SelectItem key={category.id} value={category.id}>
                     {category.name}
@@ -176,10 +178,10 @@ const HeroSection = ({
               }}
             >
               <SelectTrigger className="w-32 h-10 bg-background/70 border-border">
-                <SelectValue placeholder="Tag" />
+                <SelectValue placeholder={t("common.tag")} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">All Tags</SelectItem>
+                <SelectItem value="all">{t("common.allTags")}</SelectItem>
                 {tags.slice(0, 10).map((tag) => (
                   <SelectItem key={tag.id} value={tag.id}>
                     {tag.name}
@@ -201,7 +203,7 @@ const HeroSection = ({
             ) : (
               <SortAsc className="w-4 h-4 mr-1" />
             )}
-            {sortOrder === "desc" ? "Newest" : "Oldest"}
+            {sortOrder === "desc" ? t("common.newest") : t("common.oldest")}
           </Button>
 
           {/* View Mode Toggle */}
@@ -229,7 +231,7 @@ const HeroSection = ({
         {activeFilters.length > 0 && (
           <div className="flex flex-wrap gap-2 items-center justify-center">
             <span className="text-sm text-muted-foreground">
-              Active filters:
+              {t("common.activeFilters")}
             </span>
             {activeFilters.map((filter, index) => (
               <Badge key={index} variant="secondary" className="gap-1">
@@ -243,16 +245,18 @@ const HeroSection = ({
               className="h-6 px-2 text-xs hover:bg-destructive/20 hover:text-destructive"
             >
               <X className="w-3 h-3 mr-1" />
-              Clear all
+              {t("common.clearAll")}
             </Button>
           </div>
         )}
       </div>
     </div>
   </section>
-);
+  );
+};
 
 export default function BlogPage() {
+  const { t, i18n } = useTranslation();
   const [searchQuery, setSearchQuery] = useState("");
   const [activeSearchQuery, setActiveSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
@@ -358,7 +362,8 @@ export default function BlogPage() {
 
   // Format date
   const formatDate = (date: Date | string) => {
-    return new Date(date).toLocaleDateString("en-US", {
+    const locale = i18n.language || "en";
+    return new Date(date).toLocaleDateString(locale, {
       month: "short",
       day: "numeric",
       year: "numeric",
@@ -398,12 +403,12 @@ export default function BlogPage() {
                 {post.featured && (
                   <Badge variant="default" className="h-5 text-xs">
                     <TrendingUp className="w-3 h-3 mr-1" />
-                    Featured
+                    {t("blog.card.featured")}
                   </Badge>
                 )}
                 <Badge variant="outline" className="h-5 text-xs">
                   <Clock className="w-3 h-3 mr-1" />
-                  {readingTime} min read
+                  {t("blog.card.minRead", { count: readingTime, read: t("common.read") })}
                 </Badge>
               </div>
 
@@ -452,12 +457,12 @@ export default function BlogPage() {
                 className="bg-background/90 text-foreground"
               >
                 <FileText className="w-3 h-3 mr-1" />
-                Article
+                {t("blog.card.article")}
               </Badge>
               {post.featured && (
                 <Badge className="bg-primary text-primary-foreground">
                   <TrendingUp className="w-3 h-3 mr-1" />
-                  Featured
+                  {t("blog.card.featured")}
                 </Badge>
               )}
             </div>
@@ -469,7 +474,7 @@ export default function BlogPage() {
                 className="bg-background/90 text-foreground border-border/50"
               >
                 <Clock className="w-3 h-3 mr-1" />
-                {readingTime} min
+                {t("blog.card.minRead", { count: readingTime, read: t("common.read") })}
               </Badge>
             </div>
 
@@ -554,9 +559,9 @@ export default function BlogPage() {
                 <Calendar className="w-3 h-3 mr-1" />
                 {formatDate(post.createdAt)}
               </p>
-              {post.featured && (
+        {post.featured && (
                 <Badge variant="outline" className="h-4 text-xs px-1">
-                  Featured
+          {t("blog.card.featured")}
                 </Badge>
               )}
             </div>
@@ -565,7 +570,7 @@ export default function BlogPage() {
             </h4>
             <div className="flex items-center text-xs text-muted-foreground">
               <Clock className="w-3 h-3 mr-1" />
-              {readingTime} min read
+              {t("blog.card.minRead", { count: readingTime, read: t("common.read") })}
             </div>
           </div>
         </div>
@@ -587,7 +592,7 @@ export default function BlogPage() {
           className="gap-1"
         >
           <ChevronLeft className="w-4 h-4" />
-          Previous
+          {t("common.previous")}
         </Button>
 
         <div className="flex items-center space-x-1">
@@ -616,7 +621,7 @@ export default function BlogPage() {
           disabled={currentPage === totalPages}
           className="gap-1"
         >
-          Next
+          {t("common.next")}
           <ChevronRight className="w-4 h-4" />
         </Button>
       </div>
@@ -654,14 +659,14 @@ export default function BlogPage() {
               <div className="flex items-center space-x-3">
                 <FileText className="w-8 h-8 text-primary" />
                 <h2 className="text-3xl font-bold text-foreground">
-                  Latest Articles
+                  {t("blog.latest")}
                 </h2>
               </div>
 
               {/* Results counter */}
               {!isLoading && (
                 <div className="text-sm text-muted-foreground">
-                  {posts.length} article{posts.length !== 1 ? "s" : ""} found
+                  {t("blog.count", { count: posts.length })}
                 </div>
               )}
             </div>
@@ -721,24 +726,23 @@ export default function BlogPage() {
                       <FileText className="w-12 h-12 text-muted-foreground" />
                     </div>
                     <h3 className="text-xl font-semibold text-foreground mb-2">
-                      No articles found
+                      {t("blog.emptyTitle")}
                     </h3>
                     <p className="text-muted-foreground mb-6 max-w-md mx-auto">
                       {searchQuery ||
                       selectedCategory !== "all" ||
                       selectedTag !== "all" ? (
                         <>
-                          We couldn&apos;t find any articles matching your criteria.
-                          Try adjusting your search terms or filters.
+                          {t("blog.emptyFiltered")}
                         </>
                       ) : (
-                        "No blog posts have been published yet. Check back soon for new content!"
+                        t("blog.empty")
                       )}
                     </p>
                     {activeFilters.length > 0 && (
                       <Button onClick={clearFilters} variant="outline">
                         <X className="w-4 h-4 mr-2" />
-                        Clear filters
+                        {t("common.clearFilters")}
                       </Button>
                     )}
                   </div>
@@ -751,15 +755,14 @@ export default function BlogPage() {
                       <X className="w-12 h-12 text-destructive" />
                     </div>
                     <h3 className="text-xl font-semibold text-foreground mb-2">
-                      Failed to load articles
+                      {t("blog.errorTitle")}
                     </h3>
                     <p className="text-muted-foreground mb-6 max-w-md mx-auto">
-                      There was an error loading the blog posts. Please try
-                      refreshing the page.
+                      {t("blog.errorText")}
                     </p>
                     <Button onClick={() => refetchPosts()} variant="outline">
                       <RefreshCw className="w-4 h-4 mr-2" />
-                      Try again
+                      {t("common.tryAgain")}
                     </Button>
                   </div>
                 )}
@@ -778,7 +781,7 @@ export default function BlogPage() {
                 <div className="flex items-center space-x-2 mb-6">
                   <TrendingUp className="w-5 h-5 text-primary" />
                   <h3 className="text-xl font-bold text-foreground">
-                    Featured Articles
+                    {t("blog.featured")}
                   </h3>
                 </div>
                 <div className="space-y-4">
@@ -790,7 +793,7 @@ export default function BlogPage() {
                     <div className="text-center py-6">
                       <TrendingUp className="w-8 h-8 text-muted-foreground mx-auto mb-2" />
                       <p className="text-muted-foreground text-sm">
-                        No featured articles yet.
+                        {t("blog.noFeatured")}
                       </p>
                     </div>
                   )}
@@ -803,7 +806,7 @@ export default function BlogPage() {
                   <div className="flex items-center space-x-2 mb-6">
                     <Hash className="w-5 h-5 text-primary" />
                     <h3 className="text-xl font-bold text-foreground">
-                      Categories
+                      {t("blog.categories")}
                     </h3>
                   </div>
                   <div className="space-y-2">
@@ -833,7 +836,7 @@ export default function BlogPage() {
                   <div className="flex items-center space-x-2 mb-6">
                     <Hash className="w-5 h-5 text-primary" />
                     <h3 className="text-xl font-bold text-foreground">
-                      Popular Tags
+                      {t("blog.popularTags")}
                     </h3>
                   </div>
                   <div className="flex flex-wrap gap-2">
@@ -861,7 +864,7 @@ export default function BlogPage() {
                 <div className="flex items-center space-x-2 mb-6">
                   <BookOpen className="w-5 h-5 text-primary" />
                   <h3 className="text-xl font-bold text-foreground">
-                    Recent Articles
+                    {t("blog.recent")}
                   </h3>
                 </div>
                 <div className="space-y-4">
@@ -878,12 +881,12 @@ export default function BlogPage() {
                     <BookOpen className="w-6 h-6 text-primary" />
                   </div>
                   <h3 className="text-lg font-bold text-foreground mb-2">
-                    Stay Updated
+                    {t("blog.stayUpdatedTitle")}
                   </h3>
                   <p className="text-muted-foreground text-sm mb-4">
-                    Get notified about new articles and community events.
+                    {t("blog.stayUpdatedText")}
                   </p>
-                  <Button className="w-full">Subscribe to Newsletter</Button>
+                  <Button className="w-full">{t("blog.subscribeCta")}</Button>
                 </div>
               </div>
             </div>

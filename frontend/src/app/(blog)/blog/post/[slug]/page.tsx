@@ -25,8 +25,10 @@ import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { tomorrow } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { isSlugWithPostId, extractPostIdFromSlug } from "@/lib/utils/slug";
 import { LikeButton } from "@/components/blog/LikeButton";
+import { useTranslation } from "react-i18next";
 
 export default function BlogPostPage() {
+  const { t, i18n } = useTranslation();
   const params = useParams();
   const slugParam = params.slug as string;
   const [post, setPost] = useState<BlogPostDTO | null>(null);
@@ -55,7 +57,7 @@ export default function BlogPostPage() {
         
         setPost(blogPost);
       } catch (err) {
-        setError("Failed to load blog post");
+  setError(t("blog.post.notFoundTitle"));
         console.error("Failed to fetch blog post:", err);
       } finally {
         setLoading(false);
@@ -68,7 +70,8 @@ export default function BlogPostPage() {
   }, [slugParam]);
 
   const formatDate = (date: Date | string) => {
-    return new Date(date).toLocaleDateString('en-US', {
+    const locale = i18n.language || 'en';
+    return new Date(date).toLocaleDateString(locale, {
       year: 'numeric',
       month: 'long',
       day: 'numeric'
@@ -130,15 +133,15 @@ export default function BlogPostPage() {
             <FileText className="w-12 h-12 text-destructive" />
           </div>
           <h1 className="text-2xl font-bold text-foreground mb-4">
-            {error || "Blog post not found"}
+            {error || t("blog.post.notFoundTitle")}
           </h1>
           <p className="text-muted-foreground mb-6">
-            The article you&apos;re looking for doesn&apos;t exist or has been moved.
+            {t("blog.post.notFoundText")}
           </p>
           <Link href="/blog">
             <Button className="bg-primary hover:bg-primary/90 text-primary-foreground">
               <ArrowLeft className="w-4 h-4 mr-2" />
-              Back to Blog
+              {t("blog.post.backToBlog")}
             </Button>
           </Link>
         </div>
@@ -156,12 +159,12 @@ export default function BlogPostPage() {
               <Link href="/blog">
                 <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-primary">
                   <ArrowLeft className="w-4 h-4 mr-2" />
-                  Back to Blog
+                  {t("blog.post.backToBlog")}
                 </Button>
               </Link>
               <div className="hidden sm:flex items-center text-sm text-muted-foreground">
                 <Link href="/blog" className="hover:text-primary transition-colors">
-                  Blog
+                  {t("blog.post.breadcrumbBlog")}
                 </Link>
                 <span className="mx-2">/</span>
                 <span className="text-foreground font-medium truncate max-w-xs">
@@ -190,17 +193,17 @@ export default function BlogPostPage() {
             <div className="flex items-center justify-center gap-2 mb-6">
               <Badge variant="secondary" className="gap-1">
                 <FileText className="w-3 h-3" />
-                Article
+                {t("blog.post.badges.article")}
               </Badge>
               {post.featured && (
                 <Badge className="bg-primary text-primary-foreground gap-1">
                   <TrendingUp className="w-3 h-3" />
-                  Featured
+                  {t("blog.post.badges.featured")}
                 </Badge>
               )}
               <Badge variant="outline" className="gap-1">
                 <Clock className="w-3 h-3" />
-                {calculateReadingTime(post.content)} min read
+                {t("blog.post.badges.minRead", { count: calculateReadingTime(post.content) })}
               </Badge>
             </div>
 
@@ -216,12 +219,12 @@ export default function BlogPostPage() {
             <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-muted-foreground">
               <div className="flex items-center gap-2">
                 <Calendar className="w-4 h-4" />
-                <span>Published {formatDate(post.createdAt)}</span>
+                <span>{t("blog.post.meta.publishedOn", { date: formatDate(post.createdAt) })}</span>
               </div>
               <UserDisplay userId={post.authorId} showAvatar className="text-sm" />
               <div className="flex items-center gap-2">
                 <Eye className="w-4 h-4" />
-                <span>0 views</span>
+                <span>{t("blog.post.meta.views", { count: 0 })}</span>
               </div>
             </div>
           </header>
@@ -354,14 +357,14 @@ export default function BlogPostPage() {
                     <BookOpen className="w-6 h-6 text-primary" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-foreground">LOSL-C Blog</h3>
+                    <h3 className="font-semibold text-foreground">{t("blog.post.footer.heading")}</h3>
                     <p className="text-sm text-muted-foreground">
-                      Last updated: {formatDate(post.updatedAt || post.createdAt)}
+                      {t("blog.post.meta.lastUpdated", { date: formatDate(post.updatedAt || post.createdAt) })}
                     </p>
                   </div>
                 </div>
                 <p className="text-sm text-muted-foreground">
-                  Exploring Linux, Open Source, Cybersecurity, and technology trends.
+                  {t("blog.post.footer.tagline")}
                 </p>
               </div>
               
@@ -369,12 +372,12 @@ export default function BlogPostPage() {
                 {post?.id && <LikeButton postId={post.id} size="sm" />}
                 <Button variant="outline" size="sm" className="gap-2">
                   <Share2 className="w-4 h-4" />
-                  Share
+                  {t("blog.post.footer.share")}
                 </Button>
                 <Link href="/blog">
                   <Button className="bg-primary hover:bg-primary/90 text-primary-foreground gap-2">
                     <FileText className="w-4 h-4" />
-                    More Articles
+                    {t("blog.post.footer.moreArticles")}
                   </Button>
                 </Link>
               </div>
@@ -389,15 +392,14 @@ export default function BlogPostPage() {
               <BookOpen className="w-8 h-8 text-primary" />
             </div>
             <h3 className="text-2xl font-bold text-foreground mb-4">
-              Stay in the Loop
+              {t("blog.post.newsletter.title")}
             </h3>
             <p className="text-muted-foreground mb-6 max-w-md mx-auto">
-              Get notified about new articles, community events, and the latest in 
-              Linux, Open Source, and Cybersecurity.
+              {t("blog.post.newsletter.text")}
             </p>
             <Button size="lg" className="gap-2">
               <Tag className="w-4 h-4" />
-              Subscribe to Newsletter
+              {t("blog.post.newsletter.subscribe")}
             </Button>
           </div>
         </section>

@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { forwardRef } from "react";
 import { Code2, Cpu, Handshake, Shield } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 interface AboutSectionProps {
   className?: string;
@@ -10,6 +11,7 @@ interface AboutSectionProps {
 
 const AboutSection = forwardRef<HTMLDivElement, AboutSectionProps>(
   ({ className }, ref) => {
+  const { t } = useTranslation();
     return (
       <section
         ref={ref}
@@ -20,12 +22,10 @@ const AboutSection = forwardRef<HTMLDivElement, AboutSectionProps>(
             <div className="space-y-8 motion-preset-slide-right">
               <div>
                 <h2 className="text-4xl font-bold text-foreground mb-6">
-                  We&apos;re Linux Users, But Not Just That!
+                  {t('about.title')}
                 </h2>
                 <p className="text-xl text-muted-foreground leading-relaxed">
-                  LOSL-C is more than a Linux user group. We&apos;re passionate
-                  advocates for open-source software, cybersecurity excellence, digital freedom, and
-                  technological empowerment across Africa.
+                  {t('about.description')}
                 </p>
               </div>
 
@@ -34,10 +34,10 @@ const AboutSection = forwardRef<HTMLDivElement, AboutSectionProps>(
                   <Code2 className="w-8 h-8 text-primary mt-1 flex-shrink-0" />
                   <div>
                     <h3 className="font-semibold text-foreground mb-2">
-                      Open Source Development
+                      {t('about.bullets.openSource.title')}
                     </h3>
                     <p className="text-sm text-muted-foreground">
-                      Contributing to projects that make a difference
+                      {t('about.bullets.openSource.description')}
                     </p>
                   </div>
                 </div>
@@ -46,10 +46,10 @@ const AboutSection = forwardRef<HTMLDivElement, AboutSectionProps>(
                   <Shield className="w-8 h-8 text-primary mt-1 flex-shrink-0" />
                   <div>
                     <h3 className="font-semibold text-foreground mb-2">
-                      Cybersecurity Excellence
+                      {t('about.bullets.cybersecurity.title')}
                     </h3>
                     <p className="text-sm text-muted-foreground">
-                      Building secure systems and educating on digital safety
+                      {t('about.bullets.cybersecurity.description')}
                     </p>
                   </div>
                 </div>
@@ -58,10 +58,10 @@ const AboutSection = forwardRef<HTMLDivElement, AboutSectionProps>(
                   <Cpu className="w-8 h-8 text-primary mt-1 flex-shrink-0" />
                   <div>
                     <h3 className="font-semibold text-foreground mb-2">
-                      System Administration
+                      {t('about.bullets.sysadmin.title')}
                     </h3>
                     <p className="text-sm text-muted-foreground">
-                      Mastering Linux systems and server management
+                      {t('about.bullets.sysadmin.description')}
                     </p>
                   </div>
                 </div>
@@ -70,10 +70,10 @@ const AboutSection = forwardRef<HTMLDivElement, AboutSectionProps>(
                   <Handshake className="w-8 h-8 text-primary mt-1 flex-shrink-0" />
                   <div>
                     <h3 className="font-semibold text-foreground mb-2">
-                      Community Building
+                      {t('about.bullets.community.title')}
                     </h3>
                     <p className="text-sm text-muted-foreground">
-                      Fostering collaboration and knowledge exchange
+                      {t('about.bullets.community.description')}
                     </p>
                   </div>
                 </div>
@@ -85,7 +85,7 @@ const AboutSection = forwardRef<HTMLDivElement, AboutSectionProps>(
                     size="lg"
                     className="hover:scale-105 transition-all duration-200"
                   >
-                    Learn About Our Mission
+                    {t('about.cta.learnMission')}
                   </Button>
                 </Link>
                 <Link href="https://github.com/LOSLC">
@@ -94,7 +94,7 @@ const AboutSection = forwardRef<HTMLDivElement, AboutSectionProps>(
                     size="lg"
                     className="hover:scale-105 transition-all duration-200"
                   >
-                    See Our Projects
+                    {t('about.cta.seeProjects')}
                   </Button>
                 </Link>
               </div>
@@ -109,8 +109,7 @@ const AboutSection = forwardRef<HTMLDivElement, AboutSectionProps>(
                       <Card className="backdrop-blur-sm border-none">
                         <CardHeader className="pb-3">
                           <CardTitle className="text-lg">
-                            🌟 Join 500+ passionate developers, sysadmins, tech
-                            enthusiasts and entrepreneurs across Africa!
+                            {t('about.banner')}
                           </CardTitle>
                         </CardHeader>
                       </Card>

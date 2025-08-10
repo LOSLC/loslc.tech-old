@@ -1,31 +1,33 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Users, Calendar, MapPin, Shield } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 export default function CommunityStats() {
+  const { t } = useTranslation();
   const stats = [
     {
       icon: <Users className="h-10 w-10 text-primary" />,
-      number: "500+",
-      label: "Community Members",
-      description: "Active contributors and enthusiasts"
+      number: t('communityStats.stats.members.number'),
+      label: t('communityStats.stats.members.label'),
+      description: t('communityStats.stats.members.description')
     },
     {
       icon: <Shield className="h-10 w-10 text-primary" />,
-      number: "15+",
-      label: "Security Workshops",
-      description: "Cybersecurity training sessions"
+      number: t('communityStats.stats.workshops.number'),
+      label: t('communityStats.stats.workshops.label'),
+      description: t('communityStats.stats.workshops.description')
     },
     {
       icon: <Calendar className="h-10 w-10 text-primary" />,
-      number: "10+",
-      label: "Events Organized",
-      description: "Workshops, meetups, and conferences"
+      number: t('communityStats.stats.events.number'),
+      label: t('communityStats.stats.events.label'),
+      description: t('communityStats.stats.events.description')
     },
     {
       icon: <MapPin className="h-10 w-10 text-primary" />,
-      number: "5+",
-      label: "Cities Reached",
-      description: "Across Togo and West Africa"
+      number: t('communityStats.stats.cities.number'),
+      label: t('communityStats.stats.cities.label'),
+      description: t('communityStats.stats.cities.description')
     },
   ];
 
@@ -33,9 +35,9 @@ export default function CommunityStats() {
     <section className="w-full py-16 px-6 bg-card/30">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold text-foreground mb-4">Our Impact in Numbers</h2>
+          <h2 className="text-4xl font-bold text-foreground mb-4">{t('communityStats.title')}</h2>
           <p className="text-xl text-muted-foreground">
-            See how we&apos;re growing and making a difference in the tech community
+            {t('communityStats.subtitle')}
           </p>
         </div>
         
