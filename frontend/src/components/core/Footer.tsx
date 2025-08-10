@@ -11,8 +11,10 @@ import {
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
+import { useTranslation } from "react-i18next";
 
 export default function Footer() {
+  const { t } = useTranslation();
   const socialLinks = [
     {
       icon: <Github className="w-5 h-5" />,
@@ -37,9 +39,9 @@ export default function Footer() {
   ];
 
   const quickLinks = [
-    { label: "About Us", href: "learn-more" },
-    { label: "Projects", href: "https://github.com/LOSLC" },
-    { label: "Contact", href: "mailto:support@loslc.tech" },
+    { label: t('footer.quick.about'), href: "learn-more" },
+    { label: t('footer.quick.projects'), href: "https://github.com/LOSLC" },
+    { label: t('footer.quick.contact'), href: "mailto:support@loslc.tech" },
   ];
 
   return (
@@ -62,9 +64,7 @@ export default function Footer() {
               </span>
             </div>
             <p className="text-muted-foreground leading-relaxed">
-              Empowering Africa through Linux, Open-Source software, cybersecurity excellence, and
-              collaborative innovation. Join us in building a better and more secure
-              technological future.
+              {t('mission.subtitle')}
             </p>
             <div className="flex space-x-2">
               {socialLinks.map((link, index) => (
@@ -85,7 +85,7 @@ export default function Footer() {
           {/* Quick Links */}
           <div className="space-y-4">
             <h3 className="text-lg font-semibold text-foreground">
-              Quick Links
+              {t('footer.quickLinks')}
             </h3>
             <nav className="flex flex-col space-y-2">
               {quickLinks.map((link, index) => (
@@ -104,13 +104,13 @@ export default function Footer() {
           {/* Contact Info */}
           <div className="space-y-4">
             <h3 className="text-lg font-semibold text-foreground">
-              Get In Touch
+              {t('footer.contactTitle')}
             </h3>
             <div className="space-y-3">
               <div className="flex items-center space-x-3 text-muted-foreground">
                 <MessageCircle className="w-5 h-5 text-primary" />
                 <Link href={"https://link.loslc.tech/discord"}>
-                  Join our community discussions
+                  {t('footer.joinDiscussion')}
                 </Link>
               </div>
               <div className="flex items-center space-x-3 text-muted-foreground">
@@ -121,7 +121,7 @@ export default function Footer() {
               </div>
               <div className="flex items-center space-x-3 text-muted-foreground">
                 <MapPin className="w-5 h-5 text-primary" />
-                <span className="cursor-default">Lomé, Togo</span>
+                <span className="cursor-default">{t('footer.location')}</span>
               </div>
             </div>
           </div>
@@ -130,28 +130,28 @@ export default function Footer() {
         <div className="mt-12 pt-8 border-t border-border">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <div className="flex items-center space-x-2 text-muted-foreground select-none">
-              <span>© {new Date().getFullYear()} LOSL-C. Made with</span>
+              <span>{t('footer.copyrightPrefix', { year: new Date().getFullYear() })}</span>
               <Heart className="w-4 h-4 text-red-500 fill-current" />
-              <span>in Togo</span>
+              <span>{t('footer.copyrightSuffix')}</span>
             </div>
             <div className="flex space-x-6 text-sm text-muted-foreground">
               <Link
                 href="/privacy-policy"
                 className="hover:text-primary transition-colors"
               >
-                Privacy Policy
+                {t('footer.links.privacy')}
               </Link>
               <Link
                 href="/terms-of-service"
                 className="hover:text-primary transition-colors"
               >
-                Terms of Service
+                {t('footer.links.terms')}
               </Link>
               <Link
                 href="/code-of-conduct"
                 className="hover:text-primary transition-colors"
               >
-                Code of Conduct
+                {t('footer.links.code')}
               </Link>
             </div>
           </div>
