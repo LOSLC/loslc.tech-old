@@ -88,7 +88,7 @@ export default function FloatingNav() {
     { href: "/mission", label: t("nav.mission"), icon: Target },
     { href: "/code-of-conduct", label: t("nav.code"), icon: Shield },
     { href: "/terms-of-service", label: t("nav.terms"), icon: FileText },
-    { href: "/blog", label: t("nav.blog"), icon: Book },
+    { href: "/blog", label: t("Blog"), icon: Book },
   ];
 
   const isActive = (href: string) => pathname === href;
