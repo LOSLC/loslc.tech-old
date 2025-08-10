@@ -6,44 +6,40 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Users, Heart, Lightbulb, Globe, BookOpen, Shield } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 export default function Features() {
+  const { t } = useTranslation();
   const features = [
     {
       icon: <Users className="h-8 w-8 text-primary" />,
-      title: "Community Driven",
-      description:
-        "A vibrant community of Linux, Open-Source, and Cybersecurity enthusiasts sharing knowledge and experiences.",
+      title: t('features.items.communityDriven.title'),
+      description: t('features.items.communityDriven.description'),
     },
     {
       icon: <Shield className="h-8 w-8 text-primary" />,
-      title: "Cybersecurity Focus",
-      description:
-        "Dedicated to building secure systems and educating the community on cybersecurity best practices.",
+      title: t('features.items.cybersecurityFocus.title'),
+      description: t('features.items.cybersecurityFocus.description'),
     },
     {
       icon: <Heart className="h-8 w-8 text-primary" />,
-      title: "Passion for FOSS",
-      description:
-        "We believe in the power of Free and Open Source Software to transform lives and communities.",
+      title: t('features.items.passionFoss.title'),
+      description: t('features.items.passionFoss.description'),
     },
     {
       icon: <Lightbulb className="h-8 w-8 text-primary" />,
-      title: "Innovation & Learning",
-      description:
-        "Fostering innovation through continuous learning, workshops, and collaborative projects.",
+      title: t('features.items.innovationLearning.title'),
+      description: t('features.items.innovationLearning.description'),
     },
     {
       icon: <Globe className="h-8 w-8 text-primary" />,
-      title: "African Tech Growth",
-      description:
-        "Promoting technological advancement across Africa through open-source solutions.",
+      title: t('features.items.africanTechGrowth.title'),
+      description: t('features.items.africanTechGrowth.description'),
     },
     {
       icon: <BookOpen className="h-8 w-8 text-primary" />,
-      title: "Security Education",
-      description:
-        "Workshops, tutorials, and mentorship programs covering Linux, FOSS, and cybersecurity knowledge.",
+      title: t('features.items.securityEducation.title'),
+      description: t('features.items.securityEducation.description'),
     },
   ];
 
@@ -52,12 +48,10 @@ export default function Features() {
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-4xl font-bold text-foreground mb-4">
-            What Makes Us Special
+            {t('features.title')}
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            We&apos;re more than just Linux users. We&apos;re a family of
-            passionate individuals working together to build a better
-            technological future for Africa.
+            {t('features.subtitle')}
           </p>
         </div>
 
