@@ -1,2 +1,5 @@
-pnpm run db:migrate
-pnpm run start
+#!/bin/bash
+
+chown -R app:app /home/app
+
+exec su -s /bin/bash app -c "$*"

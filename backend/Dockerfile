@@ -1,13 +1,20 @@
-FROM gplane/pnpm
+FROM gplane/pnpm AS setup
 
 RUN useradd -m app
 USER app
 WORKDIR /home/app/app
-
 COPY --chown=app:app . .
-
 RUN pnpm install
 RUN pnpm run build
+
+FROM gplane/pnpm AS production
+
+COPY --from=setup /home/app/app/ /home/app/app
+RUN useradd -m app
+WORKDIR /home/app/app
+RUN chmod +x ./entry-point.sh
+RUN chmod +x ./start.sh
 EXPOSE 8000
-RUN chmod +x entry-point.sh
-CMD ["./entry-point.sh"]
+
+ENTRYPOINT ["./entry-point.sh"]
+CMD ["./start.sh"]

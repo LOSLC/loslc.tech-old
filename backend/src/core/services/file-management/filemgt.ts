@@ -29,7 +29,7 @@ export class FileManager {
       );
       return true;
     } catch (error) {
-      console.error(error);
+      console.error(`File existence check for ${id} - ${error}`);
     }
     return false;
   }
