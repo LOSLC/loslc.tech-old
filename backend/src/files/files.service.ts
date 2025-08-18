@@ -230,6 +230,8 @@ export class FilesService {
       message: "File not found",
     });
 
+    await db.delete(filesTable).where(eq(filesTable.id, id));
+
     const fm = new FileManager();
     await fm.deleteFile(id);
   }
