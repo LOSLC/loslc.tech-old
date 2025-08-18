@@ -5,13 +5,22 @@ import type React from "react";
 import { createElement, type ComponentType } from "react";
 import { z } from "zod";
 
-const transporter = nodemailer.createTransport({
-  service: getEnv("MAIL_SERVICE"),
-  auth: {
-    user: getEnv("APP_EMAIL"),
-    pass: getEnv("SMTP_PASSWORD"),
-  },
-});
+const mailerOptions =
+  getEnv("DEBUG").toLowerCase() === "true"
+    ? {
+        host: "localhost",
+        port: 1025,
+        secure: false,
+      }
+    : {
+        service: getEnv("MAIL_SERVICE"),
+        auth: {
+          user: getEnv("APP_EMAIL"),
+          pass: getEnv("SMTP_PASSWORD"),
+        },
+      };
+
+const transporter = nodemailer.createTransport(mailerOptions);
 
 const Email = z.email();
 
