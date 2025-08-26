@@ -10,5 +10,6 @@ RUN pnpm install
 RUN pnpm run build
 
 RUN mkdir -p /home/app/app/fs/storage
+RUN chmod +x ./start.sh
 
 CMD ["./start.sh"]

@@ -180,7 +180,6 @@ export class FilesController {
     status: 404,
     description: "File not found",
   })
-  @UseGuards(AuthGuard)
   async downloadFile(
     @Param("id") id: string,
     @Res({ passthrough: true }) res: Response,
