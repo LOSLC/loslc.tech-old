@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Target,
@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Mission() {
   const { t } = useTranslation();
@@ -312,7 +313,7 @@ export default function Mission() {
             {principles.map((principle, index) => (
               <Card
                 key={index}
-                className="border-l-primary hover:shadow-md transition-all duration-300"
+                className="hover:shadow-md transition-all duration-300"
               >
                 <CardContent className="p-6">
                   <h3 className="text-xl font-bold text-foreground mb-3">
@@ -338,9 +339,12 @@ export default function Mission() {
           <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
             {t("mission.callToActionDescription")}
           </p>
-          <Button size="lg" className="px-8 py-4 text-lg">
+          <Link
+            href={"/join"}
+            className={`px-8 py-4 text-lg ${buttonVariants({ variant: "default" })}`}
+          >
             {t("mission.getInvolvedButton")}
-          </Button>
+          </Link>
         </div>
       </section>
     </div>
