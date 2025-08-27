@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Github,
   Twitter,
@@ -109,7 +111,7 @@ export default function Footer() {
             <div className="space-y-3">
               <div className="flex items-center space-x-3 text-muted-foreground">
                 <MessageCircle className="w-5 h-5 text-primary" />
-                <Link href={"https://link.loslc.tech/discord"}>
+                <Link href={"/join"}>
                   {t('footer.joinDiscussion')}
                 </Link>
               </div>
