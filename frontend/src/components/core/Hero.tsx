@@ -176,13 +176,13 @@ export default function Hero({ nextPageRef }: HeroProps) {
               <ArrowRight className="ml-1 sm:ml-2 w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />
             </Button>
           </Link>
-          <Link href="https://discord.gg/losl-c" target="_blank">
+          <Link href="/join">
             <Button
               variant="outline"
               size="default"
               className="px-4 sm:px-8 py-2 sm:py-6 text-sm sm:text-lg font-medium hover:scale-105 transition-all duration-200 group border-2 w-full sm:w-auto"
             >
-              {t("hero.cta.secondary")}
+              {t("common.joinCommunity")}
               <MessageSquare className="ml-1 sm:ml-2 w-4 h-4 sm:w-5 sm:h-5 group-hover:scale-110 transition-transform" />
             </Button>
           </Link>

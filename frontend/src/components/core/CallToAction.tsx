@@ -20,11 +20,11 @@ export default function CallToAction() {
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
               <Link
-                href={"https://link.loslc.tech/next-event"}
+                href={"/join"}
                 className={`${buttonVariants({ variant: "default", size: "lg" })} group px-8 py-6 text-lg hover:scale-105 transition-all duration-200`}
               >
                 <MessageCircle className="mr-2 h-5 w-5" />
-                {t('callToAction.joinDiscord')}
+                {t('common.joinCommunity')}
                 <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
               </Link>
 
