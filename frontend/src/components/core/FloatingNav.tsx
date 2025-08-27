@@ -155,7 +155,7 @@ export default function FloatingNav() {
 
             {/* CTA Button and User Section */}
             <div className="flex items-center ml-1 pl-1 border-l border-white/20 space-x-2">
-              <Link href="https://link.loslc.tech/discord" target="_blank">
+              <Link href="/join">
                 <Button
                   size="sm"
                   className={`rounded-full font-medium
@@ -171,7 +171,7 @@ export default function FloatingNav() {
                     className={`mr-1.5 ${isScrolled ? "w-3 h-3" : "w-4 h-4"}`}
                   />
                   <span className={isScrolled ? "hidden lg:inline" : ""}>
-                    {t("nav.joinDiscord")}
+                    {t("common.joinCommunity")}
                   </span>
                 </Button>
               </Link>
@@ -359,10 +359,9 @@ export default function FloatingNav() {
 
               {/* Action Items Row */}
               <div className="grid grid-cols-4 gap-3">
-                {/* Discord Button */}
+                {/* Join Button */}
                 <Link
-                  href="https://link.loslc.tech/discord"
-                  target="_blank"
+                  href="/join"
                   onClick={closeMobileMenu}
                   className="group col-span-2"
                 >
@@ -378,7 +377,7 @@ export default function FloatingNav() {
                   "
                   >
                     <MessageCircle className="w-5 h-5 mr-2" />
-                    <span className="text-sm font-medium">Discord</span>
+                    <span className="text-sm font-medium">{t("common.joinCommunity")}</span>
                   </div>
                 </Link>
 

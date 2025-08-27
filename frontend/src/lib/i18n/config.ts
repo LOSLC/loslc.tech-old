@@ -20,7 +20,7 @@ const enTranslations = {
     success: 'Success',
     required: 'This field is required',
     invalid: 'Invalid format',
-    joinCommunity: 'Join Our Community',
+    joinCommunity: 'Join the community',
     attendNextEvent: 'Attend Next Event',
   search: 'Search',
   category: 'Category',
@@ -283,7 +283,7 @@ const enTranslations = {
       community: {
         title: 'Build a Thriving Community',
         description: 'Create a vibrant ecosystem of 1000+ active members across West Africa by 2026',
-        metrics: 'Currently: 500+ members',
+        metrics: 'Currently: 600+ members',
       },
       education: {
         title: 'Democratize Tech Education',
@@ -411,6 +411,46 @@ const enTranslations = {
       },
     },
   },
+  join: {
+    title: 'All our links in one place',
+    badge: 'Join the community',
+    subtitle:
+      'Connect with LOSL-C across platforms. Pick your favorite and say hi.',
+    open: 'Open',
+    cards: {
+      discord: {
+        title: 'Discord',
+        description:
+          'Chat with the community, ask questions, and join events.',
+      },
+      whatsapp: {
+        title: 'WhatsApp',
+        description:
+          'Get quick updates and connect with members on WhatsApp.',
+      },
+      linkedin: {
+        title: 'LinkedIn',
+        description:
+          'Follow our professional updates and community milestones.',
+      },
+      instagram: {
+        title: 'Instagram',
+        description:
+          'See photos from meetups, workshops, and community moments.',
+      },
+      x: {
+        title: 'X (Twitter)',
+        description:
+          'Get announcements, threads, and quick community news.',
+      },
+      github: {
+        title: 'GitHub',
+        description:
+          'Explore our projects, contribute, and star repositories you like.',
+      },
+    },
+  },
+  
   codeOfConduct: {
     title: 'Code of Conduct',
     subtitle: 'Building a welcoming, inclusive, and respectful community for everyone',
@@ -666,13 +706,13 @@ const enTranslations = {
       learnMission: 'Learn About Our Mission',
       seeProjects: 'See Our Projects',
     },
-    banner: '🌟 Join 500+ passionate developers, sysadmins, tech enthusiasts and entrepreneurs across Africa!'
+    banner: '🌟 Join 600+ passionate developers, sysadmins, tech enthusiasts and entrepreneurs across Africa!'
   },
   communityStats: {
     title: 'Our Impact in Numbers',
     subtitle: "See how we're growing and making a difference in the tech community",
     stats: {
-      members: { number: '500+', label: 'Community Members', description: 'Active contributors and enthusiasts' },
+      members: { number: '600+', label: 'Community Members', description: 'Active contributors and enthusiasts' },
       workshops: { number: '15+', label: 'Security Workshops', description: 'Cybersecurity training sessions' },
       events: { number: '10+', label: 'Events Organized', description: 'Workshops, meetups, and conferences' },
       cities: { number: '5+', label: 'Cities Reached', description: 'Across Togo and West Africa' },
@@ -1230,7 +1270,7 @@ const frTranslations = {
     success: 'Succès',
     required: 'Ce champ est requis',
     invalid: 'Format invalide',
-    joinCommunity: 'Rejoindre Notre Communauté',
+    joinCommunity: 'Rejoindre la communauté',
     attendNextEvent: 'Assister au Prochain Événement',
   search: 'Rechercher',
   category: 'Catégorie',
@@ -1493,7 +1533,7 @@ const frTranslations = {
       community: {
         title: 'Construire une Communauté Florissante',
         description: 'Créer un écosystème dynamique de 1000+ membres actifs à travers l\'Afrique de l\'Ouest d\'ici 2026',
-        metrics: 'Actuellement: 500+ membres',
+        metrics: 'Actuellement: 600+ membres',
       },
       education: {
         title: 'Démocratiser l\'Éducation Technologique',
@@ -1618,6 +1658,45 @@ const frTranslations = {
         role: 'Développeur Web et Collecteur d\'Informations',
         bio: 'Abdou-Jabar aide notre communauté à rester informée des dernières tendances et technologies de l\'industrie.',
         specialties: ['Développement Web', 'Collecte d\'Informations', 'Tendances'],
+      },
+    },
+  },
+  join: {
+    title: 'Tous nos liens en un seul endroit',
+    badge: 'Rejoindre la communauté',
+    subtitle:
+      'Connectez-vous à LOSL-C sur vos plateformes préférées. Choisissez et dites bonjour.',
+    open: 'Ouvrir',
+    cards: {
+      discord: {
+        title: 'Discord',
+        description:
+          'Discutez avec la communauté, posez vos questions et rejoignez les événements.',
+      },
+      whatsapp: {
+        title: 'WhatsApp',
+        description:
+          'Recevez des mises à jour rapides et échangez avec les membres sur WhatsApp.',
+      },
+      linkedin: {
+        title: 'LinkedIn',
+        description:
+          'Suivez nos actualités professionnelles et les jalons de la communauté.',
+      },
+      instagram: {
+        title: 'Instagram',
+        description:
+          'Découvrez des photos de nos meetups, ateliers et moments forts.',
+      },
+      x: {
+        title: 'X (Twitter)',
+        description:
+          'Recevez des annonces, des threads et des actus rapides de la communauté.',
+      },
+      github: {
+        title: 'GitHub',
+        description:
+          'Découvrez nos projets, contribuez et mettez des étoiles aux dépôts que vous aimez.',
       },
     },
   },
@@ -1876,13 +1955,13 @@ const frTranslations = {
       learnMission: 'Découvrir Notre Mission',
       seeProjects: 'Voir Nos Projets',
     },
-    banner: '🌟 Rejoignez 500+ développeurs, administrateurs systèmes, passionnés de tech et entrepreneurs à travers l\'Afrique !'
+    banner: '🌟 Rejoignez 600+ développeurs, administrateurs systèmes, passionnés de tech et entrepreneurs à travers l\'Afrique !'
   },
   communityStats: {
     title: 'Notre Impact en Chiffres',
     subtitle: 'Découvrez comment nous grandissons et faisons la différence dans la communauté tech',
     stats: {
-      members: { number: '500+', label: 'Membres de la Communauté', description: 'Contributeurs et passionnés actifs' },
+      members: { number: '600+', label: 'Membres de la Communauté', description: 'Contributeurs et passionnés actifs' },
       workshops: { number: '15+', label: 'Ateliers de Sécurité', description: 'Sessions de formation en cybersécurité' },
       events: { number: '10+', label: 'Événements Organisés', description: 'Ateliers, meetups et conférences' },
       cities: { number: '5+', label: 'Villes Atteintes', description: 'À travers le Togo et l\'Afrique de l\'Ouest' },

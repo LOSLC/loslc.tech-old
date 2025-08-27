@@ -329,7 +329,7 @@ export default function LearnMore() {
                 {t('learnMore.joinStoryText')}
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Link href="https://link.loslc.tech/discord">
+                <Link href="/join">
                   <Button
                     size="lg"
                     className="hover:scale-105 transition-all duration-200"

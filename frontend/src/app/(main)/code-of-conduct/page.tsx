@@ -244,15 +244,6 @@ export default function CodeOfConduct() {
             </CardContent>
           </Card>
 
-          {/* Acknowledgements */}
-          <Card>
-            <CardHeader>
-              <CardTitle>{t("codeOfConduct.acknowledgementsTitle")}</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-muted-foreground">{t("codeOfConduct.acknowledgementsText")}</p>
-            </CardContent>
-          </Card>
         </div>
       </div>
     </div>

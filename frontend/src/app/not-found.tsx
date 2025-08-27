@@ -87,7 +87,7 @@ export default function NotFound() {
                 </Link>
                 <span className="text-muted-foreground">•</span>
                 <Link
-                  href="https://link.loslc.tech/discord"
+                  href="/join"
                   target="_blank"
                   className="text-sm text-primary hover:underline"
                 >
