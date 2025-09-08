@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Footer from "@/components/core/Footer";
 import JoinClient from "./parts/join-client";
 
 export const metadata: Metadata = {
@@ -12,7 +11,6 @@ export default function JoinPage() {
   return (
     <div className="bg-background min-h-screen">
       <JoinClient />
-      <Footer />
     </div>
   );
 }

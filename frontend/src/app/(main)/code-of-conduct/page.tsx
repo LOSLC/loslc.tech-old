@@ -8,6 +8,9 @@ import {
   AlertCircle,
   CheckCircle,
   MessageCircle,
+  Handshake,
+  GraduationCap,
+  Globe2,
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
@@ -55,25 +58,25 @@ export default function CodeOfConduct() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <h4 className="font-semibold text-foreground mb-2 flex items-center">
-                    <span className="mr-2">🤝</span> {t("mission.principles.inclusivity.title")}
+                    <Handshake className="mr-2 h-4 w-4 text-primary" /> {t("mission.principles.inclusivity.title")}
                   </h4>
                   <p className="text-muted-foreground text-sm">{t("mission.principles.inclusivity.description")}</p>
                 </div>
                 <div>
                   <h4 className="font-semibold text-foreground mb-2 flex items-center">
-                    <span className="mr-2">🎓</span> {t("mission.values.learning.title")}
+                    <GraduationCap className="mr-2 h-4 w-4 text-primary" /> {t("mission.values.learning.title")}
                   </h4>
                   <p className="text-muted-foreground text-sm">{t("mission.values.learning.description")}</p>
                 </div>
                 <div>
                   <h4 className="font-semibold text-foreground mb-2 flex items-center">
-                    <span className="mr-2">🤲</span> {t("mission.principles.collaboration.title")}
+                    <Handshake className="mr-2 h-4 w-4 text-primary" /> {t("mission.principles.collaboration.title")}
                   </h4>
                   <p className="text-muted-foreground text-sm">{t("mission.principles.collaboration.description")}</p>
                 </div>
                 <div>
                   <h4 className="font-semibold text-foreground mb-2 flex items-center">
-                    <span className="mr-2">🌍</span> {t("mission.values.innovation.title")}
+                    <Globe2 className="mr-2 h-4 w-4 text-primary" /> {t("mission.values.innovation.title")}
                   </h4>
                   <p className="text-muted-foreground text-sm">{t("mission.values.innovation.description")}</p>
                 </div>
