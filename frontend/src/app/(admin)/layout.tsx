@@ -55,8 +55,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <>
-      <IsAdminGuard>{children}</IsAdminGuard>
-    </>
+    <div className="min-h-screen flex flex-col">
+      <IsAdminGuard>
+        <main className="flex-1">{children}</main>
+      </IsAdminGuard>
+    </div>
   );
 }
