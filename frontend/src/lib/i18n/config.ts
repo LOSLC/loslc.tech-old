@@ -706,7 +706,7 @@ const enTranslations = {
       learnMission: 'Learn About Our Mission',
       seeProjects: 'See Our Projects',
     },
-    banner: '🌟 Join 600+ passionate developers, sysadmins, tech enthusiasts and entrepreneurs across Africa!'
+  banner: 'Join 600+ passionate developers, sysadmins, tech enthusiasts and entrepreneurs across Africa!'
   },
   communityStats: {
     title: 'Our Impact in Numbers',
@@ -727,42 +727,42 @@ const enTranslations = {
       {
         role: 'Cybersecurity Enthusiast',
         content: 'The cybersecurity workshops helped me understand Linux security fundamentals. I now feel confident implementing security best practices in my work.',
-        avatar: '🔒'
+  avatar: ''
       },
       {
         role: 'Community Member',
         content: "It's been already 1 month since I've joined this community and I'd like to contribute to building it",
-        avatar: '🧑‍💻'
+  avatar: ''
       },
       {
         role: 'Security Student',
         content: 'Learning about penetration testing and system hardening through LOSL-C has opened up new career opportunities for me in cybersecurity.',
-        avatar: '🛡️'
+  avatar: ''
       },
       {
         role: 'Community Member',
         content: 'Thanks a lot, for you it might be small but for me, it was great, thanks for the dedication you put into your webinars',
-        avatar: '👩‍💼'
+  avatar: ''
       },
       {
         role: 'Linux & Security Expert',
         content: 'The knowledge sharing here is incredible. Everyone is so welcoming and willing to help newcomers learn both Linux and cybersecurity',
-        avatar: '🎓'
+  avatar: ''
       },
       {
         role: 'Community Member',
         content: "I've learned more about Linux security in the past few weeks here than I did in months of trying to figure it out alone",
-        avatar: '👨‍🔧'
+  avatar: ''
       },
       {
         role: 'Open Source Advocate',
         content: 'The workshops on secure coding and open-source security tools are fantastic. The community spirit is what makes this place special.',
-        avatar: '👩‍🎓'
+  avatar: ''
       },
       {
         role: 'Community Member',
         content: 'Found my passion for secure open-source development through this community. The mentorship and cybersecurity focus is amazing',
-        avatar: '🧑‍🚀'
+  avatar: ''
       }
     ],
   },
@@ -773,7 +773,38 @@ const enTranslations = {
     attendNextEvent: 'Attend Next Event',
     viewProjects: 'View Our Projects',
     becomeSpeaker: 'Become a Speaker',
-    tagline: '🐧 Open Source • 🌍 Africa • 💻 Technology • 🤝 Community',
+  tagline: 'Open Source • Africa • Technology • Community',
+  },
+  loslCon: {
+    badge: 'Upcoming Flagship Event',
+    title: 'LOSL-CON 2025',
+    description: 'LOSL-CON 2025 brings together the Togolese tech community around cybersecurity, open source, and Linux. A day of learning, networking, and technological innovation.',
+    info: {
+  date: { label: 'Date', value: 'Nov 22, 2025' },
+      location: { label: 'Location', value: 'Lomé, Togo (Hybrid)' },
+      countdown: { label: 'Countdown' },
+      focus: { label: 'Focus', value: 'Cybersecurity • Open Source • Linux' },
+    },
+    pillars: {
+      cybersecurity: {
+        title: 'Cybersecurity Tracks',
+        text: 'Deep dives, blue team vs red team strategies, secure infrastructure, and real incident response knowledge sharing.'
+      },
+      foss: {
+        title: 'Open Source & Linux',
+        text: 'Kernel fundamentals, automation workflows, FOSS collaboration culture, and sustainable community building.'
+      },
+      collaboration: {
+        title: 'Collaboration & Networking',
+        text: 'Meaningful peer connections, mentorship windows, project showcases, and hallway track learning.'
+      }
+    },
+    cta: {
+      heading: 'Be part of the first LOSL-CON experience',
+      body: 'Limited capacity for in-person sessions. Secure your spot early and help shape the future of open technology and defensive security practice in Togo.',
+      primary: 'Register Interest',
+      secondary: 'Learn More'
+    }
   },
   footer: {
     quickLinks: 'Quick Links',
@@ -1955,7 +1986,7 @@ const frTranslations = {
       learnMission: 'Découvrir Notre Mission',
       seeProjects: 'Voir Nos Projets',
     },
-    banner: '🌟 Rejoignez 600+ développeurs, administrateurs systèmes, passionnés de tech et entrepreneurs à travers l\'Afrique !'
+  banner: "Rejoignez 600+ développeurs, administrateurs systèmes, passionnés de tech et entrepreneurs à travers l'Afrique !"
   },
   communityStats: {
     title: 'Notre Impact en Chiffres',
@@ -1976,42 +2007,42 @@ const frTranslations = {
       {
         role: 'Passionné de Cybersécurité',
         content: 'Les ateliers de cybersécurité m\'ont aidé à comprendre les bases de la sécurité Linux. Je me sens désormais confiant pour appliquer les bonnes pratiques de sécurité.',
-        avatar: '🔒'
+  avatar: ''
       },
       {
         role: 'Membre de la Communauté',
         content: "Cela fait déjà 1 mois que j\'ai rejoint cette communauté et j\'aimerais contribuer à la construire",
-        avatar: '🧑‍💻'
+  avatar: ''
       },
       {
         role: 'Étudiant en Sécurité',
         content: "Apprendre le pentest et le durcissement des systèmes avec LOSL-C m\'a ouvert de nouvelles opportunités de carrière en cybersécurité.",
-        avatar: '🛡️'
+  avatar: ''
       },
       {
         role: 'Membre de la Communauté',
         content: "Merci beaucoup, pour vous c\'est peut-être petit mais pour moi, c\'était génial, merci pour le dévouement dans vos webinaires",
-        avatar: '👩‍💼'
+  avatar: ''
       },
       {
         role: 'Expert Linux & Sécurité',
         content: 'Le partage de connaissances ici est incroyable. Tout le monde est accueillant et prêt à aider les nouveaux à apprendre Linux et la cybersécurité',
-        avatar: '🎓'
+  avatar: ''
       },
       {
         role: 'Membre de la Communauté',
         content: "J\'ai appris plus sur la sécurité Linux ces dernières semaines ici que pendant des mois seul",
-        avatar: '👨‍🔧'
+  avatar: ''
       },
       {
         role: 'Défenseur de l\'Open Source',
         content: 'Les ateliers sur le code sécurisé et les outils de sécurité open-source sont fantastiques. L\'esprit de communauté rend cet endroit spécial.',
-        avatar: '👩‍🎓'
+  avatar: ''
       },
       {
         role: 'Membre de la Communauté',
         content: "J\'ai trouvé ma passion pour le développement open-source sécurisé grâce à cette communauté. Le mentorat et l\'accent sur la cybersécurité sont incroyables",
-        avatar: '🧑‍🚀'
+  avatar: ''
       }
     ],
   },
@@ -2022,7 +2053,38 @@ const frTranslations = {
     attendNextEvent: 'Assister au Prochain Événement',
     viewProjects: 'Voir Nos Projets',
     becomeSpeaker: 'Devenir Conférencier',
-    tagline: '🐧 Open Source • 🌍 Afrique • 💻 Technologie • 🤝 Communauté',
+  tagline: 'Open Source • Afrique • Technologie • Communauté',
+  },
+  loslCon: {
+    badge: 'Événement phare à venir',
+    title: 'LOSL-CON 2025',
+    description: 'LOSL-CON 2025 réunit la communauté tech togolaise autour de la cybersécurité, de l’open source et de Linux. Une journée d’apprentissage, de réseautage et d’innovation technologique.',
+    info: {
+  date: { label: 'Date', value: '22 Nov 2025' },
+      location: { label: 'Lieu', value: 'Lomé, Togo (Hybride)' },
+      countdown: { label: 'Compte à rebours' },
+      focus: { label: 'Thème', value: 'Cybersécurité • Open Source • Linux' },
+    },
+    pillars: {
+      cybersecurity: {
+        title: 'Pôles Cybersécurité',
+        text: 'Approfondissements, stratégies défensives et offensives, infrastructure sécurisée et retours d’expérience réels.'
+      },
+      foss: {
+        title: 'Open Source & Linux',
+        text: 'Fondamentaux du kernel, automatisation, culture collaborative FOSS et construction de communautés durables.'
+      },
+      collaboration: {
+        title: 'Collaboration & Réseautage',
+        text: 'Connexions pertinentes, mentorat, présentations de projets et apprentissage informel.'
+      }
+    },
+    cta: {
+      heading: 'Participez à la première expérience LOSL-CON',
+      body: 'Capacité limitée pour les sessions physiques. Réservez tôt et participez à façonner l’avenir des technologies ouvertes et de la cybersécurité au Togo.',
+      primary: 'Manifester son intérêt',
+      secondary: 'En savoir plus'
+    }
   },
   footer: {
     quickLinks: 'Liens Rapides',
