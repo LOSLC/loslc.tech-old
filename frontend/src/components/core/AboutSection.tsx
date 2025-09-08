@@ -15,13 +15,13 @@ const AboutSection = forwardRef<HTMLDivElement, AboutSectionProps>(
     return (
       <section
         ref={ref}
-        className={`w-full py-16 px-6 bg-gradient-to-b from-muted/30 to-background ${className}`}
+        className={`w-full py-20 px-6 bg-gradient-to-b from-background via-muted/20 to-background ${className}`}
       >
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div className="space-y-8 motion-preset-slide-right">
+      <div className="space-y-8 motion-preset-slide-right">
               <div>
-                <h2 className="text-4xl font-bold text-foreground mb-6">
+        <h2 className="text-4xl font-bold text-foreground mb-6">
                   {t('about.title')}
                 </h2>
                 <p className="text-xl text-muted-foreground leading-relaxed">
@@ -79,11 +79,11 @@ const AboutSection = forwardRef<HTMLDivElement, AboutSectionProps>(
                 </div>
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-4">
+      <div className="flex flex-col sm:flex-row gap-4">
                 <Link href="/mission">
                   <Button
-                    size="lg"
-                    className="hover:scale-105 transition-all duration-200"
+        size="lg"
+        className="hover:scale-105 transition-all duration-200 shadow-sm cursor-pointer"
                   >
                     {t('about.cta.learnMission')}
                   </Button>
@@ -91,8 +91,8 @@ const AboutSection = forwardRef<HTMLDivElement, AboutSectionProps>(
                 <Link href="https://github.com/LOSLC">
                   <Button
                     variant="outline"
-                    size="lg"
-                    className="hover:scale-105 transition-all duration-200"
+        size="lg"
+        className="hover:scale-105 transition-all duration-200 cursor-pointer"
                   >
                     {t('about.cta.seeProjects')}
                   </Button>
@@ -102,7 +102,7 @@ const AboutSection = forwardRef<HTMLDivElement, AboutSectionProps>(
 
             {/* Image Content */}
             <div className="motion-preset-slide-left">
-              <Card className="border-2 border-primary/20 overflow-hidden hover:shadow-xl transition-all duration-300">
+              <Card className="border border-border/70 bg-card/60 backdrop-blur-sm overflow-hidden hover:shadow-xl transition-all duration-300">
                 <CardContent className="p-0">
                   <div>
                     <div className="bottom-4 left-4 right-4">

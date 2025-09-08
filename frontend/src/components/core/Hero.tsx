@@ -22,7 +22,7 @@ export default function Hero({ nextPageRef }: HeroProps) {
   const { t } = useTranslation();
 
   return (
-    <div className="relative flex flex-col h-full w-full justify-between items-center overflow-hidden bg-gradient-to-br from-background via-background to-muted/30">
+    <div className="relative flex flex-col h-full w-full justify-between items-center overflow-hidden bg-gradient-to-br from-background via-muted/15 to-background">
       {/* Background decorative elements */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute top-20 left-20 w-32 h-32 rounded-full bg-primary motion-preset-spin motion-duration-[20s]"></div>
@@ -158,7 +158,7 @@ export default function Hero({ nextPageRef }: HeroProps) {
           ].map((feature, i) => (
             <div
               key={i}
-              className="flex items-center duration-200 hover:border-primary hover:bg-accent/50 justify-center gap-1 sm:gap-2 text-xs sm:text-sm md:text-base text-foreground p-1.5 sm:p-2 rounded-lg border border-accent/80 bg-foreground/5"
+              className="flex items-center duration-200 hover:border-primary hover:bg-accent/50 justify-center gap-1 sm:gap-2 text-xs sm:text-sm md:text-base text-foreground p-1.5 sm:p-2 rounded-lg border border-accent/80 bg-foreground/5 cursor-pointer"
             >
               <span className="text-primary">{feature.icon}</span>
               <span className="cursor-default">{feature.text}</span>
@@ -167,20 +167,20 @@ export default function Hero({ nextPageRef }: HeroProps) {
         </div>
 
         <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center motion-preset-slide-up motion-delay-600">
-          <Link href={"/auth/register"}>
+      <Link href={"/auth/register"} className="cursor-pointer">
             <Button
               size="default"
-              className="px-4 sm:px-8 py-2 sm:py-6 text-sm sm:text-lg font-medium hover:scale-105 transition-all duration-200 group bg-primary hover:bg-primary/90 shadow-lg shadow-primary/20 w-full sm:w-auto"
+        className="px-4 sm:px-8 py-2 sm:py-6 text-sm sm:text-lg font-medium hover:scale-105 transition-all duration-200 group bg-primary hover:bg-primary/90 shadow-lg shadow-primary/20 w-full sm:w-auto cursor-pointer"
             >
               {t("hero.cta.primary")}
               <ArrowRight className="ml-1 sm:ml-2 w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />
             </Button>
           </Link>
-          <Link href="/join">
+      <Link href="/join" className="cursor-pointer">
             <Button
               variant="outline"
               size="default"
-              className="px-4 sm:px-8 py-2 sm:py-6 text-sm sm:text-lg font-medium hover:scale-105 transition-all duration-200 group border-2 w-full sm:w-auto"
+        className="px-4 sm:px-8 py-2 sm:py-6 text-sm sm:text-lg font-medium hover:scale-105 transition-all duration-200 group border-2 w-full sm:w-auto cursor-pointer"
             >
               {t("common.joinCommunity")}
               <MessageSquare className="ml-1 sm:ml-2 w-4 h-4 sm:w-5 sm:h-5 group-hover:scale-110 transition-transform" />
@@ -208,7 +208,7 @@ export default function Hero({ nextPageRef }: HeroProps) {
         onClick={() => {
           nextPageRef?.current?.scrollIntoView({ behavior: "smooth" });
         }}
-        className="w-7 h-7 mb-3 z-20 shadow-lg motion-preset-oscillate motion-duration-2000 hover:scale-110 transition-all duration-200"
+        className="w-8 h-8 mb-3 z-20 shadow-sm ring-1 ring-border/60 motion-preset-oscillate motion-duration-2000 hover:scale-110 transition-all duration-200 cursor-pointer"
         aria-label="Scroll down"
       >
         <MoveDown className="w-4 h-4 sm:w-6 sm:h-6" />

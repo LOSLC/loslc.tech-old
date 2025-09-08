@@ -44,7 +44,7 @@ export default function Features() {
   ];
 
   return (
-    <section className="w-full py-16 px-6 bg-gradient-to-b from-background to-muted/30">
+    <section className="w-full py-20 px-6 bg-gradient-to-b from-background via-muted/15 to-background">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-4xl font-bold text-foreground mb-4">
@@ -59,7 +59,7 @@ export default function Features() {
           {features.map((feature, index) => (
             <Card
               key={index}
-              className="border-2 border-border hover:border-primary/50 transition-all duration-300 hover:shadow-lg motion-preset-slide-up"
+              className="border border-border/70 bg-card/60 backdrop-blur-sm hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5 motion-preset-slide-up"
               style={{ animationDelay: `${index * 100}ms` }}
             >
               <CardHeader className="pb-4">
