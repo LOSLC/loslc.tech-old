@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "../globals.css";
 import FloatingNav from "@/components/core/FloatingNav";
+import Footer from "@/components/core/Footer";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://loslc.tech"),
@@ -57,7 +58,10 @@ export default function RootLayout({
   return (
     <>
       <FloatingNav />
-      {children}
+      <div className="min-h-screen flex flex-col">
+        <main className="flex-1">{children}</main>
+        <Footer />
+      </div>
     </>
   );
 }

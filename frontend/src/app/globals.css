@@ -52,7 +52,8 @@
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   --font-serif: serif;
   --font-mono: Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace;
-  --radius: 1.525rem;
+  /* Softer, more modern default rounding */
+  --radius: 0.875rem;
   --shadow-2xs: 2 2 0.75rem 0 hsl(0 0% 0% / 0.05);
   --shadow-xs: 2 2 0.75rem 0 hsl(0 0% 0% / 0.05);
   --shadow-sm:
@@ -107,7 +108,8 @@
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   --font-serif: serif;
   --font-mono: Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace;
-  --radius: 1.525rem;
+  /* Keep dark theme in sync with light theme rounding */
+  --radius: 0.875rem;
   --shadow-2xs: 2 2 0.75rem 0 hsl(0 0% 0% / 0.05);
   --shadow-xs: 2 2 0.75rem 0 hsl(0 0% 0% / 0.05);
   --shadow-sm:

@@ -41,13 +41,13 @@ export default function Footer() {
   ];
 
   const quickLinks = [
-    { label: t('footer.quick.about'), href: "learn-more" },
-    { label: t('footer.quick.projects'), href: "https://github.com/LOSLC" },
-    { label: t('footer.quick.contact'), href: "mailto:support@loslc.tech" },
+    { label: t("footer.quick.about"), href: "learn-more" },
+    { label: t("footer.quick.projects"), href: "https://github.com/LOSLC" },
+    { label: t("footer.quick.contact"), href: "mailto:support@loslc.tech" },
   ];
 
   return (
-    <footer className="w-full bg-card/50 border-t border-border">
+    <footer className="w-full bg-card/60 backdrop-blur-sm border-t border-border/70">
       <div className="max-w-7xl mx-auto px-6 py-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="space-y-4">
@@ -66,15 +66,15 @@ export default function Footer() {
               </span>
             </div>
             <p className="text-muted-foreground leading-relaxed">
-              {t('mission.subtitle')}
+              {t("mission.subtitle")}
             </p>
             <div className="flex space-x-2">
               {socialLinks.map((link, index) => (
-                <Link href={link.href} key={index}>
+                <Link href={link.href} key={index} className="cursor-pointer">
                   <Button
                     variant="ghost"
                     size="sm"
-                    className="hover:scale-110 transition-all"
+                    className="hover:scale-110 transition-all cursor-pointer"
                   >
                     {link.icon}
                     <span className="sr-only">{link.label}</span>
@@ -87,7 +87,7 @@ export default function Footer() {
           {/* Quick Links */}
           <div className="space-y-4">
             <h3 className="text-lg font-semibold text-foreground">
-              {t('footer.quickLinks')}
+              {t("footer.quickLinks")}
             </h3>
             <nav className="flex flex-col space-y-2">
               {quickLinks.map((link, index) => (
@@ -95,7 +95,7 @@ export default function Footer() {
                   target="_blank"
                   key={index}
                   href={link.href}
-                  className="text-muted-foreground hover:text-primary transition-colors duration-200"
+                  className="text-muted-foreground hover:text-primary transition-colors duration-200 cursor-pointer"
                 >
                   {link.label}
                 </a>
@@ -106,24 +106,22 @@ export default function Footer() {
           {/* Contact Info */}
           <div className="space-y-4">
             <h3 className="text-lg font-semibold text-foreground">
-              {t('footer.contactTitle')}
+              {t("footer.contactTitle")}
             </h3>
             <div className="space-y-3">
               <div className="flex items-center space-x-3 text-muted-foreground">
                 <MessageCircle className="w-5 h-5 text-primary" />
-                <Link href={"/join"}>
-                  {t('footer.joinDiscussion')}
-                </Link>
+                <Link href={"/join"} className="cursor-pointer">{t("footer.joinDiscussion")}</Link>
               </div>
               <div className="flex items-center space-x-3 text-muted-foreground">
                 <Mail className="w-5 h-5 text-primary" />
-                <Link href={"mailto:support@loslc.tech"}>
+                <Link href={"mailto:support@loslc.tech"} className="cursor-pointer">
                   support@loslc.tech
                 </Link>
               </div>
               <div className="flex items-center space-x-3 text-muted-foreground">
                 <MapPin className="w-5 h-5 text-primary" />
-                <span className="cursor-default">{t('footer.location')}</span>
+                <span className="cursor-default">{t("footer.location")}</span>
               </div>
             </div>
           </div>
@@ -132,28 +130,32 @@ export default function Footer() {
         <div className="mt-12 pt-8 border-t border-border">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <div className="flex items-center space-x-2 text-muted-foreground select-none">
-              <span>{t('footer.copyrightPrefix', { year: new Date().getFullYear() })}</span>
+              <span>
+                {t("footer.copyrightPrefix", {
+                  year: new Date().getFullYear(),
+                })}
+              </span>
               <Heart className="w-4 h-4 text-red-500 fill-current" />
-              <span>{t('footer.copyrightSuffix')}</span>
+              <span>{t("footer.copyrightSuffix")}</span>
             </div>
             <div className="flex space-x-6 text-sm text-muted-foreground">
               <Link
                 href="/privacy-policy"
-                className="hover:text-primary transition-colors"
+                className="hover:text-primary transition-colors cursor-pointer"
               >
-                {t('footer.links.privacy')}
+                {t("footer.links.privacy")}
               </Link>
               <Link
                 href="/terms-of-service"
-                className="hover:text-primary transition-colors"
+                className="hover:text-primary transition-colors cursor-pointer"
               >
-                {t('footer.links.terms')}
+                {t("footer.links.terms")}
               </Link>
               <Link
                 href="/code-of-conduct"
-                className="hover:text-primary transition-colors"
+                className="hover:text-primary transition-colors cursor-pointer"
               >
-                {t('footer.links.code')}
+                {t("footer.links.code")}
               </Link>
             </div>
           </div>

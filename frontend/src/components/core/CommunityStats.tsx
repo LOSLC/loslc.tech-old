@@ -32,7 +32,7 @@ export default function CommunityStats() {
   ];
 
   return (
-    <section className="w-full py-16 px-6 bg-card/30">
+    <section className="w-full py-20 px-6 bg-gradient-to-b from-background via-card/30 to-background">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-4xl font-bold text-foreground mb-4">{t('communityStats.title')}</h2>
@@ -45,7 +45,7 @@ export default function CommunityStats() {
           {stats.map((stat, index) => (
             <Card 
               key={index} 
-              className="border-none bg-background hover:bg-card transition-all duration-300 hover:scale-105 motion-preset-focus"
+              className="border border-border/60 bg-card/60 backdrop-blur-sm hover:border-primary/40 transition-all duration-300 hover:-translate-y-0.5 motion-preset-focus"
               style={{ animationDelay: `${index * 150}ms` }}
             >
               <CardContent className="p-6 text-center">

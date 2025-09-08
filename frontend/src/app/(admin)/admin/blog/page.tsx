@@ -59,12 +59,12 @@ function PostCard({ post, onDelete, onView }: {
               </Badge>
               {post.featured && (
                 <Badge variant="outline" className="bg-purple-50 text-purple-700 border-purple-200 dark:bg-purple-900/20 dark:text-purple-300">
-                  ⭐ Featured
+                  Featured
                 </Badge>
               )}
               {post.archived && (
                 <Badge variant="destructive" className="bg-red-50 text-red-700 border-red-200 dark:bg-red-900/20 dark:text-red-300">
-                  🗄️ Archived
+                  Archived
                 </Badge>
               )}
             </div>

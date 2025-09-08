@@ -126,7 +126,7 @@ export default function FloatingNav() {
             {navItems.map((item) => {
               const Icon = item.icon;
               return (
-                <Link key={item.href} href={item.href}>
+                <Link key={item.href} href={item.href} className="cursor-pointer">
                   <Button
                     variant="ghost"
                     size="sm"
@@ -155,7 +155,7 @@ export default function FloatingNav() {
 
             {/* CTA Button and User Section */}
             <div className="flex items-center ml-1 pl-1 border-l border-white/20 space-x-2">
-              <Link href="/join">
+              <Link href="/join" className="cursor-pointer">
                 <Button
                   size="sm"
                   className={`rounded-full font-medium
@@ -242,7 +242,7 @@ export default function FloatingNav() {
                   </DropdownMenuContent>
                 </DropdownMenu>
               ) : (
-                <Link href="/auth/login">
+                <Link href="/auth/login" className="cursor-pointer">
                   <Button
                     size="sm"
                     variant="outline"
@@ -322,7 +322,7 @@ export default function FloatingNav() {
                       href={item.href}
                       onClick={closeMobileMenu}
                       className={`
-                        block group
+                        block group cursor-pointer
                         transition-all duration-200 ease-out
                         ${
                           isMobileMenuOpen
@@ -363,7 +363,7 @@ export default function FloatingNav() {
                 <Link
                   href="/join"
                   onClick={closeMobileMenu}
-                  className="group col-span-2"
+                  className="group col-span-2 cursor-pointer"
                 >
                   <div
                     className="
@@ -436,7 +436,7 @@ export default function FloatingNav() {
                       <Link
                         href="/dashboard"
                         onClick={closeMobileMenu}
-                        className="group"
+                        className="group cursor-pointer"
                       >
                         <div
                           className="
@@ -459,7 +459,7 @@ export default function FloatingNav() {
                           handleLogout();
                           closeMobileMenu();
                         }}
-                        className="group"
+                        className="group cursor-pointer"
                       >
                         <div
                           className="
@@ -483,7 +483,7 @@ export default function FloatingNav() {
                   <Link
                     href="/auth/login"
                     onClick={closeMobileMenu}
-                    className="group block"
+                    className="group block cursor-pointer"
                   >
                     <div
                       className="
@@ -519,6 +519,7 @@ export default function FloatingNav() {
                 transition-all duration-300 ease-out
                 ${isMobileMenuOpen ? "rotate-180" : "rotate-0"}
               `}
+              
             >
               {isMobileMenuOpen ? (
                 <X className="w-6 h-6 text-foreground" />

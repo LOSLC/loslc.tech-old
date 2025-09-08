@@ -1,6 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Quote, ChevronLeft, ChevronRight } from "lucide-react";
+import { Quote, ChevronLeft, ChevronRight, User } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -21,7 +21,7 @@ export default function Testimonials() {
   };
 
   return (
-    <section className="w-full py-16 px-6 bg-muted/20">
+    <section className="w-full py-20 px-6 bg-gradient-to-b from-background via-muted/20 to-background">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-4xl font-bold text-foreground mb-4">{t('testimonials.title')}</h2>
@@ -38,7 +38,7 @@ export default function Testimonials() {
               size="sm"
               onClick={prevSlide}
               disabled={currentIndex === 0}
-              className="hover:scale-105 transition-all duration-200"
+              className="hover:scale-105 transition-all duration-200 cursor-pointer"
             >
               <ChevronLeft className="w-4 h-4 mr-1" />
               {t('testimonials.previous')}
@@ -48,7 +48,7 @@ export default function Testimonials() {
               size="sm"
               onClick={nextSlide}
               disabled={currentIndex === totalPages - 1}
-              className="hover:scale-105 transition-all duration-200"
+              className="hover:scale-105 transition-all duration-200 cursor-pointer"
             >
               {t('testimonials.next')}
               <ChevronRight className="w-4 h-4 ml-1" />
@@ -72,7 +72,7 @@ export default function Testimonials() {
                       .map((testimonial, index) => (
                         <Card 
                           key={`${pageIndex}-${index}`}
-                          className="border-2 border-border hover:border-primary/50 transition-all duration-300 hover:shadow-lg"
+                          className="border border-border/70 bg-card/60 backdrop-blur-sm hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5"
                         >
                           <CardContent className="p-6">
                             <div className="flex items-center mb-4">
@@ -84,8 +84,8 @@ export default function Testimonials() {
                             </p>
                             
                             <div className="flex items-center">
-                              <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center text-2xl mr-4">
-                                {testimonial.avatar}
+                              <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mr-4">
+                                <User className="h-6 w-6 text-primary" />
                               </div>
                               <div>
                                 <div className="font-semibold text-foreground">{testimonial.role}</div>
@@ -106,10 +106,10 @@ export default function Testimonials() {
               <button
                 key={index}
                 onClick={() => setCurrentIndex(index)}
-                className={`w-3 h-3 rounded-full transition-all duration-200 ${
+                className={`w-2.5 h-2.5 rounded-full ring-1 ring-border transition-all duration-200 cursor-pointer ${
                   index === currentIndex 
-                    ? 'bg-primary scale-125' 
-                    : 'bg-border hover:bg-primary/50'
+                    ? 'bg-primary scale-125 ring-primary/40' 
+                    : 'bg-muted hover:bg-primary/40'
                 }`}
                 aria-label={`Go to slide ${index + 1}`}
               />
