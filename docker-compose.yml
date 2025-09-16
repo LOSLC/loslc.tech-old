@@ -42,7 +42,7 @@ services:
       - PG_DB=${PG_DB}
 
     healthcheck:
-      test: ["CMD-SHELL", "curl", "-f", "https://loslc.tech/hc"]
+      test: ["CMD-SHELL", "curl", "-f", "https://api.loslc.tech/hc"]
       interval: 10s
       timeout: 5s
       retries: 60
