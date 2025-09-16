@@ -14,6 +14,13 @@ export interface UserDTO {
   isVerified: boolean;
 }
 
+export interface PublicUserDTO {
+  id: string;
+  username: string;
+  fullName: string;
+  profilePictureFileId: string | null;
+}
+
 /**
  * Convert a User from the database to UserDTO
  * @param user - User object from database
@@ -29,6 +36,15 @@ export function toUserDTO(user: User): UserDTO {
     joinedAt: user.joinedAt,
     isBanned: user.isBanned,
     isVerified: user.isVerified,
+  };
+}
+
+export function toPublicUserDTO(user: User): PublicUserDTO {
+  return {
+    id: user.id,
+    username: user.username,
+    fullName: user.fullName,
+    profilePictureFileId: user.profilePictureFileId,
   };
 }
 

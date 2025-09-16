@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { userApi, type UpdateUserInfoDTO, type GetUsersQueryDTO } from '@/lib/api/users';
+import { userApi, type UpdateUserInfoDTO, type GetUsersQueryDTO, type PublicUserDTO } from '@/lib/api/users';
 
 // Query keys factory for consistent cache management
 export const userKeys = {
@@ -8,6 +8,7 @@ export const userKeys = {
   list: (query: GetUsersQueryDTO) => [...userKeys.lists(), { ...query }] as const,
   details: () => [...userKeys.all, 'detail'] as const,
   detail: (id: string) => [...userKeys.details(), id] as const,
+  publicDetail: (id: string) => [...userKeys.details(), 'public', id] as const,
   current: () => [...userKeys.all, 'current'] as const,
 };
 
@@ -32,6 +33,16 @@ export const useUser = (userId: string, enabled = true) => {
     queryFn: () => userApi.getUserById(userId),
     enabled: !!userId && enabled,
     staleTime: 10 * 60 * 1000, // 10 minutes - user data doesn't change frequently
+  });
+};
+
+// Public minimal user
+export const usePublicUser = (userId: string, enabled = true) => {
+  return useQuery<PublicUserDTO>({
+    queryKey: userKeys.publicDetail(userId),
+    queryFn: () => userApi.getPublicUser(userId),
+    enabled: !!userId && enabled,
+    staleTime: 60 * 60 * 1000, // 1 hour
   });
 };
 

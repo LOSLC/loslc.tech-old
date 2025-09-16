@@ -124,7 +124,7 @@ export class AuthService {
       component: VerifyAccountEmail,
       props: {
         userName: newUser.fullName,
-        verificationLink: `${getEnv("APP_URL")}/auth/verify-email?token=${accountVerificationToken.id}`,
+        verificationLink: `${getEnv("APP_URL")}/verify-email?token=${accountVerificationToken.id}`,
         verificationToken: accountVerificationToken.token,
       },
     });
@@ -165,34 +165,58 @@ export class AuthService {
       statusCode: HttpStatus.UNAUTHORIZED,
       either: false,
     });
-    const [otpSession] = await db
-      .insert(otpSessionsTable)
+
+    // const [otpSession] = await db
+    //   .insert(otpSessionsTable)
+    //   .values({
+    //     userId: user.id,
+    //   })
+    //   .returning();
+    // sendEmail({
+    //   from: {
+    //     email: getEnv("APP_EMAIL"),
+    //     name: "LOSL-C's Team",
+    //   },
+    //   to: user.email,
+    //   subject: "Someone is trying to log in to your account",
+    //   component: LoginOtpEmail,
+    //   props: {
+    //     userName: user.fullName,
+    //     otpCode: otpSession.token,
+    //     expirationMinutes:
+    //       Number.parseInt(getEnv("OTP_EXPIRATION_MINUTES")) || 5,
+    //   },
+    // });
+    // res.cookie(OTP_SESSION_COOKIE_NAME, otpSession.id, {
+    //   httpOnly: true,
+    //   secure: getEnv("DEBUG").toLowerCase() !== "true",
+    //   maxAge: 1000 * 60 * 5,
+    // });
+    // const response: Message = {
+    //   message: "Login successful. Please check your email.",
+    // };
+    // return response;
+
+    const [authSession] = await db
+      .insert(authSessionsTable)
       .values({
         userId: user.id,
       })
       .returning();
-    sendEmail({
-      from: {
-        email: getEnv("APP_EMAIL"),
-        name: "LOSL-C's Team",
-      },
-      to: user.email,
-      subject: "Someone is trying to log in to your account",
-      component: LoginOtpEmail,
-      props: {
-        userName: user.fullName,
-        otpCode: otpSession.token,
-        expirationMinutes:
-          Number.parseInt(getEnv("OTP_EXPIRATION_MINUTES")) || 5,
-      },
-    });
-    res.cookie(OTP_SESSION_COOKIE_NAME, otpSession.id, {
+
+    res.cookie(AUTH_SESSION_COOKIE_NAME, authSession.id, {
       httpOnly: true,
-      secure: getEnv("DEBUG").toLowerCase() !== "true",
-      maxAge: 1000 * 60 * 5,
+      secure: getEnv("DEBUG") !== "true",
+      maxAge:
+        1000 *
+        60 *
+        60 *
+        24 *
+        (Number.parseInt(getEnv("AUTH_SESSION_EXPIRATION_DAYS")) || 30),
     });
+
     const response: Message = {
-      message: "Login successful. Please check your email.",
+      message: "Authentication successful",
     };
     return response;
   }
@@ -413,7 +437,7 @@ export class AuthService {
         userName: user.fullName,
         expirationMinutes:
           Number.parseInt(getEnv("PASSWORD_RESET_EXPIRATION_MINUTES")) || 5,
-        resetLink: `${getEnv("APP_URL")}/auth/reset-password?token=${resetSession.id}`,
+        resetLink: `${getEnv("APP_URL")}/reset-password?token=${resetSession.id}`,
         resetToken: resetSession.token,
       },
     });

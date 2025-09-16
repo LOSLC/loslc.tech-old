@@ -115,7 +115,7 @@ export default function Mission() {
   return (
     <div className="bg-background min-h-screen">
       {/* Header */}
-      <div className="bg-gradient-to-r from-primary/10 to-secondary/10 py-12 pt-20">
+      <div className="bg-gradient-to-r from-primary/10 to-secondary/10 py-12 pt-32 md:pt-36">
         <div className="max-w-4xl mx-auto px-6">
           <div className="flex items-center space-x-4 mb-6">
             <Target className="w-12 h-12 text-primary" />
@@ -138,7 +138,7 @@ export default function Mission() {
               <h2 className="text-4xl font-bold text-foreground mb-6">
                 {t("mission.title")}
               </h2>
-              <p className="text-2xl text-foreground leading-relaxed mb-8">
+              <p className="text-[16px] md:text-lg lg:text-xl text-foreground mb-8">
                 {t("mission.missionStatement")}
               </p>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">

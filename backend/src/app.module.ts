@@ -8,6 +8,7 @@ import { BlogModule } from "./blog/blog.module";
 import { ForumModule } from "./forum/forum.module";
 import { FilesModule } from "./files/files.module";
 import { LoggerMiddleware } from "./logger.middleware";
+import { NotificationsModule } from './notifications/notifications.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { LoggerMiddleware } from "./logger.middleware";
     BlogModule,
     ForumModule,
     FilesModule,
+    NotificationsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

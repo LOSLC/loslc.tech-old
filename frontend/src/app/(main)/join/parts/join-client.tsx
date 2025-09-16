@@ -65,7 +65,7 @@ export default function JoinClient() {
           <div className="pointer-events-none absolute -bottom-24 right-1/4 h-72 w-72 rounded-full blur-3xl bg-secondary/30" />
         </div>
 
-        <div className="max-w-7xl mx-auto px-6 pt-24 pb-12 text-center">
+        <div className="max-w-7xl mx-auto px-6 pb-12 pt-32 md:pt-36 text-center">
           <span className="inline-block px-3 py-1 rounded-full text-xs tracking-wide bg-primary/15 text-primary border border-primary/30">
             {t("join.badge")}
           </span>

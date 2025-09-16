@@ -39,6 +39,13 @@ services:
       - PG_USER=${PG_USER}
       - PG_PASSWORD=${PG_PASSWORD}
       - PG_DB=${PG_DB}
+
+    healthcheck:
+      test: ["CMD-SHELL", "curl", "-f", "http://localhost:8000/hc"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
     volumes:
       - app_storage:/home/app/app/${STORAGE}
     depends_on:

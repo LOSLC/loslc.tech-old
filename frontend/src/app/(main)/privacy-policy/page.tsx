@@ -9,7 +9,7 @@ export default function PrivacyPolicy() {
   return (
     <div className="bg-background min-h-screen">
       {/* Header */}
-      <div className="bg-gradient-to-r from-primary/10 to-secondary/10 py-8 pt-20">
+      <div className="bg-gradient-to-r from-primary/10 to-secondary/10 py-8 pt-32 md:pt-36">
         <div className="max-w-4xl mx-auto px-6">
           <div className="flex items-center space-x-4 mb-4">
             <Shield className="w-12 h-12 text-primary" />

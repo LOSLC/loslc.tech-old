@@ -16,7 +16,7 @@ export class AuthGuard implements CanActivate {
     checkConditions({
       conditions: [!!userSessionId],
       statusCode: 401,
-      message: "Unauthorized",
+      message: "Unauthenticated",
       either: false,
     });
     const authSession = await db
@@ -39,7 +39,7 @@ export class AuthGuard implements CanActivate {
       .from(usersTable)
       .where(eq(usersTable.id, authSession[0].userId));
     checkConditions({
-      conditions: [!!user],
+      conditions: [!!user, user.isVerified],
       statusCode: 401,
       message: "Unauthorized",
       either: false,

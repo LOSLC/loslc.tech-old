@@ -7,7 +7,6 @@ import {
   Linkedin,
   MessageCircle,
   Mail,
-  Heart,
   MapPin,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -135,7 +134,6 @@ export default function Footer() {
                   year: new Date().getFullYear(),
                 })}
               </span>
-              <Heart className="w-4 h-4 text-red-500 fill-current" />
               <span>{t("footer.copyrightSuffix")}</span>
             </div>
             <div className="flex space-x-6 text-sm text-muted-foreground">

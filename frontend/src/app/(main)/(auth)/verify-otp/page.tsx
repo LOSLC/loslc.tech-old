@@ -107,7 +107,7 @@ function VerifyOtpContent() {
   const isComplete = otp.every((digit) => digit !== "");
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background to-muted p-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background to-muted p-4 pt-32 md:pt-36">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold tracking-tight">
@@ -202,7 +202,7 @@ function VerifyOtpContent() {
                 <p className="text-sm text-muted-foreground">
                   {t("auth.wrongEmail")}{" "}
                   <Link
-                    href="/auth/login"
+                    href="/login"
                     className="text-primary hover:underline font-medium"
                   >
                     {t("auth.backToLogin")}

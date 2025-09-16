@@ -1,7 +1,13 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { authApi } from "@/lib/api/auth";
@@ -19,7 +25,9 @@ function LoginContent() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
+  const [errors, setErrors] = useState<{ email?: string; password?: string }>(
+    {},
+  );
   const router = useRouter();
 
   const loginMutation = useMutation({
@@ -28,7 +36,7 @@ function LoginContent() {
     onSuccess: () => {
       toast.success(t("auth.loginSuccess"));
       setTimeout(() => {
-        router.push("/auth/verify-otp");
+        router.push("/dashboard");
       }, 1000);
     },
     onError: (error: Error) => {
@@ -38,19 +46,24 @@ function LoginContent() {
 
   const validateForm = () => {
     const newErrors: { email?: string; password?: string } = {};
-    
+
     if (!email) {
       newErrors.email = t("validation.required", { field: t("common.email") });
     } else if (!/\S+@\S+\.\S+/.test(email)) {
       newErrors.email = t("validation.invalidEmail");
     }
-    
+
     if (!password) {
-      newErrors.password = t("validation.required", { field: t("common.password") });
+      newErrors.password = t("validation.required", {
+        field: t("common.password"),
+      });
     } else if (password.length < 6) {
-      newErrors.password = t("validation.minLength", { field: t("common.password"), min: 6 });
+      newErrors.password = t("validation.minLength", {
+        field: t("common.password"),
+        min: 6,
+      });
     }
-    
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -63,19 +76,23 @@ function LoginContent() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background to-muted p-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background to-muted p-4 pt-32 md:pt-36">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold tracking-tight">{t("auth.welcomeBack")}</h1>
-          <p className="text-muted-foreground mt-2">{t("auth.loginSubtitle")}</p>
+          <h1 className="text-3xl font-bold tracking-tight">
+            {t("auth.welcomeBack")}
+          </h1>
+          <p className="text-muted-foreground mt-2">
+            {t("auth.loginSubtitle")}
+          </p>
         </div>
-        
+
         <Card className="shadow-lg">
           <CardHeader className="space-y-1">
-            <CardTitle className="text-2xl font-semibold">{t("common.login")}</CardTitle>
-            <CardDescription>
-              {t("auth.enterCredentials")}
-            </CardDescription>
+            <CardTitle className="text-2xl font-semibold">
+              {t("common.login")}
+            </CardTitle>
+            <CardDescription>{t("auth.enterCredentials")}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -93,7 +110,8 @@ function LoginContent() {
                     value={email}
                     onChange={(e) => {
                       setEmail(e.target.value);
-                      if (errors.email) setErrors(prev => ({ ...prev, email: undefined }));
+                      if (errors.email)
+                        setErrors((prev) => ({ ...prev, email: undefined }));
                     }}
                     disabled={loginMutation.isPending}
                   />
@@ -117,7 +135,8 @@ function LoginContent() {
                     value={password}
                     onChange={(e) => {
                       setPassword(e.target.value);
-                      if (errors.password) setErrors(prev => ({ ...prev, password: undefined }));
+                      if (errors.password)
+                        setErrors((prev) => ({ ...prev, password: undefined }));
                     }}
                     disabled={loginMutation.isPending}
                   />
@@ -126,7 +145,11 @@ function LoginContent() {
                     className="absolute right-3 top-3 h-4 w-4 text-muted-foreground hover:text-foreground"
                     onClick={() => setShowPassword(!showPassword)}
                   >
-                    {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                    {showPassword ? (
+                      <EyeOff className="h-4 w-4" />
+                    ) : (
+                      <Eye className="h-4 w-4" />
+                    )}
                   </button>
                 </div>
                 {errors.password && (
@@ -135,17 +158,17 @@ function LoginContent() {
               </div>
 
               <div className="flex items-center justify-between">
-                <Link 
-                  href="/auth/forgot-password" 
+                <Link
+                  href="/forgot-password"
                   className="text-sm text-primary hover:underline"
                 >
                   {t("auth.forgotPassword")}
                 </Link>
               </div>
 
-              <Button 
-                type="submit" 
-                className="w-full" 
+              <Button
+                type="submit"
+                className="w-full"
                 disabled={loginMutation.isPending}
               >
                 {loginMutation.isPending ? (
@@ -165,7 +188,10 @@ function LoginContent() {
             <div className="text-center pt-4 border-t">
               <p className="text-sm text-muted-foreground">
                 {t("auth.noAccount")}{" "}
-                <Link href="/auth/register" className="text-primary hover:underline font-medium">
+                <Link
+                  href="/register"
+                  className="text-primary hover:underline font-medium"
+                >
                   {t("auth.signUp")}
                 </Link>
               </p>
