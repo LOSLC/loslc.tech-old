@@ -43,9 +43,9 @@ services:
 
     healthcheck:
       test: ["CMD-SHELL", "curl", "-f", "http://localhost:8000/hc"]
-      interval: 10s
+      interval: 5s
       timeout: 5s
-      retries: 5
+      retries: 60
 
     volumes:
       - app_storage:/home/app/app/${STORAGE}
