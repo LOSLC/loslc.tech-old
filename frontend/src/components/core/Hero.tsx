@@ -167,20 +167,20 @@ export default function Hero({ nextPageRef }: HeroProps) {
         </div>
 
         <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center motion-preset-slide-up motion-delay-600">
-      <Link href={"/auth/register"} className="cursor-pointer">
+          <Link href={"/register"} className="cursor-pointer">
             <Button
               size="default"
-        className="px-4 sm:px-8 py-2 sm:py-6 text-sm sm:text-lg font-medium hover:scale-105 transition-all duration-200 group bg-primary hover:bg-primary/90 shadow-lg shadow-primary/20 w-full sm:w-auto cursor-pointer"
+              className="px-4 sm:px-8 py-2 sm:py-6 text-sm sm:text-lg font-medium hover:scale-105 transition-all duration-200 group bg-primary hover:bg-primary/90 shadow-lg shadow-primary/20 w-full sm:w-auto cursor-pointer"
             >
               {t("hero.cta.primary")}
               <ArrowRight className="ml-1 sm:ml-2 w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />
             </Button>
           </Link>
-      <Link href="/join" className="cursor-pointer">
+          <Link href="/join" className="cursor-pointer">
             <Button
               variant="outline"
               size="default"
-        className="px-4 sm:px-8 py-2 sm:py-6 text-sm sm:text-lg font-medium hover:scale-105 transition-all duration-200 group border-2 w-full sm:w-auto cursor-pointer"
+              className="px-4 sm:px-8 py-2 sm:py-6 text-sm sm:text-lg font-medium hover:scale-105 transition-all duration-200 group border-2 w-full sm:w-auto cursor-pointer"
             >
               {t("common.joinCommunity")}
               <MessageSquare className="ml-1 sm:ml-2 w-4 h-4 sm:w-5 sm:h-5 group-hover:scale-110 transition-transform" />
