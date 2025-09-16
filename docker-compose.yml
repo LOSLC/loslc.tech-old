@@ -42,8 +42,8 @@ services:
       - PG_DB=${PG_DB}
 
     healthcheck:
-      test: ["CMD-SHELL", "curl", "-f", "http://localhost:8000/hc"]
-      interval: 5s
+      test: ["CMD-SHELL", "curl", "-f", "localhost:8000/hc"]
+      interval: 1s
       timeout: 5s
       retries: 60
 
