@@ -13,7 +13,6 @@ import {
   MessageCircle,
   Menu,
   X,
-  Settings,
   LogIn,
   LogOut,
   User,
@@ -67,10 +66,8 @@ export default function FloatingNav() {
 
       // Show nav after scrolling a bit to avoid overlap with hero content
       if (pathname === "/") {
-        // On home page, show after scrolling past initial hero area
-        setIsVisible(scrollY > 200);
+        
       } else {
-        // On other pages, show immediately but with proper spacing
         setIsVisible(true);
       }
     };
@@ -86,9 +83,10 @@ export default function FloatingNav() {
     { href: "/", label: t("nav.home"), icon: Home },
     { href: "/learn-more", label: t("nav.about"), icon: Info },
     { href: "/mission", label: t("nav.mission"), icon: Target },
+    { href: "/forum", label: t("nav.forum"), icon: MessageCircle },
     { href: "/code-of-conduct", label: t("nav.code"), icon: Shield },
     { href: "/terms-of-service", label: t("nav.terms"), icon: FileText },
-    { href: "/blog", label: t("Blog"), icon: Book },
+    { href: "/blog", label: t("blog.badge"), icon: Book },
   ];
 
   const isActive = (href: string) => pathname === href;
@@ -109,7 +107,7 @@ export default function FloatingNav() {
         fixed left-1/2 -translate-x-1/2 z-50 
         transition-all duration-500 ease-in-out hidden md:block
         ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-4 pointer-events-none"}
-        ${isScrolled ? "top-4" : "top-6"}
+        ${isScrolled ? "top-5" : "top-8"}
       `}
       >
         <div
@@ -222,15 +220,6 @@ export default function FloatingNav() {
                         Dashboard
                       </Link>
                     </DropdownMenuItem>
-                    <DropdownMenuItem asChild>
-                      <Link
-                        href="/dashboard/settings"
-                        className="flex items-center"
-                      >
-                        <Settings className="mr-2 h-4 w-4" />
-                        Settings
-                      </Link>
-                    </DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem
                       onClick={handleLogout}
@@ -242,7 +231,7 @@ export default function FloatingNav() {
                   </DropdownMenuContent>
                 </DropdownMenu>
               ) : (
-                <Link href="/auth/login" className="cursor-pointer">
+                <Link href="/login" className="cursor-pointer">
                   <Button
                     size="sm"
                     variant="outline"
@@ -269,8 +258,8 @@ export default function FloatingNav() {
         </div>
       </nav>
 
-      {/* Mobile Navigation - App Grid */}
-      <div className="md:hidden">
+  {/* Mobile Navigation - App Grid */}
+  <div className="md:hidden">
         {/* Backdrop Overlay */}
         <div
           className={`
@@ -334,7 +323,7 @@ export default function FloatingNav() {
                     >
                       <div
                         className={`
-                          p-4 rounded-2xl text-center min-h-[80px] flex flex-col items-center justify-center
+                          p-4 rounded-2xl text-center h-20 flex flex-col items-center justify-center
                           backdrop-blur-sm transition-all duration-200
                           border select-none
                           ${
@@ -367,7 +356,7 @@ export default function FloatingNav() {
                 >
                   <div
                     className="
-                    p-3 rounded-xl text-center h-16 flex items-center justify-center
+                    p-3 rounded-xl text-center h-20 flex items-center justify-center
                     bg-gradient-to-r from-primary to-secondary
                     text-white shadow-lg shadow-primary/30
                     transition-all duration-200 select-none
@@ -481,7 +470,7 @@ export default function FloatingNav() {
                   </div>
                 ) : (
                   <Link
-                    href="/auth/login"
+                    href="/login"
                     onClick={closeMobileMenu}
                     className="group block cursor-pointer"
                   >
@@ -518,6 +507,7 @@ export default function FloatingNav() {
                 hover:scale-110 active:scale-95
                 transition-all duration-300 ease-out
                 ${isMobileMenuOpen ? "rotate-180" : "rotate-0"}
+                ${isAtBottom ? "opacity-10" : "opacity-100"}
               `}
               
             >
