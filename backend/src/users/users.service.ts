@@ -11,6 +11,8 @@ import {
   UserBanResponseDTO,
   UserDTO,
   toUserDTO,
+  toPublicUserDTO,
+  PublicUserDTO,
 } from "./users.dto";
 import { AccessmgtService } from "@/accessmgt/accessmgt.service";
 import { Message } from "@/common/dto/message";
@@ -34,6 +36,20 @@ export class UsersService {
 
   async getCurrentUser(user: User) {
     return toUserDTO(user);
+  }
+
+  async getPublicUser(userId: string): Promise<PublicUserDTO> {
+    const [user] = await db
+      .select()
+      .from(usersTable)
+      .where(eq(usersTable.id, userId))
+      .limit(1);
+    checkConditions({
+      conditions: [!!user],
+      statusCode: 404,
+      message: "User not found",
+    });
+    return toPublicUserDTO(user as User);
   }
 
   async getUsers({

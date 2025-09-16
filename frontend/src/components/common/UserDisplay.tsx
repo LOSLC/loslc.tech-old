@@ -1,4 +1,4 @@
-import { useUser } from '@/lib/hooks/use-users';
+import { usePublicUser } from '@/lib/hooks/use-users';
 import { User } from 'lucide-react';
 
 interface UserDisplayProps {
@@ -14,7 +14,7 @@ export const UserDisplay = ({
   className = "",
   fallback = "Unknown Author"
 }: UserDisplayProps) => {
-  const { data: user, isLoading, error } = useUser(userId);
+  const { data: user, isLoading, error } = usePublicUser(userId);
 
   if (isLoading) {
     return (

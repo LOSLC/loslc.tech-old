@@ -1,8 +1,11 @@
-export * from "./schemas/user/user"
-export * from "./schemas/user/role"
-export * from "./schemas/user/permission"
-export * from "./schemas/user/banMotive"
-export * from "./schemas/auth/sessions"
-export * from "./schemas/auth/sessions"
-export * from "./schemas/resources/file"
-export * from "./schemas/blog/blogSchemas"
+export * from "./schemas/user/schemas";
+
+export * from "./schemas/auth/schemas";
+
+export * from "./schemas/resources/schemas";
+
+export * from "./schemas/blog/schemas";
+
+export * from "./schemas/forum/schemas";
+
+export * from "./schemas/notifications/schemas";

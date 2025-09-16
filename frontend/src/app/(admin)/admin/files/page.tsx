@@ -129,7 +129,7 @@ function FileCard({
             </Button>
             <Button variant="ghost" size="sm" asChild>
               <a
-                href={`/api/files/${file.id}/download`}
+                href={`${process.env.NEXT_PUBLIC_BACKEND_URL ?? "https://api.loslc.tech"}/api/files/${file.id}/download`}
                 download={file.name || "download"}
               >
                 <Download className="h-3 w-3" />
@@ -413,7 +413,7 @@ function FileViewDialog({
         <div className="flex justify-end space-x-2">
           <Button variant="outline" asChild>
             <a
-              href={`/api/files/${file.id}/download`}
+              href={`${process.env.NEXT_PUBLIC_BACKEND_URL ?? "https://api.loslc.tech"}/api/files/${file.id}/download`}
               download={file.name || "download"}
             >
               <Download className="h-4 w-4 mr-2" />
@@ -534,14 +534,17 @@ export default function FileManagementPage() {
               Upload, organize, and manage media files and documents.
             </p>
           </div>
-          <Button onClick={() => setUploadDialogOpen(true)} className="w-full sm:w-auto">
+          <Button
+            onClick={() => setUploadDialogOpen(true)}
+            className="w-full sm:w-auto"
+          >
             <Plus className="h-4 w-4 mr-2" />
             Upload Files
           </Button>
         </div>
 
         {/* File Stats */}
-  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <Card>
             <CardContent className="p-4">
               <div className="flex items-center space-x-2">

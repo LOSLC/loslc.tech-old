@@ -95,7 +95,7 @@ function RegisterContent() {
     onSuccess: () => {
       toast.success(t("auth.registrationSuccess"));
       setTimeout(() => {
-        router.push("/auth/login");
+        router.push("/login");
       }, 2000);
     },
     onError: (error: Error) => {
@@ -185,7 +185,7 @@ function RegisterContent() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background to-muted p-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background to-muted p-4 pt-32 md:pt-36">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold tracking-tight">{t("auth.createAccount")}</h1>
@@ -370,7 +370,7 @@ function RegisterContent() {
             <div className="text-center pt-4 border-t">
               <p className="text-sm text-muted-foreground">
                 {t("auth.alreadyHaveAccount")}{" "}
-                <Link href="/auth/login" className="text-primary hover:underline font-medium">
+                <Link href="/login" className="text-primary hover:underline font-medium">
                   {t("auth.signIn")}
                 </Link>
               </p>

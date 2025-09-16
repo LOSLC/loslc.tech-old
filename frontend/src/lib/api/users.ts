@@ -14,6 +14,13 @@ export interface UserDTO {
   isVerified: boolean;
 }
 
+export interface PublicUserDTO {
+  id: string;
+  username: string;
+  fullName: string;
+  profilePictureFileId: string | null;
+}
+
 export interface UpdateUserInfoDTO {
   fullName: string;
 }
@@ -50,6 +57,16 @@ export const userApi = {
   // Get user by ID
   getUserById: async (userId: string): Promise<UserDTO> => {
     const promise = api.get(`users/${userId}`).json<UserDTO>();
+    const [response, error] = await resolveRequest(promise);
+    if (error) {
+      throw new Error(error.message);
+    }
+    return response;
+  },
+
+  // Get public user info (minimal)
+  getPublicUser: async (userId: string): Promise<PublicUserDTO> => {
+    const promise = api.get(`users/public/${userId}`).json<PublicUserDTO>();
     const [response, error] = await resolveRequest(promise);
     if (error) {
       throw new Error(error.message);
@@ -106,6 +123,22 @@ export const userApi = {
     const promise = api
       .post(`users/unban/${userId}`)
       .json<{ message: string }>();
+
+    const [response, error] = await resolveRequest(promise);
+    if (error) {
+      throw new Error(error.message);
+    }
+    return response;
+  },
+
+  // Change profile picture for current user (backend infers current user)
+  changeProfilePicture: async (
+    userId: string,
+    fileId: string,
+  ): Promise<UserDTO> => {
+    const promise = api
+      .post(`users/${userId}/profile-picture/${fileId}`)
+      .json<UserDTO>();
 
     const [response, error] = await resolveRequest(promise);
     if (error) {

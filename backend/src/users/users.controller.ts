@@ -35,6 +35,29 @@ import { Permissions } from "@/accessmgt/permissions.decorator";
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
+  @Get("public/:userId")
+  @ApiOperation({
+    summary: "Get minimal public user info",
+    description: "Returns only id, username, fullName and profilePictureFileId for public display",
+  })
+  @ApiParam({ name: "userId", description: "The unique identifier of the user" })
+  @ApiResponse({
+    status: 200,
+    schema: {
+      type: "object",
+      properties: {
+        id: { type: "string" },
+        username: { type: "string" },
+        fullName: { type: "string" },
+        profilePictureFileId: { type: "string", nullable: true },
+      },
+    },
+  })
+  @ApiResponse({ status: 404, description: "User not found" })
+  async getPublicUser(@Param("userId") userId: string) {
+    return this.usersService.getPublicUser(userId);
+  }
+
   @Get("me")
   @ApiOperation({
     summary: "Get current user",

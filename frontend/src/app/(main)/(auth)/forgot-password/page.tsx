@@ -59,7 +59,7 @@ function ForgotPasswordContent() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background to-muted p-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background to-muted p-4 pt-32 md:pt-36">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold tracking-tight">{t("auth.forgotPassword")}</h1>
@@ -118,7 +118,7 @@ function ForgotPasswordContent() {
             <div className="text-center pt-4 border-t">
               <p className="text-sm text-muted-foreground">
                 {t("auth.rememberedPassword")}{" "}
-                <Link href="/auth/login" className="text-primary hover:underline font-medium">
+                <Link href="/login" className="text-primary hover:underline font-medium">
                   <div className="inline-flex items-center gap-1">
                     <ArrowLeft className="h-3 w-3" />
                     {t("auth.backToLogin")}

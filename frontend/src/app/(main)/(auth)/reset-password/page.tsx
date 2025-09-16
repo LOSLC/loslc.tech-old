@@ -40,7 +40,7 @@ function ResetPasswordContent() {
     onSuccess: () => {
       toast.success(t("auth.passwordResetCompleteSuccess"));
       setTimeout(() => {
-        router.push("/auth/login");
+        router.push("/login");
       }, 2000);
     },
     onError: (error: Error) => {
@@ -105,7 +105,7 @@ function ResetPasswordContent() {
   // If no session ID, show invalid link message
   if (!sessionId) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background to-muted p-4">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background to-muted p-4 pt-32 md:pt-36">
         <div className="w-full max-w-md">
           <Card className="shadow-lg">
             <CardHeader className="text-center">
@@ -117,7 +117,7 @@ function ResetPasswordContent() {
               </CardDescription>
             </CardHeader>
             <CardContent className="text-center">
-              <Link href="/auth/forgot-password">
+              <Link href="/forgot-password">
                 <Button className="w-full">
                   {t("auth.requestNewResetLink")}
                 </Button>
@@ -130,7 +130,7 @@ function ResetPasswordContent() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background to-muted p-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background to-muted p-4 pt-32 md:pt-36">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold tracking-tight">{t("auth.resetPassword")}</h1>
@@ -245,7 +245,7 @@ function ResetPasswordContent() {
             <div className="text-center pt-4 border-t">
               <p className="text-sm text-muted-foreground">
                 {t("auth.rememberedPassword")}{" "}
-                <Link href="/auth/login" className="text-primary hover:underline font-medium">
+                <Link href="/login" className="text-primary hover:underline font-medium">
                   {t("auth.backToLogin")}
                 </Link>
               </p>
