@@ -49,23 +49,23 @@ export default function LoslCon2025({ className = "" }: LoslCon2025Props) {
       className={`relative w-full py-24 px-6 overflow-hidden bg-gradient-to-b from-background via-muted/25 to-background ${className}`}
     >
       {/* Ambient shapes */}
-      <div className="pointer-events-none absolute inset-0 opacity-40 mix-blend-screen">
-        <div className="absolute -top-20 -left-20 w-72 h-72 bg-primary/40 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute top-1/3 -right-24 w-[28rem] h-[28rem] bg-secondary/30 rounded-full blur-3xl motion-preset-pulse motion-duration-[6s]" />
-        <div className="absolute bottom-0 left-1/3 w-80 h-80 bg-accent/20 rounded-full blur-3xl" />
+      <div className="pointer-events-none absolute inset-0 opacity-40 mix-blend-screen dark:opacity-60">
+        <div className="absolute -top-20 -left-20 w-72 h-72 bg-primary/40 dark:bg-primary/60 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute top-1/3 -right-24 w-[28rem] h-[28rem] bg-secondary/30 dark:bg-secondary/50 rounded-full blur-3xl motion-preset-pulse motion-duration-[6s]" />
+        <div className="absolute bottom-0 left-1/3 w-80 h-80 bg-accent/20 dark:bg-accent/40 rounded-full blur-3xl" />
       </div>
 
       <div className="relative max-w-7xl mx-auto">
         <div className="text-center mb-16">
-          <div className="inline-block mb-4 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/30 text-xs tracking-wide uppercase font-medium text-primary backdrop-blur-sm">
+          <div className="inline-block mb-4 px-4 py-1.5 rounded-full bg-primary/10 dark:bg-primary/20 border border-primary/30 dark:border-primary/50 text-xs tracking-wide uppercase font-medium text-primary dark:text-primary backdrop-blur-sm">
             {t("loslCon.badge")}
           </div>
           <h2 className="relative font-extrabold text-4xl sm:text-5xl md:text-6xl leading-tight">
-            <span className="relative inline-block bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent animate-[gradient-move_8s_linear_infinite] drop-shadow-[0_0_6px_rgba(0,0,0,0.25)]">
+            <span className="relative inline-block bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent animate-[gradient-move_8s_linear_infinite] drop-shadow-[0_0_6px_rgba(0,0,0,0.25)] dark:drop-shadow-[0_0_12px_rgba(139,92,246,0.8)] dark:filter dark:brightness-150">
               {t("loslCon.title")}
             </span>
             <span
-              className="absolute inset-0 -z-10 blur-2xl opacity-60 bg-gradient-to-r from-primary via-secondary to-primary animate-[glow-pulse_4s_ease-in-out_infinite]"
+              className="absolute inset-0 -z-10 blur-2xl opacity-60 bg-gradient-to-r from-primary via-secondary to-primary animate-[glow-pulse_4s_ease-in-out_infinite] dark:opacity-90 dark:blur-3xl"
               aria-hidden="true"
             />
           </h2>
