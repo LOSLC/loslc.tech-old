@@ -10,7 +10,7 @@ export const User = createParamDecorator(
     checkConditions({
       conditions: [!!user],
       statusCode: 401,
-      message: "Unauthorized",
+      message: "Unauthenticated",
       either: false,
     });
     return user;
