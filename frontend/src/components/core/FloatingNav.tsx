@@ -66,7 +66,7 @@ export default function FloatingNav() {
 
       // Show nav after scrolling a bit to avoid overlap with hero content
       if (pathname === "/") {
-        
+        setIsVisible(scrollY > 50);        
       } else {
         setIsVisible(true);
       }

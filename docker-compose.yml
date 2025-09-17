@@ -8,9 +8,9 @@ services:
       - "${FRONTEND_PORT}:3000"
     environment:
       - BACKEND_URL=${BACKEND_URL}
-    depends_on:
-      backend:
-        condition: service_healthy
+    # depends_on:
+    #   backend:
+    #     condition: service_healthy
 
   backend:
     build: 
@@ -40,12 +40,6 @@ services:
       - PG_USER=${PG_USER}
       - PG_PASSWORD=${PG_PASSWORD}
       - PG_DB=${PG_DB}
-
-    healthcheck:
-      test: ["CMD-SHELL", "curl", "-f", "http://localhost:8000/hc"]
-      interval: 5s
-      timeout: 5s
-      retries: 60
 
     volumes:
       - app_storage:/home/app/app/${STORAGE}
