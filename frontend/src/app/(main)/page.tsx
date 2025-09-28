@@ -10,21 +10,21 @@ import LoslCon2025 from "@/components/core/LoslCon2025";
 import { useRef } from "react";
 
 export default function Home() {
-  const aboutSectionRef = useRef<HTMLDivElement | null>(null);
+	const aboutSectionRef = useRef<HTMLDivElement | null>(null);
 
-  return (
-    <div className="bg-background min-h-screen flex flex-col cursor-default">
-      <div className="flex-1 flex flex-col">
-        <div className="min-h-screen flex items-stretch">
-          <Hero nextPageRef={aboutSectionRef} />
-        </div>
-        <AboutSection ref={aboutSectionRef} />
-        <Features />
-        <CommunityStats />
-        <Testimonials />
-        <LoslCon2025 />
-        <CallToAction />
-      </div>
-    </div>
-  );
+	return (
+		<div className="bg-background min-h-screen flex flex-col cursor-default">
+			<div className="flex-1 flex flex-col">
+				<div className="min-h-screen flex items-stretch">
+					<Hero nextPageRef={aboutSectionRef} />
+				</div>
+				<AboutSection ref={aboutSectionRef} />
+				<Features />
+				<CommunityStats />
+				<Testimonials />
+				<LoslCon2025 />
+				<CallToAction />
+			</div>
+		</div>
+	);
 }
