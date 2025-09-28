@@ -8,25 +8,25 @@ import { BlogModule } from "./blog/blog.module";
 import { ForumModule } from "./forum/forum.module";
 import { FilesModule } from "./files/files.module";
 import { LoggerMiddleware } from "./logger.middleware";
-import { NotificationsModule } from './notifications/notifications.module';
+import { NotificationsModule } from "./notifications/notifications.module";
+import { StoreModule } from "./store/store.module";
 
 @Module({
-  imports: [
-    AuthModule,
-    UsersModule,
-    AccessmgtModule,
-    BlogModule,
-    ForumModule,
-    FilesModule,
-    NotificationsModule,
-  ],
-  controllers: [AppController],
-  providers: [AppService],
+	imports: [
+		AuthModule,
+		UsersModule,
+		AccessmgtModule,
+		BlogModule,
+		ForumModule,
+		FilesModule,
+		NotificationsModule,
+		StoreModule,
+	],
+	controllers: [AppController],
+	providers: [AppService],
 })
 export class AppModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(LoggerMiddleware)
-      .forRoutes("*");
-  }
+	configure(consumer: MiddlewareConsumer) {
+		consumer.apply(LoggerMiddleware).forRoutes("*");
+	}
 }
