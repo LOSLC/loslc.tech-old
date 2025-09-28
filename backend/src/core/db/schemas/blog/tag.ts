@@ -4,32 +4,32 @@ import { blogPostsTable } from "./post";
 import { usersTable } from "../user/user";
 
 export const blogTagsTable = pg.pgTable("blog_tag", {
-  id: pg
-    .varchar("id")
-    .notNull()
-    .primaryKey()
-    .$defaultFn(() => randString(6)),
-  name: pg.varchar("name", { length: 100 }).notNull(),
-  userId: pg
-    .varchar("user_id")
-    .notNull()
-    .references((): pg.AnyPgColumn => usersTable.id, { onDelete: "cascade" }),
-  createdAt: pg.timestamp().notNull().defaultNow(),
+	id: pg
+		.varchar("id")
+		.notNull()
+		.primaryKey()
+		.$defaultFn(() => randString(6)),
+	name: pg.varchar("name", { length: 100 }).notNull(),
+	userId: pg
+		.varchar("user_id")
+		.notNull()
+		.references((): pg.AnyPgColumn => usersTable.id, { onDelete: "cascade" }),
+	createdAt: pg.timestamp().notNull().defaultNow(),
 });
 
 export const blogPostTagsTable = pg.pgTable("blogpost_tag_link", {
-  postId: pg
-    .varchar("post_id")
-    .notNull()
-    .references((): pg.AnyPgColumn => blogPostsTable.id, {
-      onDelete: "cascade",
-    }),
-  tagId: pg
-    .varchar("tag_id")
-    .notNull()
-    .references((): pg.AnyPgColumn => blogTagsTable.id, {
-      onDelete: "cascade",
-    }),
+	postId: pg
+		.varchar("post_id")
+		.notNull()
+		.references((): pg.AnyPgColumn => blogPostsTable.id, {
+			onDelete: "cascade",
+		}),
+	tagId: pg
+		.varchar("tag_id")
+		.notNull()
+		.references((): pg.AnyPgColumn => blogTagsTable.id, {
+			onDelete: "cascade",
+		}),
 });
 
 export type BlogTag = typeof blogTagsTable.$inferSelect;

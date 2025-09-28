@@ -4,8 +4,8 @@ import { AccessmgtController } from "./accessmgt.controller";
 import { AccessGuard } from "./accessmgt.guard";
 
 @Module({
-  providers: [AccessmgtService, AccessGuard],
-  controllers: [AccessmgtController],
-  exports: [AccessmgtService, AccessGuard],
+	providers: [AccessmgtService, AccessGuard],
+	controllers: [AccessmgtController],
+	exports: [AccessmgtService, AccessGuard],
 })
 export class AccessmgtModule {}
