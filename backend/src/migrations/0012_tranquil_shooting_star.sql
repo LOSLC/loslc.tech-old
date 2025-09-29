@@ -1,0 +1,1 @@
+ALTER TABLE "items" ALTER COLUMN "created_by" SET DATA TYPE varchar;
