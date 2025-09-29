@@ -1,9 +1,9 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
+	type CreateForumCommentDTO,
 	forumApi,
 	forumKeys,
 	type GetForumPostsQueryDTO,
-	type CreateForumCommentDTO,
 	type VoteDTO,
 } from "@/lib/api/forum";
 

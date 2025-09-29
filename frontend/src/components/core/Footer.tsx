@@ -2,17 +2,17 @@
 
 import {
 	Github,
-	Twitter,
 	Instagram,
 	Linkedin,
-	MessageCircle,
 	Mail,
 	MapPin,
+	MessageCircle,
+	Twitter,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
 import { useTranslation } from "react-i18next";
+import { Button } from "@/components/ui/button";
 
 export default function Footer() {
 	const { t } = useTranslation();

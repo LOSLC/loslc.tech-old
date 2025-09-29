@@ -1,9 +1,9 @@
 "use client";
 
+import { ArrowLeft, HelpCircle, Home, Search } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Home, ArrowLeft, Search, HelpCircle } from "lucide-react";
 
 export default function NotFound() {
 	return (

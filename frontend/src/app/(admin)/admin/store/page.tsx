@@ -1,34 +1,14 @@
 "use client";
+import { Loader2, XIcon } from "lucide-react";
 import React, { useState } from "react";
-import {
-	useStoreItems,
-	useStoreOrders,
-	useCreateItem,
-	useDeleteItem,
-	useUpdateItem,
-	useOrderAction,
-	useAddCharacteristic,
-	useDeleteCharacteristic,
-	useAddVariant,
-	useDeleteVariant,
-	useUpdateCharacteristicGeneric,
-	useUpdateVariantGeneric,
-	useItemCharacteristics,
-} from "@/lib/hooks/use-store";
 import { useTranslation } from "react-i18next";
 import { AdminLayout } from "@/components/admin/admin-layout";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Checkbox } from "@/components/ui/checkbox";
-import { filesApi } from "@/lib/api/files";
-import { storeApi } from "@/lib/api/store";
-import { cn } from "@/lib/utils";
-import { XIcon, Loader2 } from "lucide-react";
-import { ImageUploadZone } from "@/components/admin/store/image-upload-zone";
 import { EditItemDialog } from "@/components/admin/store/edit-item-dialog";
+import { ImageUploadZone } from "@/components/admin/store/image-upload-zone";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Input } from "@/components/ui/input";
 import {
 	Table,
 	TableBody,
@@ -37,14 +17,37 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Textarea } from "@/components/ui/textarea";
+import { filesApi } from "@/lib/api/files";
+import {
+	useAddCharacteristic,
+	useAddVariant,
+	useCreateItem,
+	useDeleteCharacteristic,
+	useDeleteItem,
+	useDeleteVariant,
+	useItemCharacteristics,
+	useOrderAction,
+	useStoreItems,
+	useStoreOrders,
+	useUpdateCharacteristicGeneric,
+	useUpdateVariantGeneric,
+} from "@/lib/hooks/use-store";
+import {
+	OrderDTO,
+	StoreCharacteristic,
+	StoreItem,
+	StoreVariant,
+} from "@/lib/types/store";
+
+// cn not needed here removed
 
 function ItemRow({
 	item,
-	onEdit,
 	onDelete,
 }: {
-	item: any;
-	onEdit: () => void;
+	item: StoreItem;
 	onDelete: () => void;
 }) {
 	const [open, setOpen] = React.useState(false);
@@ -129,89 +132,95 @@ function ItemRow({
 									</div>
 								)}
 								{!charsLoading &&
-									((characteristics as any[]) || []).map((c: any) => {
-										const updating = editingChar === c.id;
-										return (
-											<Card key={c.id} className="border-dashed relative">
-												<CardHeader className="py-3 pr-10 space-y-2">
-													{updating ? (
-														<form
-															onSubmit={(e) => {
-																e.preventDefault();
-																if (!charValue.trim()) return;
-																updateCharGeneric.mutate(
-																	{ id: c.id, name: charValue },
-																	{
-																		onSuccess: () => {
-																			setEditingChar(null);
-																			setCharValue("");
+									((characteristics as StoreCharacteristic[]) || []).map(
+										(c) => {
+											const updating = editingChar === c.id;
+											return (
+												<Card key={c.id} className="border-dashed relative">
+													<CardHeader className="py-3 pr-10 space-y-2">
+														{updating ? (
+															<form
+																onSubmit={(e) => {
+																	e.preventDefault();
+																	if (!charValue.trim()) return;
+																	updateCharGeneric.mutate(
+																		{ id: c.id, name: charValue },
+																		{
+																			onSuccess: () => {
+																				setEditingChar(null);
+																				setCharValue("");
+																			},
 																		},
-																	},
-																);
-															}}
-															className="flex items-center gap-2"
-														>
-															<Input
-																autoFocus
-																value={charValue}
-																onChange={(e) => setCharValue(e.target.value)}
-																placeholder="Characteristic name"
-																className="h-8 text-xs"
-															/>
-															<Button
-																size="sm"
-																type="submit"
-																className="h-8 px-3 text-xs"
-															>
-																Save
-															</Button>
-															<Button
-																type="button"
-																size="sm"
-																variant="ghost"
-																className="h-8 px-3 text-xs"
-																onClick={() => {
-																	setEditingChar(null);
-																	setCharValue("");
+																	);
 																}}
+																className="flex items-center gap-2"
 															>
-																Cancel
-															</Button>
-														</form>
-													) : (
-														<CardTitle className="text-sm font-medium flex items-center justify-between gap-2">
-															<span>{c.name}</span>
-															<div className="flex items-center gap-2">
-																<button
+																<Input
+																	autoFocus
+																	value={charValue}
+																	onChange={(e) => setCharValue(e.target.value)}
+																	placeholder="Characteristic name"
+																	className="h-8 text-xs"
+																/>
+																<Button
+																	size="sm"
+																	type="submit"
+																	className="h-8 px-3 text-xs"
+																>
+																	Save
+																</Button>
+																<Button
 																	type="button"
-																	className="text-primary text-xs"
+																	size="sm"
+																	variant="ghost"
+																	className="h-8 px-3 text-xs"
 																	onClick={() => {
-																		setEditingChar(c.id);
-																		setCharValue(c.name);
+																		setEditingChar(null);
+																		setCharValue("");
 																	}}
 																>
-																	edit
-																</button>
-																<button
-																	type="button"
-																	className="text-destructive text-xs"
-																	onClick={() => delChar.mutate(c.id)}
-																>
-																	×
-																</button>
-															</div>
-														</CardTitle>
-													)}
-												</CardHeader>
-												<CardContent className="space-y-3 pt-0">
-													<VariantEditor characteristic={c} itemId={item.id} />
-												</CardContent>
-											</Card>
-										);
-									})}
+																	Cancel
+																</Button>
+															</form>
+														) : (
+															<CardTitle className="text-sm font-medium flex items-center justify-between gap-2">
+																<span>{c.name}</span>
+																<div className="flex items-center gap-2">
+																	<button
+																		type="button"
+																		className="text-primary text-xs"
+																		onClick={() => {
+																			setEditingChar(c.id);
+																			setCharValue(c.name);
+																		}}
+																	>
+																		edit
+																	</button>
+																	<button
+																		type="button"
+																		className="text-destructive text-xs"
+																		onClick={() => delChar.mutate(c.id)}
+																	>
+																		×
+																	</button>
+																</div>
+															</CardTitle>
+														)}
+													</CardHeader>
+													<CardContent className="space-y-3 pt-0">
+														<VariantEditor
+															characteristic={c}
+															itemId={item.id}
+														/>
+													</CardContent>
+												</Card>
+											);
+										},
+									)}
 								{!charsLoading &&
-									(!(characteristics as any[]) ||
-										(characteristics as any[]).length === 0) && (
+									(!characteristics ||
+										(characteristics as StoreCharacteristic[]).length ===
+											0) && (
 										<div className="text-xs text-muted-foreground italic">
 											No characteristics yet
 										</div>
@@ -231,7 +240,7 @@ function VariantEditor({
 	characteristic,
 	itemId,
 }: {
-	characteristic: any;
+	characteristic: StoreCharacteristic;
 	itemId: string;
 }) {
 	const [value, setValue] = React.useState("");
@@ -259,7 +268,7 @@ function VariantEditor({
 				</Button>
 			</div>
 			<div className="flex flex-wrap gap-2">
-				{(characteristic.variants || []).map((v: any) => {
+				{(characteristic.variants || []).map((v: StoreVariant) => {
 					const isEditing = editing === v.id;
 					return (
 						<span
@@ -339,8 +348,8 @@ function OrderRow({
 	order,
 	onAction,
 }: {
-	order: any;
-	onAction: (action: string) => void;
+	order: OrderDTO;
+	onAction: (action: "paid" | "confirm" | "accept") => void;
 }) {
 	return (
 		<TableRow>
@@ -426,7 +435,7 @@ export default function AdminStorePage() {
 	const { data: orders, isLoading: ordersLoading } = useStoreOrders(true);
 	const createItem = useCreateItem();
 	const deleteItem = useDeleteItem();
-	const updateItem = useUpdateItem(""); // updated per edit
+	// const updateItem = useUpdateItem(""); // removed unused updater
 	const orderAction = useOrderAction();
 
 	const [form, setForm] = useState({
@@ -519,7 +528,10 @@ export default function AdminStorePage() {
 						{t("admin.store.title", "Store Management")}
 					</h1>
 				</div>
-				<Tabs value={tab} onValueChange={(v) => setTab(v as any)}>
+				<Tabs
+					value={tab}
+					onValueChange={(v) => setTab(v as "items" | "orders")}
+				>
 					<TabsList>
 						<TabsTrigger value="items">
 							{t("admin.store.itemsTab", "Items")}
@@ -784,7 +796,6 @@ export default function AdminStorePage() {
 													<ItemRow
 														key={it.id}
 														item={it}
-														onEdit={() => {}}
 														onDelete={() => deleteItem.mutate(it.id)}
 													/>
 												))}

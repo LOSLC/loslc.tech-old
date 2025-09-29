@@ -1,5 +1,5 @@
-import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
+import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 
 interface SecondPageProps {
 	ref?: React.RefObject<HTMLDivElement | null>;

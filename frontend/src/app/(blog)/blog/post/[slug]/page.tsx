@@ -1,31 +1,31 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useParams } from "next/navigation";
-import { blogApi, type BlogPostDTO } from "@/lib/api/blog";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import {
 	ArrowLeft,
+	BookOpen,
 	Calendar,
-	Tag,
 	Clock,
 	Eye,
-	Share2,
-	BookOpen,
 	FileText,
+	Share2,
+	Tag,
 	TrendingUp,
 } from "lucide-react";
-import { UserDisplay } from "@/components/common/UserDisplay";
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
+import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { tomorrow } from "react-syntax-highlighter/dist/esm/styles/prism";
-import { isSlugWithPostId, extractPostIdFromSlug } from "@/lib/utils/slug";
+import remarkGfm from "remark-gfm";
 import { LikeButton } from "@/components/blog/LikeButton";
-import { useTranslation } from "react-i18next";
+import { UserDisplay } from "@/components/common/UserDisplay";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { type BlogPostDTO, blogApi } from "@/lib/api/blog";
+import { extractPostIdFromSlug, isSlugWithPostId } from "@/lib/utils/slug";
 
 export default function BlogPostPage() {
 	const { t, i18n } = useTranslation();
@@ -67,7 +67,7 @@ export default function BlogPostPage() {
 		if (slugParam) {
 			fetchPost();
 		}
-	}, [slugParam]);
+	}, [slugParam, t]);
 
 	const formatDate = (date: Date | string) => {
 		const locale = i18n.language || "en";

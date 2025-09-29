@@ -1,10 +1,10 @@
 "use client";
 import Link from "next/link";
-import { useForumPosts } from "@/lib/hooks/use-forum";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { useForumPosts } from "@/lib/hooks/use-forum";
 
 export default function PostList() {
 	const { t } = useTranslation();

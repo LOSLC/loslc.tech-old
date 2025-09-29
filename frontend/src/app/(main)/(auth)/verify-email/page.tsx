@@ -1,23 +1,23 @@
 "use client";
 
+import { useMutation } from "@tanstack/react-query";
+import { ArrowRight, CheckCircle, RefreshCw, XCircle } from "lucide-react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { toast } from "sonner";
+import { GuestGuard } from "@/components/guards/auth-guards";
 import { Button } from "@/components/ui/button";
 import {
 	Card,
 	CardContent,
+	CardDescription,
 	CardHeader,
 	CardTitle,
-	CardDescription,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { authApi } from "@/lib/api/auth";
-import { useMutation } from "@tanstack/react-query";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useState, useEffect } from "react";
-import { useTranslation } from "react-i18next";
-import { toast } from "sonner";
-import { CheckCircle, XCircle, RefreshCw, ArrowRight } from "lucide-react";
-import { GuestGuard } from "@/components/guards/auth-guards";
 
 function VerifyEmailContent() {
 	const { t } = useTranslation();

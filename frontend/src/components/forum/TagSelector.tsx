@@ -1,7 +1,9 @@
 "use client";
 
+import { Loader2, Plus, Tag as TagIcon, X } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
-import { forumApi, type ForumTagDTO } from "@/lib/api/forum";
+import { useTranslation } from "react-i18next";
+import { Badge } from "@/components/ui/badge";
 import {
 	Command,
 	CommandEmpty,
@@ -10,9 +12,7 @@ import {
 	CommandItem,
 	CommandList,
 } from "@/components/ui/command";
-import { Badge } from "@/components/ui/badge";
-import { X, Plus, Tag as TagIcon, Loader2 } from "lucide-react";
-import { useTranslation } from "react-i18next";
+import { type ForumTagDTO, forumApi } from "@/lib/api/forum";
 
 type Props = {
 	value: string[];

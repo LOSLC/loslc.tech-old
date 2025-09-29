@@ -1,11 +1,11 @@
 "use client";
 
-import React, { useState, useRef } from "react";
-import dynamic from "next/dynamic";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { Upload, X } from "lucide-react";
+import dynamic from "next/dynamic";
+import React, { useRef, useState } from "react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
 // Dynamically import MDEditor to avoid SSR issues

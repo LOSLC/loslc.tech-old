@@ -1,13 +1,13 @@
 "use client";
 
-import Hero from "@/components/core/Hero";
-import AboutSection from "@/components/core/AboutSection";
-import Features from "@/components/core/Features";
-import CommunityStats from "@/components/core/CommunityStats";
-import Testimonials from "@/components/core/Testimonials";
-import CallToAction from "@/components/core/CallToAction";
-import LoslCon2025 from "@/components/core/LoslCon2025";
 import { useRef } from "react";
+import AboutSection from "@/components/core/AboutSection";
+import CallToAction from "@/components/core/CallToAction";
+import CommunityStats from "@/components/core/CommunityStats";
+import Features from "@/components/core/Features";
+import Hero from "@/components/core/Hero";
+import LoslCon2025 from "@/components/core/LoslCon2025";
+import Testimonials from "@/components/core/Testimonials";
 
 export default function Home() {
 	const aboutSectionRef = useRef<HTMLDivElement | null>(null);

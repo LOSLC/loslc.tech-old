@@ -1,12 +1,12 @@
 "use client";
 
+import { ExternalLink } from "lucide-react";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
+import { FaDiscord, FaWhatsapp } from "react-icons/fa";
+import { FaGithub, FaInstagram, FaLinkedin, FaXTwitter } from "react-icons/fa6";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { ExternalLink } from "lucide-react";
-import { FaDiscord, FaWhatsapp } from "react-icons/fa";
-import { FaLinkedin, FaInstagram, FaXTwitter, FaGithub } from "react-icons/fa6";
 
 const socials = [
 	{

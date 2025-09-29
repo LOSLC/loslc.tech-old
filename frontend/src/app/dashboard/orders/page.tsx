@@ -1,18 +1,18 @@
 "use client";
 
-import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { ordersApi } from "@/lib/api/orders";
-import Link from "next/link";
-import { useAuth } from "@/lib/providers/auth-provider";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
-import { useTranslation } from "react-i18next";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { ArrowLeft, List, ShoppingBag } from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ordersApi } from "@/lib/api/orders";
+import { useAuth } from "@/lib/providers/auth-provider";
+import { OrderDTO } from "@/lib/types/store";
 
-function statusLabel(o: any) {
+function statusLabel(o: OrderDTO) {
 	if (o.accepted) return "Accepted";
 	if (o.confirmed) return "Confirmed";
 	if (o.paid) return "Paid";

@@ -1,12 +1,20 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { storeApi } from "../api/store";
 import {
-	storeApi,
+	AddToCartInput,
+	CartItemServer,
+	CartSummary,
 	CreateStoreItemInput,
+	OrderDTO,
+	StoreCharacteristic,
+	StoreItem,
+	UpdateCartItemInput,
 	UpdateStoreItemInput,
-} from "../api/store";
+} from "../types/store";
 
 const keys = {
-	items: (params?: any) => ["store", "items", params] as const,
+	items: (params?: Record<string, string | number | boolean | undefined>) =>
+		["store", "items", params] as const,
 	item: (id: string) => ["store", "item", id] as const,
 	characteristics: (itemId: string) =>
 		["store", "item", itemId, "characteristics"] as const,
@@ -20,7 +28,9 @@ const keys = {
 	cartItems: () => ["store", "cart", "items"] as const,
 };
 
-export function useStoreItems(params?: Record<string, any>) {
+export function useStoreItems(
+	params?: Record<string, string | number | boolean | undefined>,
+) {
 	return useQuery({
 		queryKey: keys.items(params),
 		queryFn: () => storeApi.listItems(params),
@@ -219,11 +229,7 @@ export function useCartItems() {
 export function useAddToCart() {
 	const qc = useQueryClient();
 	return useMutation({
-		mutationFn: (body: {
-			itemId: string;
-			quantity: number;
-			variantIds?: string[];
-		}) => storeApi.addItemToCart(body),
+		mutationFn: (body: AddToCartInput) => storeApi.addItemToCart(body),
 		onSuccess: () => {
 			qc.invalidateQueries({ queryKey: keys.cartItems() });
 		},
@@ -233,11 +239,7 @@ export function useAddToCart() {
 export function useUpdateCartItem() {
 	const qc = useQueryClient();
 	return useMutation({
-		mutationFn: (params: {
-			id: string;
-			quantity: number;
-			variantIds?: string[];
-		}) =>
+		mutationFn: (params: { id: string } & UpdateCartItemInput) =>
 			storeApi.updateCartItem(params.id, {
 				quantity: params.quantity,
 				variantIds: params.variantIds,

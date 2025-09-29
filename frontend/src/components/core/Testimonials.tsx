@@ -1,8 +1,8 @@
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Quote, ChevronLeft, ChevronRight, User } from "lucide-react";
+import { ChevronLeft, ChevronRight, Quote, User } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 
 export default function Testimonials() {
 	const [currentIndex, setCurrentIndex] = useState(0);

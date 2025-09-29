@@ -1,12 +1,17 @@
 "use client";
-import React from "react";
 import { notFound } from "next/navigation";
-import { useStoreItem, useItemCharacteristics } from "@/lib/hooks/use-store";
+import React from "react";
 import { useCartLocal } from "@/components/cart/CartProvider";
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
 import { ProductCarousel } from "@/components/store/product-carousel";
+import { Button } from "@/components/ui/button";
+import { useItemCharacteristics, useStoreItem } from "@/lib/hooks/use-store";
 import { useAuth } from "@/lib/providers/auth-provider";
+import {
+	StoreCharacteristic,
+	StoreItem,
+	StoreVariant,
+} from "@/lib/types/store";
+import { cn } from "@/lib/utils";
 
 interface Props {
 	params: { id: string };
@@ -33,7 +38,8 @@ export default function StoreItemPage({ params }: Props) {
 		);
 	if (!item) return notFound();
 
-	const characteristics = (characteristicsData as any) || [];
+	const characteristics: StoreCharacteristic[] =
+		(characteristicsData as StoreCharacteristic[]) || [];
 
 	const selectVariant = (characteristicId: string, variantId: string) => {
 		setSelectedVariantMap((m) => ({ ...m, [characteristicId]: variantId }));
@@ -68,10 +74,7 @@ export default function StoreItemPage({ params }: Props) {
 			<div className="mx-auto max-w-5xl px-4 pt-28 md:pt-36 pb-16">
 				<div className="grid gap-12 md:grid-cols-2 items-start">
 					<div className="relative rounded-xl border border-border/60 bg-background/50 backdrop-blur p-6 flex flex-col gap-6 shadow-lg">
-						<ProductCarousel
-							imageIds={(item as any).images}
-							aspect="aspect-video"
-						/>
+						<ProductCarousel imageIds={item.images} aspect="aspect-video" />
 						<div>
 							<h1 className="text-3xl font-bold tracking-tight mb-3 bg-clip-text text-transparent bg-gradient-to-b from-foreground to-foreground/70">
 								{item.name}
@@ -111,7 +114,7 @@ export default function StoreItemPage({ params }: Props) {
 						)}
 						{!charsLoading && characteristics.length > 0 && (
 							<div className="space-y-8">
-								{characteristics.map((c: any) => {
+								{characteristics.map((c) => {
 									const selected = selectedVariantMap[c.id];
 									return (
 										<div key={c.id} className="space-y-3">
@@ -119,7 +122,7 @@ export default function StoreItemPage({ params }: Props) {
 												{c.name}
 											</h2>
 											<div className="flex flex-wrap gap-2">
-												{(c.variants || []).map((v: any) => {
+												{(c.variants || []).map((v: StoreVariant) => {
 													const active = selected === v.id;
 													return (
 														<button

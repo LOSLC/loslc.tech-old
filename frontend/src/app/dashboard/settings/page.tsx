@@ -1,26 +1,26 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { userApi, UserDTO, UpdateUserInfoDTO } from "@/lib/api/users";
-import { filesApi } from "@/lib/api/files";
-import { useAuth } from "@/lib/providers/auth-provider";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Mail, User2 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { toast } from "sonner";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { toast } from "sonner";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
 	Card,
 	CardContent,
+	CardFooter,
 	CardHeader,
 	CardTitle,
-	CardFooter,
 } from "@/components/ui/card";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { Mail, User2 } from "lucide-react";
+import { filesApi } from "@/lib/api/files";
+import { UpdateUserInfoDTO, UserDTO, userApi } from "@/lib/api/users";
+import { useAuth } from "@/lib/providers/auth-provider";
 
 export default function ProfileSettingsPage() {
 	const { t } = useTranslation();

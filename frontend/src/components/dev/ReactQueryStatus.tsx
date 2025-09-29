@@ -1,7 +1,7 @@
+import { useQueryClient } from "@tanstack/react-query";
+import { RefreshCw, Wifi, WifiOff } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { RefreshCw, Wifi, WifiOff } from "lucide-react";
-import { useQueryClient } from "@tanstack/react-query";
 
 interface ReactQueryStatusProps {
 	isLoading: boolean;

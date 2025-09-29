@@ -1,19 +1,18 @@
 "use client";
 
-import React from "react";
 import { useQuery } from "@tanstack/react-query";
-import { AdminLayout } from "@/components/admin/admin-layout";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import {
-	Users,
 	FileText,
 	Shield,
-	Upload,
-	TrendingUp,
 	Star,
+	TrendingUp,
+	Upload,
+	Users,
 } from "lucide-react";
+import { AdminLayout } from "@/components/admin/admin-layout";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { adminApi } from "@/lib/api/admin";
 
 // Admin Dashboard Stats Component
@@ -99,8 +98,11 @@ function PopularBlogPosts() {
 				</CardHeader>
 				<CardContent>
 					<div className="space-y-3">
-						{[...Array(3)].map((_, i) => (
-							<div key={i} className="animate-pulse">
+						{[0, 1, 2].map((placeholder) => (
+							<div
+								key={`popular-skel-${placeholder}`}
+								className="animate-pulse"
+							>
 								<div className="h-4 bg-gray-200 rounded mb-2"></div>
 								<div className="h-3 bg-gray-200 rounded"></div>
 							</div>
@@ -181,8 +183,11 @@ function FeaturedBlogPosts() {
 				</CardHeader>
 				<CardContent>
 					<div className="space-y-3">
-						{[...Array(3)].map((_, i) => (
-							<div key={i} className="animate-pulse">
+						{[0, 1, 2].map((placeholder) => (
+							<div
+								key={`featured-skel-${placeholder}`}
+								className="animate-pulse"
+							>
 								<div className="h-4 bg-gray-200 rounded mb-2"></div>
 								<div className="h-3 bg-gray-200 rounded"></div>
 							</div>
@@ -250,8 +255,11 @@ function RecentUsers() {
 				</CardHeader>
 				<CardContent>
 					<div className="space-y-3">
-						{[...Array(4)].map((_, i) => (
-							<div key={i} className="animate-pulse">
+						{[0, 1, 2, 3].map((placeholder) => (
+							<div
+								key={`recent-user-skel-${placeholder}`}
+								className="animate-pulse"
+							>
 								<div className="h-4 bg-gray-200 rounded mb-2"></div>
 								<div className="h-3 bg-gray-200 rounded"></div>
 							</div>

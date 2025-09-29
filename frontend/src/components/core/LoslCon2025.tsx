@@ -1,10 +1,10 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { Calendar, Clock, Code2, MapPin, Network, Shield } from "lucide-react";
 import Link from "next/link";
-import { Calendar, Clock, MapPin, Shield, Code2, Network } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Button } from "@/components/ui/button";
 
 interface LoslCon2025Props {
 	className?: string;

@@ -1,8 +1,8 @@
 "use client";
-import userApi from "@/lib/api/users";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import userApi from "@/lib/api/users";
 import { Spinner } from "../ui/spinner";
 
 export function IsAdminGuard({ children }: { children: React.ReactNode }) {

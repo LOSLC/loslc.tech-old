@@ -1,12 +1,12 @@
 import {
-	useQuery,
 	useInfiniteQuery,
 	useMutation,
+	useQuery,
 	useQueryClient,
 } from "@tanstack/react-query";
 import {
-	blogApi,
 	type BlogPostDTO,
+	blogApi,
 	type GetBlogPostsQueryDTO,
 } from "../api/blog";
 

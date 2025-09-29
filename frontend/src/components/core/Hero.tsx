@@ -1,18 +1,18 @@
-import { RefObject } from "react";
-import { useTranslation } from "react-i18next";
-import { Button } from "../ui/button";
 import {
-	MoveDown,
-	Users,
-	Heart,
+	ArrowRight,
 	Code,
 	Globe,
-	ArrowRight,
+	Heart,
 	MessageSquare,
+	MoveDown,
 	Shield,
+	Users,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { RefObject } from "react";
+import { useTranslation } from "react-i18next";
+import { Button } from "../ui/button";
 
 interface HeroProps {
 	nextPageRef?: RefObject<HTMLDivElement | null>;

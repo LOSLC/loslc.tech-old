@@ -1,8 +1,8 @@
 "use client";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Shield, Eye, Lock, Users } from "lucide-react";
+import { Eye, Lock, Shield, Users } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function PrivacyPolicy() {
 	const { t } = useTranslation();

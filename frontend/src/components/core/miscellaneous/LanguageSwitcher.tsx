@@ -1,7 +1,7 @@
 "use client";
 
+import { Check, Languages } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { Languages, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
 	DropdownMenu,

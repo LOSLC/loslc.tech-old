@@ -1,23 +1,23 @@
 "use client";
+import { Calendar } from "lucide-react";
+import Link from "next/link";
 import { useParams } from "next/navigation";
-import {
-	useForumPost,
-	useForumComments,
-	useAddComment,
-	useVotePost,
-	useVoteComment,
-	useCommentHasVoted,
-	usePostVoteCounts,
-	useCommentVoteCounts,
-} from "@/lib/hooks/use-forum";
-import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { UserDisplay } from "@/components/common/UserDisplay";
-import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import {
+	useAddComment,
+	useCommentHasVoted,
+	useCommentVoteCounts,
+	useForumComments,
+	useForumPost,
+	usePostVoteCounts,
+	useVoteComment,
+	useVotePost,
+} from "@/lib/hooks/use-forum";
 import { useAuth } from "@/lib/providers/auth-provider";
-import { Calendar } from "lucide-react";
 
 export default function PostDetail() {
 	const { t } = useTranslation();

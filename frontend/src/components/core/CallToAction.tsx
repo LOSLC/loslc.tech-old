@@ -1,8 +1,8 @@
-import { buttonVariants } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { ArrowRight, MessageCircle, Calendar, Github, Mic } from "lucide-react";
+import { ArrowRight, Calendar, Github, MessageCircle, Mic } from "lucide-react";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
+import { buttonVariants } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 
 export default function CallToAction() {
 	const { t } = useTranslation();

@@ -1,6 +1,6 @@
 "use client";
-import React from "react";
 import { ChevronLeft, ChevronRight, Image as ImageIcon } from "lucide-react";
+import React from "react";
 import { cn } from "@/lib/utils";
 
 export interface ProductCarouselProps {
@@ -9,7 +9,6 @@ export interface ProductCarouselProps {
 	aspect?: string; // e.g. 'aspect-video'
 	showDots?: boolean;
 	autoHeight?: boolean;
-	size?: "default" | "small"; // small for card usage
 	placeholderIcon?: React.ReactNode;
 }
 
@@ -19,7 +18,6 @@ export function ProductCarousel({
 	aspect = "aspect-video",
 	showDots = true,
 	autoHeight = false,
-	size = "default",
 	placeholderIcon,
 }: ProductCarouselProps) {
 	const images = imageIds && imageIds.length ? imageIds : [];
@@ -34,12 +32,12 @@ export function ProductCarousel({
 	const atStart = index === 0;
 	const atEnd = index === Math.max(0, images.length - 1);
 
-	function prev() {
+	const prev = React.useCallback(() => {
 		if (!atStart) setIndex((i) => i - 1);
-	}
-	function next() {
+	}, [atStart]);
+	const next = React.useCallback(() => {
 		if (!atEnd) setIndex((i) => i + 1);
-	}
+	}, [atEnd]);
 
 	// Keyboard navigation
 	React.useEffect(() => {
@@ -49,7 +47,7 @@ export function ProductCarousel({
 		}
 		window.addEventListener("keydown", handler);
 		return () => window.removeEventListener("keydown", handler);
-	}, [atStart, atEnd]);
+	}, [prev, next]);
 
 	// Touch handlers
 	function onTouchStart(e: React.TouchEvent) {

@@ -1,11 +1,11 @@
 "use client";
 
-import React from "react";
+import { Home, LayoutDashboard, ShoppingBag, User2 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, ShoppingBag, User2, Home } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import React from "react";
 import ThemeSwitcher from "@/components/core/miscellaneous/ThemeSwitcher";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 interface DashboardLayoutProps {

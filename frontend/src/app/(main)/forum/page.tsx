@@ -1,15 +1,15 @@
 "use client";
 
-import { useState, useMemo } from "react";
-import FloatingNav from "@/components/core/FloatingNav";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Search, MessagesSquare, FileText, Calendar, Plus } from "lucide-react";
+import { Calendar, FileText, MessagesSquare, Plus, Search } from "lucide-react";
 import Link from "next/link";
+import { useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { UserDisplay } from "@/components/common/UserDisplay";
+import FloatingNav from "@/components/core/FloatingNav";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { useForumPosts } from "@/lib/hooks/use-forum";
 import { useAuth } from "@/lib/providers/auth-provider";
-import { UserDisplay } from "@/components/common/UserDisplay";
-import { useTranslation } from "react-i18next";
 
 function Hero({
 	query,

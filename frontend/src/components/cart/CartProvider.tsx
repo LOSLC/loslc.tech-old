@@ -1,22 +1,23 @@
 "use client";
 import React, {
 	createContext,
-	useContext,
-	useState,
 	useCallback,
-	useMemo,
+	useContext,
 	useEffect,
+	useMemo,
+	useState,
 } from "react";
+import { storeApi } from "@/lib/api/store";
 import {
+	useAddToCart,
 	useCart,
 	useCartItems,
-	useAddToCart,
-	useUpdateCartItem,
-	useRemoveCartItem,
 	useClearCart,
+	useRemoveCartItem,
+	useUpdateCartItem,
 } from "@/lib/hooks/use-store";
-import { storeApi } from "@/lib/api/store";
 import { useAuth } from "@/lib/providers/auth-provider";
+import { CartItemServer } from "@/lib/types/store";
 
 // UI Cart item shape (derived from server cart items which contain their own id)
 export interface CartItemUI {
@@ -65,13 +66,13 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 	const { data: cartItemsData, isLoading: loadingItems } = useCartItems();
 
 	// Detailed info cache per cart item id
-	const [details, setDetails] = useState<Record<string, any>>({});
+	const [details, setDetails] = useState<Record<string, CartItemServer>>({});
 	const [loadingDetails, setLoadingDetails] = useState(false);
 
 	// Fetch details for any new cart items not yet loaded
 	useEffect(() => {
 		if (!isAuthenticated) return; // do not fetch while logged out
-		const ids = (cartItemsData || []).map((c: any) => c.id);
+		const ids = (cartItemsData || []).map((c: CartItemServer) => c.id);
 		const missing = ids.filter((id) => !details[id]);
 		if (!missing.length) return;
 		let cancelled = false;
@@ -98,19 +99,17 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
 	const uiItems: CartItemUI[] = useMemo(() => {
 		if (!isAuthenticated) return [];
-		return (cartItemsData || []).map((ci: any) => {
+		return (cartItemsData || []).map((ci: CartItemServer) => {
 			const detail = details[ci.id];
 			return {
 				cartItemId: ci.id,
 				id: ci.itemId,
-				name: detail?.item?.name || ci.item?.name || ci.itemName || "Item",
+				name: detail?.item?.name || ci.item?.name || "Item",
 				price: ci.unitPrice ?? detail?.item?.price ?? ci.item?.price ?? 0,
 				image: detail?.item?.images?.[0] || ci.item?.images?.[0] || null,
 				quantity: ci.quantity,
 				variantIds:
-					detail?.selectedVariants?.map((v: any) => v.id) ||
-					ci.variantIds ||
-					[],
+					detail?.selectedVariants?.map((v) => v.id) || ci.variantIds || [],
 				variantsDetailed: detail?.selectedVariants,
 			};
 		});

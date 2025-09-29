@@ -1,36 +1,36 @@
 "use client";
 
+import { useMutation, useQuery } from "@tanstack/react-query";
+import {
+	ArrowRight,
+	Check,
+	Eye,
+	EyeOff,
+	Loader2,
+	Lock,
+	Mail,
+	User,
+	UserCircle,
+	X,
+} from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { toast } from "sonner";
+import { z } from "zod";
+import { GuestGuard } from "@/components/guards/auth-guards";
 import { Button } from "@/components/ui/button";
 import {
 	Card,
 	CardContent,
+	CardDescription,
 	CardHeader,
 	CardTitle,
-	CardDescription,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { authApi } from "@/lib/api/auth";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
-import { useState, useEffect, useMemo } from "react";
-import { useTranslation } from "react-i18next";
-import { toast } from "sonner";
-import { z } from "zod";
-import {
-	Eye,
-	EyeOff,
-	Mail,
-	Lock,
-	User,
-	UserCircle,
-	ArrowRight,
-	Check,
-	X,
-	Loader2,
-} from "lucide-react";
-import Link from "next/link";
-import { GuestGuard } from "@/components/guards/auth-guards";
 
 function RegisterContent() {
 	const { t } = useTranslation();

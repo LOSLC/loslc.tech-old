@@ -1,5 +1,5 @@
-import { usePublicUser } from "@/lib/hooks/use-users";
 import { User } from "lucide-react";
+import { usePublicUser } from "@/lib/hooks/use-users";
 
 interface UserDisplayProps {
 	userId: string;

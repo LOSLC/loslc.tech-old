@@ -1,44 +1,44 @@
 "use client";
 
-import React, { useState } from "react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+	Calendar,
+	Edit,
+	Eye,
+	FileText,
+	Folder,
+	Loader2,
+	Plus,
+	Search,
+	Tag as TagIcon,
+	Trash2,
+	User,
+} from "lucide-react";
 import Link from "next/link";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { createPostSlug } from "@/lib/utils/slug";
+import { useId, useState } from "react";
+import { toast } from "sonner";
 import { AdminLayout } from "@/components/admin/admin-layout";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import {
 	Dialog,
 	DialogContent,
 	DialogHeader,
 	DialogTitle,
 } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-	FileText,
-	Folder,
-	Tag as TagIcon,
-	Search,
-	Plus,
-	Edit,
-	Trash2,
-	Eye,
-	User,
-	Calendar,
-	Loader2,
-} from "lucide-react";
 import { adminApi } from "@/lib/api/admin";
 import {
-	type BlogPostDTO,
-	type CreateCategoryDTO,
 	type BlogCategoryDTO,
+	type BlogPostDTO,
 	type BlogTagDTO,
+	type CreateCategoryDTO,
 } from "@/lib/api/blog";
-import { toast } from "sonner";
 import { UserDTO } from "@/lib/api/users";
+import { createPostSlug } from "@/lib/utils/slug";
 
 interface PostWithAuthor extends BlogPostDTO {
 	author?: UserDTO;
@@ -163,6 +163,7 @@ function CreateCategoryDialog({
 	const [formData, setFormData] = useState({
 		name: "",
 	});
+	const nameId = useId();
 
 	const createCategoryMutation = useMutation({
 		mutationFn: (data: CreateCategoryDTO) => adminApi.blog.createCategory(data),
@@ -195,9 +196,9 @@ function CreateCategoryDialog({
 				</DialogHeader>
 				<div className="grid gap-4 py-4">
 					<div className="grid gap-2">
-						<Label htmlFor="name">Category Name</Label>
+						<Label htmlFor={nameId}>Category Name</Label>
 						<Input
-							id="name"
+							id={nameId}
 							value={formData.name}
 							onChange={(e) =>
 								setFormData((prev) => ({ ...prev, name: e.target.value }))

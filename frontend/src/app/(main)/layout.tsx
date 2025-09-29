@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import "../globals.css";
-import FloatingNav from "@/components/core/FloatingNav";
-import { CartProvider } from "@/components/cart/CartProvider";
 import { CartClientGate } from "@/components/cart/CartClientGate";
+import { CartProvider } from "@/components/cart/CartProvider";
+import FloatingNav from "@/components/core/FloatingNav";
 import Footer from "@/components/core/Footer";
 
 export const metadata: Metadata = {

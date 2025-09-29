@@ -1,22 +1,22 @@
 "use client";
 
-import { buttonVariants } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
-	Target,
-	Eye,
-	Heart,
-	Globe,
-	Users,
-	Lightbulb,
+	Award,
 	BookOpen,
 	Code2,
-	Award,
+	Eye,
+	Globe,
+	Heart,
+	Lightbulb,
 	Shield,
+	Target,
+	Users,
 } from "lucide-react";
-import { useTranslation } from "react-i18next";
 import Image from "next/image";
 import Link from "next/link";
+import { useTranslation } from "react-i18next";
+import { buttonVariants } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function Mission() {
 	const { t } = useTranslation();

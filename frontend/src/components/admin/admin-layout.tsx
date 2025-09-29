@@ -1,27 +1,27 @@
 "use client";
 
-import React from "react";
+import {
+	FileText,
+	LayoutDashboard,
+	LogOut,
+	Menu,
+	Shield,
+	ShoppingBag,
+	Upload,
+	Users,
+} from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { cn } from "@/lib/utils";
-import {
-	Users,
-	FileText,
-	Upload,
-	Shield,
-	LayoutDashboard,
-	Menu,
-	LogOut,
-	ShoppingBag,
-} from "lucide-react";
+import React from "react";
 import ThemeSwitcher from "@/components/core/miscellaneous/ThemeSwitcher";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import {
 	HoverCard,
-	HoverCardTrigger,
 	HoverCardContent,
+	HoverCardTrigger,
 } from "@/components/ui/hover-card";
+import { cn } from "@/lib/utils";
 
 interface AdminLayoutProps {
 	children: React.ReactNode;

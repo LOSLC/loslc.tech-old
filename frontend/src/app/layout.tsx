@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { ThemeProvider } from "@/components/core/providers/ThemeProvider";
+import { Toaster } from "sonner";
 import ProgressProvider from "@/components/core/providers/ProgressProvider";
+import { ThemeProvider } from "@/components/core/providers/ThemeProvider";
 import { Providers } from "@/lib/providers";
 import { AuthProvider } from "@/lib/providers/auth-provider";
-import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
 	metadataBase: new URL("https://loslc.tech"),

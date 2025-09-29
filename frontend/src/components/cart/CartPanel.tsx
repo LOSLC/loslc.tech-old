@@ -1,8 +1,8 @@
 "use client";
+import { AlertCircle, Lock, Minus, Plus, Trash2, X } from "lucide-react";
 import React, { useEffect, useRef } from "react";
-import { useCartLocal } from "./CartProvider";
-import { X, Trash2, Minus, Plus, AlertCircle, Lock } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useCartLocal } from "./CartProvider";
 
 function formatPrice(cents: number) {
 	return `$${(cents / 100).toFixed(2)}`;

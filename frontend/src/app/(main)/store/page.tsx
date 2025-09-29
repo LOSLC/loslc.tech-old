@@ -1,14 +1,15 @@
 "use client";
-import React from "react";
 import Link from "next/link";
+import React from "react";
 import { useCartLocal } from "@/components/cart/CartProvider";
-import { useStoreItems } from "@/lib/hooks/use-store";
+import { ProductCarousel } from "@/components/store/product-carousel";
 
 // Assuming a design system with these components exists similar to blog
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useStoreItems } from "@/lib/hooks/use-store";
+import { StoreItem } from "@/lib/types/store";
 import { cn } from "@/lib/utils";
-import { ProductCarousel } from "@/components/store/product-carousel";
 
 export default function StorePage() {
 	const [search, setSearch] = React.useState("");
@@ -95,7 +96,7 @@ export default function StorePage() {
 	);
 }
 
-function FeaturedCard({ item }: { item: any }) {
+function FeaturedCard({ item }: { item: StoreItem }) {
 	const images = item.images || [];
 	const { addItem, setOpen } = useCartLocal();
 	const [adding, setAdding] = React.useState(false);
@@ -159,7 +160,7 @@ function FeaturedCard({ item }: { item: any }) {
 	);
 }
 
-function ItemCard({ item }: { item: any }) {
+function ItemCard({ item }: { item: StoreItem }) {
 	const images = item.images || [];
 	const { addItem, setOpen } = useCartLocal();
 	const [adding, setAdding] = React.useState(false);

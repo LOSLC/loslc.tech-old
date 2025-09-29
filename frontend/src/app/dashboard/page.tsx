@@ -1,20 +1,20 @@
 "use client";
 
-import { useEffect, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { userApi, UserDTO } from "@/lib/api/users";
-import { useAuth } from "@/lib/providers/auth-provider";
-import { useRouter } from "next/navigation";
-import { useTranslation } from "react-i18next";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
+	BookOpen,
 	CalendarDays,
 	CheckCircle2,
 	Info,
 	MessageSquare,
-	BookOpen,
 } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect, useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { UserDTO, userApi } from "@/lib/api/users";
+import { useAuth } from "@/lib/providers/auth-provider";
 
 export default function DashboardOverviewPage() {
 	const { t } = useTranslation();

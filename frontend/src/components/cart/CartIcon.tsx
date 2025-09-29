@@ -1,8 +1,8 @@
 "use client";
-import React from "react";
 import { ShoppingCart } from "lucide-react";
-import { useCartLocal } from "./CartProvider";
+import React from "react";
 import { cn } from "@/lib/utils";
+import { useCartLocal } from "./CartProvider";
 
 export function CartIconButton({ className }: { className?: string }) {
 	const { setOpen, open, items } = useCartLocal();

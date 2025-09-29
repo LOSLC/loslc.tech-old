@@ -1,26 +1,27 @@
 "use client";
+import { useQueryClient } from "@tanstack/react-query";
+import { Loader2, XIcon } from "lucide-react";
 import React from "react";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
 	Dialog,
 	DialogContent,
+	DialogFooter,
 	DialogHeader,
 	DialogTitle,
-	DialogFooter,
 	DialogTrigger,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Checkbox } from "@/components/ui/checkbox";
-import { ImageUploadZone } from "./image-upload-zone";
 import { filesApi } from "@/lib/api/files";
+import { storeApi } from "@/lib/api/store";
 import { useUpdateItem } from "@/lib/hooks/use-store";
-import { storeApi, StoreItem } from "@/lib/api/store";
-import { Loader2, XIcon } from "lucide-react";
-import { useQueryClient } from "@tanstack/react-query";
+import { StoreCharacteristic, StoreItem } from "@/lib/types/store";
+import { ImageUploadZone } from "./image-upload-zone";
 
 interface EditItemDialogProps {
-	item: StoreItem & { characteristics?: any[] };
+	item: StoreItem & { characteristics?: StoreCharacteristic[] };
 	trigger?: React.ReactNode;
 }
 
@@ -72,8 +73,9 @@ export function EditItemDialog({ item, trigger }: EditItemDialogProps) {
 			try {
 				const info = await filesApi.uploadSingle(f);
 				newIds.push(info.id);
-			} catch (er: any) {
-				setErrors((e) => [...e, `${f.name}: ${er.message || "upload failed"}`]);
+			} catch (er) {
+				const msg = er instanceof Error ? er.message : "upload failed";
+				setErrors((e) => [...e, `${f.name}: ${msg}`]);
 			}
 		}
 		if (newIds.length) {
@@ -82,8 +84,9 @@ export function EditItemDialog({ item, trigger }: EditItemDialogProps) {
 				await storeApi.addImages(item.id, newIds);
 				qc.invalidateQueries({ queryKey: ["store", "item", item.id] });
 				qc.invalidateQueries({ queryKey: ["store", "items"] });
-			} catch (er: any) {
-				setErrors((e) => [...e, er.message || "add images failed"]);
+			} catch (er) {
+				const msg = er instanceof Error ? er.message : "add images failed";
+				setErrors((e) => [...e, msg]);
 			}
 			setLocal((l) => ({ ...l, images: [...l.images, ...newIds] }));
 		}
@@ -92,14 +95,20 @@ export function EditItemDialog({ item, trigger }: EditItemDialogProps) {
 
 	function removeLocal(id: string) {
 		// remove local + call removeImage API (optimistic)
-		setLocal((l) => ({ ...l, images: l.images.filter((i) => i !== id) }));
+		setLocal((l) => ({
+			...l,
+			images: l.images.filter((i: string) => i !== id),
+		}));
 		storeApi
 			.removeImage(item.id, id)
 			.then(() => {
 				qc.invalidateQueries({ queryKey: ["store", "item", item.id] });
 				qc.invalidateQueries({ queryKey: ["store", "items"] });
 			})
-			.catch((er) => setErrors((e) => [...e, er.message || "remove failed"]));
+			.catch((er) => {
+				const msg = er instanceof Error ? er.message : "remove failed";
+				setErrors((e) => [...e, msg]);
+			});
 	}
 
 	function submit(e: React.FormEvent) {
@@ -190,7 +199,7 @@ export function EditItemDialog({ item, trigger }: EditItemDialogProps) {
 						)}
 						{local.images.length > 0 && (
 							<div className="flex flex-wrap gap-2 pt-1">
-								{local.images.map((id) => (
+								{local.images.map((id: string) => (
 									<div
 										key={id}
 										className="group relative w-20 h-20 rounded-md overflow-hidden border bg-muted/30"

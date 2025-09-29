@@ -1,24 +1,24 @@
 "use client";
 
+import { useMutation } from "@tanstack/react-query";
+import { ArrowRight, RefreshCw } from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { toast } from "sonner";
+import { GuestGuard } from "@/components/guards/auth-guards";
 import { Button } from "@/components/ui/button";
 import {
 	Card,
 	CardContent,
+	CardDescription,
 	CardHeader,
 	CardTitle,
-	CardDescription,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { authApi } from "@/lib/api/auth";
-import { useMutation } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
-import { useState, useRef } from "react";
-import { useTranslation } from "react-i18next";
-import { toast } from "sonner";
-import { ArrowRight, RefreshCw } from "lucide-react";
-import Link from "next/link";
-import { GuestGuard } from "@/components/guards/auth-guards";
 
 function VerifyOtpContent() {
 	const { t } = useTranslation();

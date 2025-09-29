@@ -1,8 +1,8 @@
 "use client";
 import React from "react";
-import { useAuth } from "@/lib/providers/auth-provider";
 import { CartIconButton } from "@/components/cart/CartIcon";
 import { CartPanel } from "@/components/cart/CartPanel";
+import { useAuth } from "@/lib/providers/auth-provider";
 
 export function CartClientGate() {
 	const { isAuthenticated } = useAuth();

@@ -1,25 +1,27 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useTranslation } from "react-i18next";
 import {
+	Book,
+	ChevronDown,
+	FileText,
 	Home,
 	Info,
-	Target,
-	Shield,
-	FileText,
-	MessageCircle,
-	Menu,
-	X,
 	LogIn,
 	LogOut,
-	User,
-	ChevronDown,
-	Book,
+	Menu,
+	MessageCircle,
+	Shield,
 	ShoppingBag,
+	Target,
+	User,
+	X,
 } from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { toast } from "sonner";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
 	DropdownMenu,
@@ -29,11 +31,9 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import ThemeSwitcher from "./miscellaneous/ThemeSwitcher";
-import LanguageSwitcher from "./miscellaneous/LanguageSwitcher";
 import { useAuth } from "@/lib/providers/auth-provider";
-import { toast } from "sonner";
+import LanguageSwitcher from "./miscellaneous/LanguageSwitcher";
+import ThemeSwitcher from "./miscellaneous/ThemeSwitcher";
 
 export default function FloatingNav() {
 	const { t } = useTranslation();
@@ -115,12 +115,12 @@ export default function FloatingNav() {
 		}
 	}, []);
 
-	function nextPage() {
+	const nextPage = useCallback(() => {
 		if (!atLast) setPage((p) => p + 1);
-	}
-	function prevPage() {
+	}, [atLast]);
+	const prevPage = useCallback(() => {
 		if (!atFirst) setPage((p) => p - 1);
-	}
+	}, [atFirst]);
 
 	// Measure page widths to allow intrinsic nav width & internal arrows
 	useEffect(() => {
@@ -136,7 +136,7 @@ export default function FloatingNav() {
 		};
 		// defer to next frame for accurate layout after style changes
 		requestAnimationFrame(measure);
-	}, [page, isScrolled, navItems.length]);
+	}, [page, isScrolled, navItems.length, viewportWidth]);
 
 	useEffect(() => {
 		const onResize = () => {
@@ -170,7 +170,7 @@ export default function FloatingNav() {
 		};
 		el.addEventListener("wheel", handler, { passive: true });
 		return () => el.removeEventListener("wheel", handler);
-	}, [canPaginate, page, atFirst, atLast]);
+	}, [canPaginate, page, atFirst, atLast, nextPage, prevPage]);
 
 	// Keyboard arrow navigation when container focused
 	const onKeyDown = (e: React.KeyboardEvent) => {

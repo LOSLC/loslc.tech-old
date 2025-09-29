@@ -1,40 +1,40 @@
 "use client";
 
-import React, { useState, useRef } from "react";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+	Calendar,
+	Download,
+	Eye,
+	File,
+	FileText,
+	HardDrive,
+	Image as ImageIcon,
+	Loader2,
+	Plus,
+	Search,
+	Shield,
+	Trash2,
+	Upload,
+	Video,
+	X,
+} from "lucide-react";
+import Image from "next/image";
+import React, { useId, useRef, useState } from "react";
+import { toast } from "sonner";
 import { AdminLayout } from "@/components/admin/admin-layout";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import {
 	Dialog,
 	DialogContent,
 	DialogHeader,
 	DialogTitle,
 } from "@/components/ui/dialog";
-import {
-	File,
-	FileText,
-	Image as ImageIcon,
-	Video,
-	HardDrive,
-	Upload,
-	Download,
-	Trash2,
-	Eye,
-	Search,
-	Calendar,
-	Shield,
-	Loader2,
-	Plus,
-	X,
-} from "lucide-react";
-import { cn } from "@/lib/utils";
+import { Input } from "@/components/ui/input";
 import { adminApi, type FileInfo } from "@/lib/api/admin";
 import userApi, { type UserDTO } from "@/lib/api/users";
-import { toast } from "sonner";
-import Image from "next/image";
+import { cn } from "@/lib/utils";
 
 interface FileWithUser extends FileInfo {
 	uploader?: UserDTO;
@@ -45,7 +45,7 @@ function formatFileSize(bytes: number): string {
 	const k = 1024;
 	const sizes = ["Bytes", "KB", "MB", "GB"];
 	const i = Math.floor(Math.log(bytes) / Math.log(k));
-	return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
+	return `${parseFloat((bytes / k ** i).toFixed(2))} ${sizes[i]}`;
 }
 
 function getFileIcon(fileType: string | undefined) {
@@ -160,6 +160,7 @@ function FileUploadDialog({
 	const queryClient = useQueryClient();
 	const [files, setFiles] = useState<File[]>([]);
 	const [isProtected, setIsProtected] = useState(false);
+	const protectedId = useId();
 	const [isDragOver, setIsDragOver] = useState(false);
 	const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -195,8 +196,8 @@ function FileUploadDialog({
 		uploadMutation.mutate({ files, isProtected });
 	};
 
-	const removeFile = (index: number) => {
-		setFiles((prev) => prev.filter((_, i) => i !== index));
+	const removeFile = (fileToRemove: File) => {
+		setFiles((prev) => prev.filter((f) => f !== fileToRemove));
 	};
 
 	return (
@@ -208,11 +209,13 @@ function FileUploadDialog({
 
 				<div className="grid gap-4 py-4">
 					{/* Upload Area */}
-					<div
+					<button
+						type="button"
 						className={cn(
-							"border-2 border-dashed border-gray-300 rounded-lg p-8 text-center transition-colors",
+							"w-full border-2 border-dashed border-gray-300 rounded-lg p-8 text-center transition-colors",
 							isDragOver && "border-blue-500 bg-blue-50",
 						)}
+						onClick={() => fileInputRef.current?.click()}
 						onDrop={handleDrop}
 						onDragOver={(e) => {
 							e.preventDefault();
@@ -234,15 +237,15 @@ function FileUploadDialog({
 						>
 							Browse Files
 						</Button>
-					</div>
+					</button>
 
 					{/* File List */}
 					{files.length > 0 && (
 						<div className="space-y-2">
 							<h4 className="text-sm font-medium">Selected Files</h4>
-							{files.map((file, index) => (
+							{files.map((file) => (
 								<div
-									key={index}
+									key={file.name + file.size + file.lastModified}
 									className="flex items-center justify-between p-2 bg-gray-50 rounded"
 								>
 									<div className="flex items-center space-x-2">
@@ -255,7 +258,7 @@ function FileUploadDialog({
 									<Button
 										variant="ghost"
 										size="sm"
-										onClick={() => removeFile(index)}
+										onClick={() => removeFile(file)}
 										disabled={uploadMutation.isPending}
 									>
 										<X className="h-3 w-3" />
@@ -269,12 +272,12 @@ function FileUploadDialog({
 					<div className="flex items-center space-x-2">
 						<input
 							type="checkbox"
-							id="protected"
+							id={protectedId}
 							checked={isProtected}
 							onChange={(e) => setIsProtected(e.target.checked)}
 							disabled={uploadMutation.isPending}
 						/>
-						<label htmlFor="protected" className="text-sm">
+						<label htmlFor={protectedId} className="text-sm">
 							Make files protected (admin access only)
 						</label>
 					</div>
@@ -347,21 +350,21 @@ function FileViewDialog({
 
 					<div className="grid grid-cols-2 gap-4 text-sm">
 						<div>
-							<label className="font-medium text-muted-foreground">
+							<span className="font-medium text-muted-foreground">
 								File Size
-							</label>
+							</span>
 							<p>{formatFileSize(file.size || 0)}</p>
 						</div>
 						<div>
-							<label className="font-medium text-muted-foreground">
+							<span className="font-medium text-muted-foreground">
 								File Type
-							</label>
+							</span>
 							<p>{file.fileType || "Unknown"}</p>
 						</div>
 						<div>
-							<label className="font-medium text-muted-foreground">
+							<span className="font-medium text-muted-foreground">
 								Uploaded By
-							</label>
+							</span>
 							<p>
 								{file.uploader
 									? file.uploader.fullName
@@ -369,9 +372,9 @@ function FileViewDialog({
 							</p>
 						</div>
 						<div>
-							<label className="font-medium text-muted-foreground">
+							<span className="font-medium text-muted-foreground">
 								Upload Date
-							</label>
+							</span>
 							<p>
 								{file.createdAt
 									? new Date(file.createdAt).toLocaleDateString()
@@ -379,25 +382,23 @@ function FileViewDialog({
 							</p>
 						</div>
 						<div>
-							<label className="font-medium text-muted-foreground">
+							<span className="font-medium text-muted-foreground">
 								Protection
-							</label>
+							</span>
 							<p>{file.protected ? "Protected" : "Public"}</p>
 						</div>
 						<div>
-							<label className="font-medium text-muted-foreground">
-								File ID
-							</label>
+							<span className="font-medium text-muted-foreground">File ID</span>
 							<p className="font-mono text-xs">{file.id}</p>
 						</div>
 					</div>
 
 					{/* Preview for images */}
-					{file.fileType && file.fileType.startsWith("image/") && (
+					{file.fileType?.startsWith("image/") && (
 						<div className="mt-4">
-							<label className="font-medium text-muted-foreground mb-2 block">
+							<span className="font-medium text-muted-foreground mb-2 block">
 								Preview
-							</label>
+							</span>
 							<Image
 								height={200}
 								width={200}
@@ -485,8 +486,8 @@ export default function FileManagementPage() {
 		(sum, file) => sum + (file.size || 0),
 		0,
 	);
-	const imageFiles = filesWithUsers.filter(
-		(f) => f.fileType && f.fileType.startsWith("image/"),
+	const imageFiles = filesWithUsers.filter((f) =>
+		f.fileType?.startsWith("image/"),
 	);
 	const protectedFiles = filesWithUsers.filter((f) => f.protected === true);
 

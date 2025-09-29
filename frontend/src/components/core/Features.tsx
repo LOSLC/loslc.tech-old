@@ -1,3 +1,5 @@
+import { BookOpen, Globe, Heart, Lightbulb, Shield, Users } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import {
 	Card,
 	CardContent,
@@ -5,8 +7,6 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import { Users, Heart, Lightbulb, Globe, BookOpen, Shield } from "lucide-react";
-import { useTranslation } from "react-i18next";
 
 export default function Features() {
 	const { t } = useTranslation();

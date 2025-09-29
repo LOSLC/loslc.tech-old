@@ -1,6 +1,6 @@
-import { Card, CardContent } from "@/components/ui/card";
-import { Users, Calendar, MapPin, Shield } from "lucide-react";
+import { Calendar, MapPin, Shield, Users } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { Card, CardContent } from "@/components/ui/card";
 
 export default function CommunityStats() {
 	const { t } = useTranslation();

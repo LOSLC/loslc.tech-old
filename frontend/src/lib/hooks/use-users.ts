@@ -1,9 +1,9 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
-	userApi,
-	type UpdateUserInfoDTO,
 	type GetUsersQueryDTO,
 	type PublicUserDTO,
+	type UpdateUserInfoDTO,
+	userApi,
 } from "@/lib/api/users";
 
 // Query keys factory for consistent cache management

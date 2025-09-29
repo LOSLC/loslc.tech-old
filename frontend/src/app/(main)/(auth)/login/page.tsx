@@ -1,24 +1,23 @@
 "use client";
 
+import { useMutation } from "@tanstack/react-query";
+import { ArrowRight, Eye, EyeOff, Lock, Mail } from "lucide-react";
+import Link from "next/link";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { toast } from "sonner";
+import { GuestGuard } from "@/components/guards/auth-guards";
 import { Button } from "@/components/ui/button";
 import {
 	Card,
 	CardContent,
+	CardDescription,
 	CardHeader,
 	CardTitle,
-	CardDescription,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { authApi } from "@/lib/api/auth";
-import { useMutation } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { useTranslation } from "react-i18next";
-import { toast } from "sonner";
-import { Eye, EyeOff, Mail, Lock, ArrowRight } from "lucide-react";
-import Link from "next/link";
-import { GuestGuard } from "@/components/guards/auth-guards";
 
 function LoginContent() {
 	const { t } = useTranslation();
@@ -28,7 +27,6 @@ function LoginContent() {
 	const [errors, setErrors] = useState<{ email?: string; password?: string }>(
 		{},
 	);
-	const router = useRouter();
 
 	const loginMutation = useMutation({
 		mutationKey: ["auth/login"],

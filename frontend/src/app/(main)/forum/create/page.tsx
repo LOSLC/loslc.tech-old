@@ -1,16 +1,16 @@
 "use client";
 
-import { useState } from "react";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
-import FloatingNav from "@/components/core/FloatingNav";
-import { useRouter } from "next/navigation";
-import { forumApi, type CreateForumPostDTO } from "@/lib/api/forum";
 import { useMutation } from "@tanstack/react-query";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import FloatingNav from "@/components/core/FloatingNav";
 import TagSelector from "@/components/forum/TagSelector";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { type CreateForumPostDTO, forumApi } from "@/lib/api/forum";
 
 export default function CreateForumPostPage() {
 	const { t } = useTranslation();

@@ -1,18 +1,18 @@
 "use client";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
-	Heart,
-	Shield,
-	Users,
 	AlertCircle,
 	CheckCircle,
-	MessageCircle,
-	Handshake,
-	GraduationCap,
 	Globe2,
+	GraduationCap,
+	Handshake,
+	Heart,
+	MessageCircle,
+	Shield,
+	Users,
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function CodeOfConduct() {
 	const { t } = useTranslation();
