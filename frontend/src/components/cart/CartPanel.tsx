@@ -108,14 +108,14 @@ export function CartPanel() {
 									className="flex gap-3 group border border-border/40 rounded-lg p-3 bg-card/60 backdrop-blur-sm"
 								>
 									<div className="w-16 h-16 rounded-md overflow-hidden bg-muted flex items-center justify-center">
-												{it.image ? (
-													// eslint-disable-next-line @next/next/no-img-element
-													<img
-														src={`/api/files/${it.image}/download`}
-														alt={it.name}
-														className="object-cover w-full h-full"
-														loading="lazy"
-													/>
+										{it.image ? (
+											// eslint-disable-next-line @next/next/no-img-element
+											<img
+												src={`/api/files/${it.image}/download`}
+												alt={it.name}
+												className="object-cover w-full h-full"
+												loading="lazy"
+											/>
 										) : (
 											<span className="text-[10px] text-muted-foreground">
 												No Image

@@ -396,17 +396,32 @@ function OrderRow({
 	);
 }
 
+type ToggleOption = "all" | "yes" | "no";
+type OrderActionType = "paid" | "confirm" | "accept";
+
+function isToggleOption(value: string): value is ToggleOption {
+	return value === "all" || value === "yes" || value === "no";
+}
+
 export default function AdminStorePage() {
 	const { t } = useTranslation();
 	const [tab, setTab] = useState<"items" | "orders">("items");
 	// Filters state for items listing
-	const [filters, setFilters] = useState({
+	const [filters, setFilters] = useState<{
+		search: string;
+		published: ToggleOption;
+		featured: ToggleOption;
+		minPrice: string;
+		maxPrice: string;
+	}>(
+		{
 		search: "",
-		published: "all" as "all" | "yes" | "no",
-		featured: "all" as "all" | "yes" | "no",
+		published: "all",
+		featured: "all",
 		minPrice: "",
 		maxPrice: "",
-	});
+		},
+	);
 
 	const { data: items, isLoading: itemsLoading } = useStoreItems({
 		limit: 200,
@@ -435,6 +450,19 @@ export default function AdminStorePage() {
 	const deleteItem = useDeleteItem();
 	// const updateItem = useUpdateItem(""); // removed unused updater
 	const orderAction = useOrderAction();
+
+	const handleTriStateChange = (
+		key: "published" | "featured",
+		value: string,
+	) => {
+		if (isToggleOption(value)) {
+			setFilters((f) => ({ ...f, [key]: value }));
+		}
+	};
+
+	const handleOrderAction = (orderId: string, action: OrderActionType) => {
+		orderAction.mutate({ id: orderId, action });
+	};
 
 	const [form, setForm] = useState({
 		name: "",
@@ -575,12 +603,7 @@ export default function AdminStorePage() {
 									<select
 										className="h-9 rounded-md border bg-background/50 px-2 text-xs"
 										value={filters.published}
-										onChange={(e) =>
-											setFilters((f) => ({
-												...f,
-												published: e.target.value as any,
-											}))
-										}
+										onChange={(e) => handleTriStateChange("published", e.target.value)}
 									>
 										<option value="all">{t("common.all", "All")}</option>
 										<option value="yes">{t("common.yes", "Yes")}</option>
@@ -594,12 +617,7 @@ export default function AdminStorePage() {
 									<select
 										className="h-9 rounded-md border bg-background/50 px-2 text-xs"
 										value={filters.featured}
-										onChange={(e) =>
-											setFilters((f) => ({
-												...f,
-												featured: e.target.value as any,
-											}))
-										}
+										onChange={(e) => handleTriStateChange("featured", e.target.value)}
 									>
 										<option value="all">{t("common.all", "All")}</option>
 										<option value="yes">{t("common.yes", "Yes")}</option>
@@ -845,12 +863,7 @@ export default function AdminStorePage() {
 													<OrderRow
 														key={o.id}
 														order={o}
-														onAction={(action) =>
-															orderAction.mutate({
-																id: o.id,
-																action: action as any,
-															})
-														}
+														onAction={(action) => handleOrderAction(o.id, action)}
 													/>
 												))}
 											</TableBody>

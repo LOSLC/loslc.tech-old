@@ -204,13 +204,13 @@ export function EditItemDialog({ item, trigger }: EditItemDialogProps) {
 										key={id}
 										className="group relative w-20 h-20 rounded-md overflow-hidden border bg-muted/30"
 									>
-												{/* eslint-disable-next-line @next/next/no-img-element */}
-												<img
-													src={`/api/files/${id}/download`}
-													alt="item image"
-													className="object-cover w-full h-full"
-													loading="lazy"
-												/>
+										{/* eslint-disable-next-line @next/next/no-img-element */}
+										<img
+											src={`/api/files/${id}/download`}
+											alt="item image"
+											className="object-cover w-full h-full"
+											loading="lazy"
+										/>
 										<button
 											type="button"
 											onClick={() => removeLocal(id)}

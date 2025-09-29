@@ -1,33 +1,33 @@
 "use client";
-import { notFound } from "next/navigation";
+import { notFound, useParams } from "next/navigation";
 import React from "react";
 import { useCartLocal } from "@/components/cart/CartProvider";
 import { ProductCarousel } from "@/components/store/product-carousel";
 import { Button } from "@/components/ui/button";
 import { useItemCharacteristics, useStoreItem } from "@/lib/hooks/use-store";
 import { useAuth } from "@/lib/providers/auth-provider";
-import {
-	StoreCharacteristic,
-	StoreVariant,
-} from "@/lib/types/store";
+import { StoreCharacteristic, StoreVariant } from "@/lib/types/store";
 import { cn } from "@/lib/utils";
 
-interface Props {
-	params: { id: string };
-}
+export default function StoreItemPage() {
+	const params = useParams<{ id: string | string[] }>();
+	const rawId = params?.id;
+	const itemId = Array.isArray(rawId) ? rawId[0] : rawId;
 
-export default function StoreItemPage({ params }: Props) {
-	// Fetch base item (no details) and characteristics via new endpoint
-	const { data: item, isLoading } = useStoreItem(params.id, false);
+	const { data: item, isLoading } = useStoreItem(itemId ?? "", false);
 	const { data: characteristicsData, isLoading: charsLoading } =
-		useItemCharacteristics(params.id, true);
+		useItemCharacteristics(itemId ?? "", true);
 	const { addItem, setOpen } = useCartLocal();
 	const { isAuthenticated } = useAuth();
-	// Map characteristicId -> selected variantId (one per characteristic)
 	const [selectedVariantMap, setSelectedVariantMap] = React.useState<
 		Record<string, string>
 	>({});
 	const [quantity, setQuantity] = React.useState(1);
+
+	if (!itemId) {
+		return notFound();
+	}
+	// Fetch base item (no details) and characteristics via new endpoint
 
 	if (isLoading)
 		return (

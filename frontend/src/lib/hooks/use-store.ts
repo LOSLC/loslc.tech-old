@@ -1,6 +1,11 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { storeApi } from "../api/store";
-import { AddToCartInput, CreateStoreItemInput, UpdateCartItemInput, UpdateStoreItemInput } from "../types/store";
+import {
+	AddToCartInput,
+	CreateStoreItemInput,
+	UpdateCartItemInput,
+	UpdateStoreItemInput,
+} from "../types/store";
 
 const keys = {
 	items: (params?: Record<string, string | number | boolean | undefined>) =>
