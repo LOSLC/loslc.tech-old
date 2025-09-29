@@ -9,3 +9,5 @@ export * from "./schemas/blog/schemas";
 export * from "./schemas/forum/schemas";
 
 export * from "./schemas/notifications/schemas";
+
+export * from "./schemas/store/schemas";

@@ -1,51 +1,51 @@
-import { usePublicUser } from '@/lib/hooks/use-users';
-import { User } from 'lucide-react';
+import { User } from "lucide-react";
+import { usePublicUser } from "@/lib/hooks/use-users";
 
 interface UserDisplayProps {
-  userId: string;
-  showAvatar?: boolean;
-  className?: string;
-  fallback?: string;
+	userId: string;
+	showAvatar?: boolean;
+	className?: string;
+	fallback?: string;
 }
 
-export const UserDisplay = ({ 
-  userId, 
-  showAvatar = false, 
-  className = "",
-  fallback = "Unknown Author"
+export const UserDisplay = ({
+	userId,
+	showAvatar = false,
+	className = "",
+	fallback = "Unknown Author",
 }: UserDisplayProps) => {
-  const { data: user, isLoading, error } = usePublicUser(userId);
+	const { data: user, isLoading, error } = usePublicUser(userId);
 
-  if (isLoading) {
-    return (
-      <div className={`flex items-center ${className}`}>
-        {showAvatar && (
-          <div className="w-4 h-4 bg-muted rounded-full animate-pulse mr-1" />
-        )}
-        <div className="h-3 w-16 bg-muted rounded animate-pulse" />
-      </div>
-    );
-  }
+	if (isLoading) {
+		return (
+			<div className={`flex items-center ${className}`}>
+				{showAvatar && (
+					<div className="w-4 h-4 bg-muted rounded-full animate-pulse mr-1" />
+				)}
+				<div className="h-3 w-16 bg-muted rounded animate-pulse" />
+			</div>
+		);
+	}
 
-  if (error || !user) {
-    return (
-      <div className={`flex items-center text-muted-foreground ${className}`}>
-        {showAvatar && <User className="w-4 h-4 mr-1" />}
-        <span>{fallback}</span>
-      </div>
-    );
-  }
+	if (error || !user) {
+		return (
+			<div className={`flex items-center text-muted-foreground ${className}`}>
+				{showAvatar && <User className="w-4 h-4 mr-1" />}
+				<span>{fallback}</span>
+			</div>
+		);
+	}
 
-  return (
-    <div className={`flex items-center ${className}`}>
-      {showAvatar && (
-        <div className="w-4 h-4 bg-primary/20 rounded-full flex items-center justify-center mr-1">
-          <User className="w-3 h-3 text-primary" />
-        </div>
-      )}
-      <span>{user.fullName}</span>
-    </div>
-  );
+	return (
+		<div className={`flex items-center ${className}`}>
+			{showAvatar && (
+				<div className="w-4 h-4 bg-primary/20 rounded-full flex items-center justify-center mr-1">
+					<User className="w-3 h-3 text-primary" />
+				</div>
+			)}
+			<span>{user.fullName}</span>
+		</div>
+	);
 };
 
 export default UserDisplay;

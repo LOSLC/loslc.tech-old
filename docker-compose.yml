@@ -43,24 +43,24 @@ services:
 
     volumes:
       - app_storage:/home/app/app/${STORAGE}
-    depends_on:
-      db:
-        condition: service_healthy
-
-  db:
-    image: postgres:17
-    environment:
-      - POSTGRES_USER=${PG_USER}
-      - POSTGRES_PASSWORD=${PG_PASSWORD}
-      - POSTGRES_DB=${PG_DB}
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${PG_USER} -d ${PG_DB}"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
+  #   depends_on:
+  #     db:
+  #       condition: service_healthy
+  #
+  # db:
+  #   image: postgres:17
+  #   environment:
+  #     - POSTGRES_USER=${PG_USER}
+  #     - POSTGRES_PASSWORD=${PG_PASSWORD}
+  #     - POSTGRES_DB=${PG_DB}
+  #   healthcheck:
+  #     test: ["CMD-SHELL", "pg_isready -U ${PG_USER} -d ${PG_DB}"]
+  #     interval: 10s
+  #     timeout: 5s
+  #     retries: 5
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data
 
 volumes:
-  postgres_data:
+  # postgres_data:
   app_storage:
