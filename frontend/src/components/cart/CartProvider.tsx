@@ -61,8 +61,8 @@ const CartContext = createContext<CartState | null>(null);
 export function CartProvider({ children }: { children: React.ReactNode }) {
 	const [open, setOpen] = useState(false);
 	const { isAuthenticated } = useAuth();
-	// Server cart queries (run but we'll ignore data if not authenticated)
-	const { data: cartData } = useCart();
+	// Server cart summary (not directly used yet but ensures cart exists)
+	useCart();
 	const { data: cartItemsData, isLoading: loadingItems } = useCartItems();
 
 	// Detailed info cache per cart item id

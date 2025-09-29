@@ -54,8 +54,6 @@ function ItemRow({
 	const [charName, setCharName] = React.useState("");
 	const addChar = useAddCharacteristic(item.id);
 	const delChar = useDeleteCharacteristic(item.id);
-	const addVar = useAddVariant("", item.id); // will override characteristic id per call
-	const delVar = useDeleteVariant(item.id);
 	// Generic updaters (avoid creating hooks inside maps)
 	const updateCharGeneric = useUpdateCharacteristicGeneric(item.id);
 	const [editingChar, setEditingChar] = React.useState<string | null>(null);
@@ -470,11 +468,9 @@ export default function AdminStorePage() {
 			try {
 				const info = await filesApi.uploadSingle(f);
 				newIds.push(info.id);
-			} catch (err: any) {
-				setUploadErrors((e) => [
-					...e,
-					`${f.name}: ${err.message || "upload failed"}`,
-				]);
+			} catch (err) {
+				const message = err instanceof Error ? err.message : "upload failed";
+				setUploadErrors((e) => [...e, `${f.name}: ${message}`]);
 			}
 		}
 		setForm((fm) => ({ ...fm, images: [...fm.images, ...newIds] }));
@@ -695,10 +691,12 @@ export default function AdminStorePage() {
 														key={id}
 														className="relative group w-20 h-20 rounded-md overflow-hidden border bg-muted/30"
 													>
+														{/* eslint-disable-next-line @next/next/no-img-element */}
 														<img
 															src={`/api/files/${id}/download`}
 															alt="item image"
 															className="object-cover w-full h-full"
+															loading="lazy"
 														/>
 														<button
 															type="button"

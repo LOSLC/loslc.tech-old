@@ -115,6 +115,7 @@ export function ProductCarousel({
 					className,
 				)}
 			>
+				{/* eslint-disable-next-line @next/next/no-img-element */}
 				<img
 					src={`/api/files/${images[0]}/download`}
 					alt="product image"
@@ -140,6 +141,7 @@ export function ProductCarousel({
 				<div ref={trackRef} className="flex w-full h-full">
 					{images.map((id, i) => (
 						<div key={id} className="w-full h-full shrink-0">
+							{/* eslint-disable-next-line @next/next/no-img-element */}
 							<img
 								src={`/api/files/${id}/download`}
 								alt={`product image ${i + 1}`}

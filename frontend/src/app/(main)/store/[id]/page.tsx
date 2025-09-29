@@ -8,7 +8,6 @@ import { useItemCharacteristics, useStoreItem } from "@/lib/hooks/use-store";
 import { useAuth } from "@/lib/providers/auth-provider";
 import {
 	StoreCharacteristic,
-	StoreItem,
 	StoreVariant,
 } from "@/lib/types/store";
 import { cn } from "@/lib/utils";
@@ -39,7 +38,9 @@ export default function StoreItemPage({ params }: Props) {
 	if (!item) return notFound();
 
 	const characteristics: StoreCharacteristic[] =
-		(characteristicsData as StoreCharacteristic[]) || [];
+		(Array.isArray(characteristicsData)
+			? (characteristicsData as StoreCharacteristic[])
+			: []) || [];
 
 	const selectVariant = (characteristicId: string, variantId: string) => {
 		setSelectedVariantMap((m) => ({ ...m, [characteristicId]: variantId }));
@@ -51,7 +52,7 @@ export default function StoreItemPage({ params }: Props) {
 			id: item.id,
 			name: item.name,
 			price: item.price,
-			image: (item as any).images?.[0],
+			image: item.images?.[0],
 			quantity,
 			variantIds,
 		});
